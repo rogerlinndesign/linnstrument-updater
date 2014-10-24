@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<JUCERPROJECT id="ibSWwr" name="LinnStrumentUpdater" projectType="guiapp" version="1.0.0"
-              bundleIdentifier="com.rogerlinndesign.linnstrument.Updater" includeBinaryInAppConfig="1"
-              jucerVersion="3.1.0" companyName="Roger Linn Design" companyWebsite="http://www.rogerlinndesign.com"
-              companyEmail="support@rogerlinndesign.com">
-  <MAINGROUP id="AAWYcK" name="LinnStrumentUpdater">
+<JUCERPROJECT id="ibSWwr" name="LinnStrument Updater" projectType="guiapp"
+              version="1.0.0" bundleIdentifier="com.rogerlinndesign.linnstrument.Updater"
+              includeBinaryInAppConfig="1" jucerVersion="3.1.0" companyName="Roger Linn Design"
+              companyWebsite="http://www.rogerlinndesign.com" companyEmail="support@rogerlinndesign.com">
+  <MAINGROUP id="AAWYcK" name="LinnStrument Updater">
     <GROUP id="{081FD492-2698-BE98-7252-D9D20BECB5C7}" name="Source">
       <FILE id="IETGnj" name="MainWindow.cpp" compile="1" resource="0" file="Source/MainWindow.cpp"/>
       <FILE id="qtSEY3" name="MainWindow.h" compile="0" resource="0" file="Source/MainWindow.h"/>

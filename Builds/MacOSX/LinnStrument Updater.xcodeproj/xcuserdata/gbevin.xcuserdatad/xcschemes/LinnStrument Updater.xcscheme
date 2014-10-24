@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Scheme
-   LastUpgradeVersion = "0600"
+   LastUpgradeVersion = "0610"
    version = "1.3">
    <BuildAction
       parallelizeBuildables = "YES"
@@ -16,8 +16,8 @@
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "3F172520F1BC48D040D2DD06"
                BuildableName = "LinnStrumentUpdater.app"
-               BlueprintName = "LinnStrumentUpdater"
-               ReferencedContainer = "container:LinnStrumentUpdater.xcodeproj">
+               BlueprintName = "LinnStrument Updater"
+               ReferencedContainer = "container:LinnStrument Updater.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -34,8 +34,8 @@
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "3F172520F1BC48D040D2DD06"
             BuildableName = "LinnStrumentUpdater.app"
-            BlueprintName = "LinnStrumentUpdater"
-            ReferencedContainer = "container:LinnStrumentUpdater.xcodeproj">
+            BlueprintName = "LinnStrument Updater"
+            ReferencedContainer = "container:LinnStrument Updater.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
    </TestAction>
@@ -53,8 +53,8 @@
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "3F172520F1BC48D040D2DD06"
             BuildableName = "LinnStrumentUpdater.app"
-            BlueprintName = "LinnStrumentUpdater"
-            ReferencedContainer = "container:LinnStrumentUpdater.xcodeproj">
+            BlueprintName = "LinnStrument Updater"
+            ReferencedContainer = "container:LinnStrument Updater.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
       <AdditionalOptions>
@@ -71,8 +71,8 @@
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "3F172520F1BC48D040D2DD06"
             BuildableName = "LinnStrumentUpdater.app"
-            BlueprintName = "LinnStrumentUpdater"
-            ReferencedContainer = "container:LinnStrumentUpdater.xcodeproj">
+            BlueprintName = "LinnStrument Updater"
+            ReferencedContainer = "container:LinnStrument Updater.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </ProfileAction>

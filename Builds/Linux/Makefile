@@ -66,18 +66,18 @@ OBJECTS := \
 .PHONY: clean
 
 $(OUTDIR)/$(TARGET): $(OBJECTS) $(LDDEPS) $(RESOURCES)
-	@echo Linking LinnStrumentUpdater
+	@echo Linking LinnStrument Updater
 	-@mkdir -p $(BINDIR)
 	-@mkdir -p $(LIBDIR)
 	-@mkdir -p $(OUTDIR)
 	@$(BLDCMD)
 
 clean:
-	@echo Cleaning LinnStrumentUpdater
+	@echo Cleaning LinnStrument Updater
 	@$(CLEANCMD)
 
 strip:
-	@echo Stripping LinnStrumentUpdater
+	@echo Stripping LinnStrument Updater
 	-@strip --strip-unneeded $(OUTDIR)/$(TARGET)
 
 $(OBJDIR)/MainWindow_499ac812.o: ../../Source/MainWindow.cpp

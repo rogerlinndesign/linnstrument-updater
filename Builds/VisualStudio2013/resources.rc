@@ -14,9 +14,9 @@ BEGIN
     BLOCK "040904E4"
     BEGIN
       VALUE "CompanyName",  "Roger Linn Design\0"
-      VALUE "FileDescription",  "LinnStrumentUpdater\0"
+      VALUE "FileDescription",  "LinnStrument Updater\0"
       VALUE "FileVersion",  "1.0.0\0"
-      VALUE "ProductName",  "LinnStrumentUpdater\0"
+      VALUE "ProductName",  "LinnStrument Updater\0"
       VALUE "ProductVersion",  "1.0.0\0"
     END
   END
