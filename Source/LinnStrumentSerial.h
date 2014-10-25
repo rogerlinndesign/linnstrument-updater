@@ -12,32 +12,18 @@
 
 #include "JuceHeader.h"
 
-class LinnStrumentSerial : public Timer
+class LinnStrumentSerial
 {
 public:
-    LinnStrumentSerial();
-    ~LinnStrumentSerial();
-    
-    void timerCallback() override;
+    LinnStrumentSerial() {};
+    virtual ~LinnStrumentSerial() {};
 
-    bool findFirmwareFile();
-    bool hasFirmwareFile();
-    bool detect();
-    bool isDetected();
-    bool prepareDevice();
-    bool performUpgrade();
-    
-private:
-    String firmwareFile;
-    String linnstrumentDevice;
-    ChildProcess detectionChild;
-    ChildProcess preparationChild;
-    ChildProcess upgradeChild;
-    String upgradeOutput;
-    bool upgradeVerificationPhase;
-    bool upgradeSuccessful;
+    virtual bool findFirmwareFile() = 0;
+    virtual bool hasFirmwareFile() = 0;
+    virtual bool detect() = 0;
+    virtual bool isDetected() = 0;
+    virtual bool prepareDevice() = 0;
+    virtual bool performUpgrade() = 0;
 };
-
-
 
 #endif  // LINNSTRUMENTSERIAL_H_INCLUDED

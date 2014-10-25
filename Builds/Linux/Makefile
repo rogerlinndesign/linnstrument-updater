@@ -90,9 +90,9 @@ $(OBJDIR)/UpdaterApplication_52906ad0.o: ../../Source/UpdaterApplication.cpp
 	@echo "Compiling UpdaterApplication.cpp"
 	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
 
-$(OBJDIR)/LinnStrumentSerial_161389bc.o: ../../Source/LinnStrumentSerial.cpp
+$(OBJDIR)/LinnStrumentSerial_161389bc.o: ../../Source/LinnStrumentSerialMac.cpp
 	-@mkdir -p $(OBJDIR)
-	@echo "Compiling LinnStrumentSerial.cpp"
+	@echo "Compiling LinnStrumentSerialMac.cpp"
 	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
 
 $(OBJDIR)/MainComponent_a6ffb4a5.o: ../../Source/MainComponent.cpp

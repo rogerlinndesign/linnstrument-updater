@@ -12,8 +12,10 @@
             file="Source/UpdaterApplication.cpp"/>
       <FILE id="mTh9n7" name="UpdaterApplication.h" compile="0" resource="0"
             file="Source/UpdaterApplication.h"/>
-      <FILE id="CLCtHR" name="LinnStrumentSerial.cpp" compile="1" resource="0"
-            file="Source/LinnStrumentSerial.cpp"/>
+      <FILE id="CLCtHR" name="LinnStrumentSerialMac.cpp" compile="1" resource="0"
+            file="Source/LinnStrumentSerialMac.cpp"/>
+      <FILE id="CLCtHR" name="LinnStrumentSerialMac.h" compile="1" resource="0"
+            file="Source/LinnStrumentSerialMac.h"/>
       <FILE id="FvWw9I" name="LinnStrumentSerial.h" compile="0" resource="0"
             file="Source/LinnStrumentSerial.h"/>
       <FILE id="P06HEI" name="MainComponent.cpp" compile="1" resource="0"

@@ -10,6 +10,9 @@
 #include "UpdaterApplication.h"
 
 #include "MainComponent.h"
+#if JUCE_MAC
+    #include "LinnStrumentSerialMac.h"
+#endif
 
 namespace
 {
@@ -32,7 +35,10 @@ namespace
 }
 
 
-UpdaterApplication::UpdaterApplication()
+UpdaterApplication::UpdaterApplication() :
+#if JUCE_MAC
+    linnStrumentSerial(new LinnStrumentSerialMac())
+#endif
 {
 };
     
@@ -78,7 +84,7 @@ void UpdaterApplication::handleMessage(const juce::Message &message)
     {
         case ApplicationMessageType::findFirmware:
         {
-            if (linnStrumentSerial.findFirmwareFile())
+            if (linnStrumentSerial->findFirmwareFile())
             {
                 detectLinnStrument();
             }
@@ -92,7 +98,7 @@ void UpdaterApplication::handleMessage(const juce::Message &message)
             
         case ApplicationMessageType::detectLinnStrument:
         {
-            if (linnStrumentSerial.isDetected() || linnStrumentSerial.detect())
+            if (linnStrumentSerial->isDetected() || linnStrumentSerial->detect())
             {
                 ((MainComponent *)mainWindow->getContentComponent())->setLabelText("Found LinnStrument ready for OS Update.", true);
             }
@@ -106,7 +112,7 @@ void UpdaterApplication::handleMessage(const juce::Message &message)
         
         case ApplicationMessageType::prepareDevice:
         {
-            if (linnStrumentSerial.prepareDevice())
+            if (linnStrumentSerial->prepareDevice())
             {
                 ((MainComponent *)mainWindow->getContentComponent())->setLabelText("LinnStrument has been prepared for OS Update.", false);
                 postMessage(new ApplicationMessage(ApplicationMessageType::updateDevice, (void *)nullptr));
@@ -120,7 +126,7 @@ void UpdaterApplication::handleMessage(const juce::Message &message)
             
         case ApplicationMessageType::updateDevice:
         {
-            if (linnStrumentSerial.performUpgrade())
+            if (linnStrumentSerial->performUpgrade())
             {
                 ((MainComponent *)mainWindow->getContentComponent())->setLabelText("Performing LinnStrument firmware update.\nDO NOT disconnect LinnStrument\nDO NOT quit the updater.", false);
             }
@@ -131,7 +137,7 @@ void UpdaterApplication::handleMessage(const juce::Message &message)
 
 void UpdaterApplication::timerCallback()
 {
-    if (linnStrumentSerial.hasFirmwareFile())
+    if (linnStrumentSerial->hasFirmwareFile())
     {
         detectLinnStrument();
     }
@@ -144,7 +150,7 @@ void UpdaterApplication::timerCallback()
 
 LinnStrumentSerial &UpdaterApplication::getLinnStrumentSerial()
 {
-    return linnStrumentSerial;
+    return *linnStrumentSerial;
 }
 
 void UpdaterApplication::findFirmware()
@@ -162,9 +168,16 @@ void UpdaterApplication::prepareLinnStrument()
     postMessage(new ApplicationMessage(ApplicationMessageType::prepareDevice, (void *)nullptr));
 }
 
-void UpdaterApplication::setLabelText(const String& text)
+void UpdaterApplication::setUpgradeDone()
 {
-    ((MainComponent *)mainWindow->getContentComponent())->setLabelText(text, false);
+    ((MainComponent *)mainWindow->getContentComponent())->setLabelText("All done!", false);
+    ((MainComponent *)mainWindow->getContentComponent())->setProgressText("");
+}
+
+void UpdaterApplication::setUpgradeFailed()
+{
+    ((MainComponent *)mainWindow->getContentComponent())->setLabelText("The firmware upgrade failed.\nPlease reconnect LinnStrument, quit and restart the updater.", false);
+    ((MainComponent *)mainWindow->getContentComponent())->setProgressText("");
 }
 
 void UpdaterApplication::setProgressText(const String& text)

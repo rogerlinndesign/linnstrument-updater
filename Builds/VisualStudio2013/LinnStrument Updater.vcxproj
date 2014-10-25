@@ -133,7 +133,7 @@
   <ItemGroup>
     <ClCompile Include="..\..\Source\MainWindow.cpp"/>
     <ClCompile Include="..\..\Source\UpdaterApplication.cpp"/>
-    <ClCompile Include="..\..\Source\LinnStrumentSerial.cpp"/>
+    <ClCompile Include="..\..\Source\LinnStrumentSerialMac.cpp"/>
     <ClCompile Include="..\..\Source\MainComponent.cpp"/>
     <ClCompile Include="..\..\Source\Main.cpp"/>
     <ClCompile Include="..\..\JuceLibraryCode\modules\juce_core\text\juce_CharacterFunctions.cpp">

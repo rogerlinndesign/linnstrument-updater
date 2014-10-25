@@ -7,19 +7,19 @@
  To view a copy of this license, visit http://creativecommons.org/licenses/by-sa/3.0/
  or send a letter to Creative Commons, PO Box 1866, Mountain View, CA 94042, USA.
 */
-#include "LinnStrumentSerial.h"
+#include "LinnStrumentSerialMac.h"
 
 #include "UpdaterApplication.h"
 
-LinnStrumentSerial::LinnStrumentSerial() : upgradeVerificationPhase(false), upgradeSuccessful(false)
+LinnStrumentSerialMac::LinnStrumentSerialMac() : upgradeVerificationPhase(false), upgradeSuccessful(false)
 {
 }
 
-LinnStrumentSerial::~LinnStrumentSerial()
+LinnStrumentSerialMac::~LinnStrumentSerialMac()
 {
 }
 
-bool LinnStrumentSerial::findFirmwareFile()
+bool LinnStrumentSerialMac::findFirmwareFile()
 {
     File current_app = File::getSpecialLocation(File::SpecialLocationType::currentApplicationFile);
     File parent_dir = current_app.getParentDirectory();
@@ -33,12 +33,12 @@ bool LinnStrumentSerial::findFirmwareFile()
     return hasFirmwareFile();
 }
 
-bool LinnStrumentSerial::hasFirmwareFile()
+bool LinnStrumentSerialMac::hasFirmwareFile()
 {
     return firmwareFile.isNotEmpty();
 }
 
-bool LinnStrumentSerial::detect()
+bool LinnStrumentSerialMac::detect()
 {
     if (!hasFirmwareFile()) return false;
 
@@ -96,12 +96,12 @@ bool LinnStrumentSerial::detect()
     return isDetected();
 }
 
-bool LinnStrumentSerial::isDetected()
+bool LinnStrumentSerialMac::isDetected()
 {
     return linnstrumentDevice.isNotEmpty();
 }
 
-bool LinnStrumentSerial::prepareDevice()
+bool LinnStrumentSerialMac::prepareDevice()
 {
     if (!hasFirmwareFile() || !isDetected()) return false;
 
@@ -115,7 +115,7 @@ bool LinnStrumentSerial::prepareDevice()
     return true;
 }
 
-bool LinnStrumentSerial::performUpgrade()
+bool LinnStrumentSerialMac::performUpgrade()
 {
     if (!hasFirmwareFile() || !isDetected()) return false;
     
@@ -149,7 +149,7 @@ bool LinnStrumentSerial::performUpgrade()
     }
 }
 
-void LinnStrumentSerial::timerCallback()
+void LinnStrumentSerialMac::timerCallback()
 {
     if (!upgradeChild.isRunning())
     {
@@ -157,13 +157,11 @@ void LinnStrumentSerial::timerCallback()
         
         if (upgradeSuccessful)
         {
-            UpdaterApplication::getApp().setLabelText("All done!");
-            UpdaterApplication::getApp().setProgressText("");
+            UpdaterApplication::getApp().setUpgradeDone();
         }
         else
         {
-            UpdaterApplication::getApp().setLabelText("The firmware upgrade failed.\nPlease reconnect LinnStrument, quit and restart the updater.");
-            UpdaterApplication::getApp().setProgressText("");
+            UpdaterApplication::getApp().setUpgradeFailed();
         }
     }
     

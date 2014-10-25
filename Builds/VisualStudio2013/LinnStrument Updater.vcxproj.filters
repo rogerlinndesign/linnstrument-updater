@@ -208,7 +208,7 @@
     <ClCompile Include="..\..\Source\UpdaterApplication.cpp">
       <Filter>LinnStrument Updater\Source</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\Source\LinnStrumentSerial.cpp">
+    <ClCompile Include="..\..\Source\LinnStrumentSerialMac.cpp">
       <Filter>LinnStrument Updater\Source</Filter>
     </ClCompile>
     <ClCompile Include="..\..\Source\MainComponent.cpp">

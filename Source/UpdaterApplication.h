@@ -47,13 +47,14 @@ public:
     void detectLinnStrument();
     void prepareLinnStrument();
     
-    void setLabelText(const String& text);
+    void setUpgradeDone();
+    void setUpgradeFailed();
     void setProgressText(const String& text);
 
 private:
 
     ScopedPointer<MainWindow> mainWindow;
-    LinnStrumentSerial linnStrumentSerial;
+    ScopedPointer<LinnStrumentSerial> linnStrumentSerial;
 };
 
 #endif  // UPDATERAPPLICATION_H_INCLUDED
