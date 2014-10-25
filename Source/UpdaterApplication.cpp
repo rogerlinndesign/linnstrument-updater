@@ -12,6 +12,8 @@
 #include "MainComponent.h"
 #if JUCE_MAC
     #include "LinnStrumentSerialMac.h"
+#elif JUCE_WINDOWS
+	#include "LinnStrumentSerialWindows.h"
 #endif
 
 namespace
@@ -38,6 +40,8 @@ namespace
 UpdaterApplication::UpdaterApplication() :
 #if JUCE_MAC
     linnStrumentSerial(new LinnStrumentSerialMac())
+#elif JUCE_WINDOWS
+	linnStrumentSerial(new LinnStrumentSerialWindows())
 #endif
 {
 };
