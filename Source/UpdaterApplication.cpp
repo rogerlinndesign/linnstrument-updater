@@ -108,7 +108,7 @@ void UpdaterApplication::handleMessage(const juce::Message &message)
             }
             else
             {
-                ((MainComponent *)mainWindow->getContentComponent())->setLabelText("No LinnStrument found!\nPlease make sure OS Update mode is selected.", false);
+                ((MainComponent *)mainWindow->getContentComponent())->setLabelText("No LinnStrument found!\nPlease make sure Update OS mode is selected in Global Settings.", false);
                 startTimer(300);
             }
             break;
