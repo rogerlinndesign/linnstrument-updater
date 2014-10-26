@@ -61,7 +61,7 @@ bool UpdaterApplication::moreThanOneInstanceAllowed()
     return false;
 }
     
-void UpdaterApplication::initialise(const String& commandLine)
+void UpdaterApplication::initialise(const String&)
 {
     mainWindow = new MainWindow();
     findFirmware();
@@ -77,7 +77,7 @@ void UpdaterApplication::systemRequestedQuit()
     quit();
 }
 
-void UpdaterApplication::anotherInstanceStarted(const String& commandLine)
+void UpdaterApplication::anotherInstanceStarted(const String&)
 {
 }
 

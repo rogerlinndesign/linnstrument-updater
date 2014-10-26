@@ -1044,6 +1044,9 @@
     <ClCompile Include="..\..\Source\LinnStrumentSerialWindows.cpp">
       <Filter>LinnStrument Updater\Source</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\Source\disphelper.c">
+      <Filter>LinnStrument Updater\Source</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\Source\MainWindow.h">
@@ -2055,6 +2058,9 @@
       <Filter>Juce Library Code</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Source\LinnStrumentSerialWindows.h">
+      <Filter>LinnStrument Updater\Source</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\disphelper.h">
       <Filter>LinnStrument Updater\Source</Filter>
     </ClInclude>
   </ItemGroup>

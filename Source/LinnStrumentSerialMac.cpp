@@ -136,9 +136,9 @@ bool LinnStrumentSerialMac::performUpgrade()
         args.add("-e");
         args.add("-w");
         args.add("-v");
-        args.add("-R");
         args.add("-b");
         args.add(firmwareFile);
+        args.add("-R");
         upgradeChild.start(args);
         startTimer(1);
         return true;

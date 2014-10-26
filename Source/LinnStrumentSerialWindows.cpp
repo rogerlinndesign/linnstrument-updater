@@ -9,7 +9,17 @@
 */
 #include "LinnStrumentSerialWindows.h"
 
+#include <stdio.h>
+#include <stdlib.h>
+#include <stdint.h>
+#include <stdarg.h>
+#include <string.h>
+#include <windows.h>
+#include <setupapi.h>
+
 #include "UpdaterApplication.h"
+
+#include "disphelper.h"
 
 LinnStrumentSerialWindows::LinnStrumentSerialWindows() : upgradeVerificationPhase(false), upgradeSuccessful(false)
 {
@@ -43,6 +53,33 @@ bool LinnStrumentSerialWindows::detect()
     if (!hasFirmwareFile()) return false;
 
     linnstrumentDevice = String::empty;
+
+	DISPATCH_OBJ(wmiSvc);
+	DISPATCH_OBJ(colDevices);
+	dhInitialize(TRUE);
+	dhToggleExceptions(TRUE);
+	dhGetObject(L"winmgmts:{impersonationLevel=impersonate}!\\\\.\\root\\cimv2", NULL, &wmiSvc);
+	dhGetValue(L"%o", &colDevices, wmiSvc, L".ExecQuery(%S)", L"Select * from Win32_PnPEntity");
+	FOR_EACH(objDevice, colDevices, NULL)
+	{
+		char* name = NULL;
+		char* pnpid = NULL;
+		char* match;
+		dhGetValue(L"%s", &name, objDevice, L".Name");
+		dhGetValue(L"%s", &pnpid, objDevice, L".PnPDeviceID");
+		if (name != NULL && ((match = strstr(name, "(COM")) != NULL) && strstr(pnpid, "VID_F055&PID_0070") != NULL)
+		{
+			char* comname = strtok(match, "()");
+			linnstrumentDevice = String(comname);
+			printf("Found LinnStrument %s - %s\n", comname, pnpid);
+		}
+		dhFreeString(name);
+		dhFreeString(pnpid);
+	}
+	NEXT(objDevice);
+	SAFE_RELEASE(colDevices);
+	SAFE_RELEASE(wmiSvc);
+	dhUninitialize(TRUE);
     
     return isDetected();
 }
@@ -56,16 +93,90 @@ bool LinnStrumentSerialWindows::prepareDevice()
 {
     if (!hasFirmwareFile() || !isDetected()) return false;
 
+	DCB dcb;
+	HANDLE hCom;
+	BOOL fSuccess;
+
+	//  Open a handle to the specified com port.
+	hCom = CreateFile(linnstrumentDevice.toWideCharPointer(),
+		GENERIC_READ | GENERIC_WRITE,
+		0,                //  must be opened with exclusive-access
+		NULL,             //  default security attributes
+		OPEN_EXISTING,    //  must use OPEN_EXISTING
+		0,                //  not overlapped I/O
+		NULL);            //  hTemplate must be NULL for comm devices
+
+	if (hCom == INVALID_HANDLE_VALUE)
+	{
+		printf("CreateFile failed with error %d.\n", GetLastError());
+		return false;
+	}
+
+	//  Initialize the DCB structure.
+	SecureZeroMemory(&dcb, sizeof(DCB));
+	dcb.DCBlength = sizeof(DCB);
+
+	//  Build on the current configuration by first retrieving all current settings.
+	fSuccess = GetCommState(hCom, &dcb);
+	if (!fSuccess)
+	{
+		printf("GetCommState failed with error %d.\n", GetLastError());
+		CloseHandle(hCom);
+		return false;
+	}
+
+	//  Fill in some DCB values and set the com state: 
+	//  1200 bps, 8 data bits, no parity, and 1 stop bit.
+	dcb.BaudRate = CBR_1200;      //  baud rate
+	dcb.ByteSize = 8;             //  data size, xmit and rcv
+	dcb.Parity = NOPARITY;        //  parity bit
+	dcb.StopBits = ONESTOPBIT;    //  stop bit
+
+	fSuccess = SetCommState(hCom, &dcb);
+	if (!fSuccess)
+	{
+		printf("SetCommState failed with error %d.\n", GetLastError());
+		CloseHandle(hCom);
+		return false;
+	}
+
+	CloseHandle(hCom);
 	return true;
 }
 
 bool LinnStrumentSerialWindows::performUpgrade()
 {
     if (!hasFirmwareFile() || !isDetected()) return false;
-    
-    upgradeOutput.clear();
-    upgradeVerificationPhase = false;
-    upgradeSuccessful = false;
+
+	upgradeOutput.clear();
+	upgradeVerificationPhase = false;
+	upgradeSuccessful = false;
+
+	File current_app = File::getSpecialLocation(File::SpecialLocationType::currentExecutableFile);
+	File parent_dir = current_app.getParentDirectory();
+	File bossac_tool = parent_dir.getChildFile("tools/bossac.exe");
+	if (bossac_tool.exists())
+	{
+		StringArray args;
+		args.add(bossac_tool.getFullPathName());
+		args.add("-i");
+		args.add("--port=" + linnstrumentDevice);
+		args.add("-U");
+		args.add("false");
+		args.add("-e");
+		args.add("-w");
+		args.add("-v");
+		args.add("-b");
+		args.add(firmwareFile);
+		args.add("-R");
+		upgradeChild.start(args);
+		startTimer(1);
+		return true;
+	}
+	else
+	{
+		return false;
+	}
 
 	return false;
 }

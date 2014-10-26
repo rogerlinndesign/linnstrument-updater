@@ -34,7 +34,6 @@ private:
     String firmwareFile;
     String linnstrumentDevice;
     ChildProcess detectionChild;
-    ChildProcess preparationChild;
     ChildProcess upgradeChild;
     String upgradeOutput;
     bool upgradeVerificationPhase;
