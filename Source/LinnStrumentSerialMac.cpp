@@ -53,7 +53,7 @@ bool LinnStrumentSerialMac::detect()
     else
     {
         String output = detectionChild.readAllProcessOutput();
-        int indexBegin = output.indexOf("LinnStrument SERIAL");
+        int indexBegin = output.indexOf("LinnStrument SERIAL");   // Look for a serial device named "LinnStrument SERIAL"
         if (-1 == indexBegin)
         {
             std::cerr << "No LinnStrument serial device found" << std::endl;

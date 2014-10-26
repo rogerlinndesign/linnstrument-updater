@@ -67,7 +67,9 @@ bool LinnStrumentSerialWindows::detect()
 		char* match;
 		dhGetValue(L"%s", &name, objDevice, L".Name");
 		dhGetValue(L"%s", &pnpid, objDevice, L".PnPDeviceID");
-		if (name != NULL && ((match = strstr(name, "(COM")) != NULL) && strstr(pnpid, "VID_F055&PID_0070") != NULL)
+		if (name != NULL &&
+			((match = strstr(name, "(COM")) != NULL) && // only use COM ports
+			strstr(pnpid, "VID_F055&PID_0070") != NULL) // only use a COM port that has the vendor and product ID of LinnStrument
 		{
 			char* comname = strtok(match, "()");
 			linnstrumentDevice = String(comname);
