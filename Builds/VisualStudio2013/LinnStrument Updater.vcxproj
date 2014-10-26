@@ -1316,6 +1316,7 @@ copy "$(ProjectDir)\..\..\Binaries\windows\bossac.exe" "$(OutDir)\tools";</Comma
     <ClInclude Include="..\..\JuceLibraryCode\modules\juce_gui_extra\juce_gui_extra.h" />
     <ClInclude Include="..\..\JuceLibraryCode\AppConfig.h" />
     <ClInclude Include="..\..\JuceLibraryCode\JuceHeader.h" />
+    <ClInclude Include="resource.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\JuceLibraryCode\modules\juce_core\juce_module_info" />
@@ -1327,6 +1328,9 @@ copy "$(ProjectDir)\..\..\Binaries\windows\bossac.exe" "$(OutDir)\tools";</Comma
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include=".\resources.rc" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="icon1.ico" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets" />

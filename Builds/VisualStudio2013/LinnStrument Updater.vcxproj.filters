@@ -2063,6 +2063,7 @@
     <ClInclude Include="..\..\Source\disphelper.h">
       <Filter>LinnStrument Updater\Source</Filter>
     </ClInclude>
+    <ClInclude Include="resource.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\JuceLibraryCode\modules\juce_core\juce_module_info">
@@ -2088,5 +2089,8 @@
     <ResourceCompile Include=".\resources.rc">
       <Filter>Juce Library Code</Filter>
     </ResourceCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="icon1.ico" />
   </ItemGroup>
 </Project>
