@@ -55,6 +55,7 @@ MainComponent::MainComponent ()
     cachedImage_rogerlinndesign_png = ImageCache::getFromMemory (rogerlinndesign_png, rogerlinndesign_pngSize);
 
     //[UserPreSize]
+    updateButton->setEnabled(false);
     //[/UserPreSize]
 
     setSize (400, 210);
