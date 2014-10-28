@@ -132,7 +132,7 @@ void UpdaterApplication::handleMessage(const juce::Message &message)
         {
             if (linnStrumentSerial->performUpgrade())
             {
-                ((MainComponent *)mainWindow->getContentComponent())->setLabelText("Performing LinnStrument firmware update.\nDO NOT disconnect LinnStrument\nDO NOT quit the updater.", false);
+                ((MainComponent *)mainWindow->getContentComponent())->setLabelText("Performing LinnStrument firmware update.\nDO NOT disconnect LinnStrument.\nDO NOT quit the updater.", false);
             }
             break;
         }
@@ -174,7 +174,7 @@ void UpdaterApplication::prepareLinnStrument()
 
 void UpdaterApplication::setUpgradeDone()
 {
-    ((MainComponent *)mainWindow->getContentComponent())->setLabelText("All done!", false);
+    ((MainComponent *)mainWindow->getContentComponent())->setLabelText("All done!\n\nPlease perform the LinnStrument calibration by carefully sliding over the light guides.", false);
     ((MainComponent *)mainWindow->getContentComponent())->setProgressText("");
 }
 

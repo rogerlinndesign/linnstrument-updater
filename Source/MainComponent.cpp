@@ -101,7 +101,7 @@ void MainComponent::resized()
 {
     progressLabel->setBounds ((getWidth() / 2) - (328 / 2), 168, 328, 24);
     updateButton->setBounds ((getWidth() / 2) - (136 / 2), 168, 136, 24);
-    linnstrumentLabel->setBounds ((getWidth() / 2) - (328 / 2), 104, 328, 56);
+    linnstrumentLabel->setBounds ((getWidth() / 2) - (328 / 2), 96, 328, 64);
     //[UserResized] Add your own custom resize handling here..
     //[/UserResized]
 }
@@ -166,7 +166,7 @@ BEGIN_JUCER_METADATA
               bgColOn="ff868686" buttonText="Update Firmware" connectedEdges="0"
               needsCallback="1" radioGroupId="0"/>
   <LABEL name="linnstrument label" id="62da816b2e6b995a" memberName="linnstrumentLabel"
-         virtualName="" explicitFocusOrder="0" pos="0Cc 104 328 56" edTextCol="ff000000"
+         virtualName="" explicitFocusOrder="0" pos="0Cc 96 328 64" edTextCol="ff000000"
          edBkgCol="0" labelText="" editableSingleClick="0" editableDoubleClick="0"
          focusDiscardsChanges="0" fontname="Default font" fontsize="15"
          bold="0" italic="0" justification="36"/>
