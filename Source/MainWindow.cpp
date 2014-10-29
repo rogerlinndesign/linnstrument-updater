@@ -11,7 +11,7 @@
 
 #include "MainComponent.h"
 
-MainWindow::MainWindow() : DocumentWindow("LinnStrument Updater", Colours::white, DocumentWindow::closeButton)
+MainWindow::MainWindow() : DocumentWindow(String(ProjectInfo::projectName)+" "+ProjectInfo::versionString, Colours::white, DocumentWindow::closeButton)
 {
     setResizable(false, false);
     setUsingNativeTitleBar(true);

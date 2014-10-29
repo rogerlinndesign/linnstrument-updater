@@ -11,4 +11,6 @@ On Windows, the compiled executable expects a 'tools' directory alongside it wit
 
 Thanks to Tod E. Kurt (http://todbot.com/blog/) and his usbSearch project for inspiration of how to detect Arduino devices: https://github.com/todbot/usbSearch
 
+Thanks to the node-serialport project for some of the USB serial device detection code on MacOSX: https://github.com/voodootikigod/node-serialport
+
 The bossac tool was copied from the Arduino IDE distribution and was created by ShumaTech http://www.shumatech.com/web/products/bossa

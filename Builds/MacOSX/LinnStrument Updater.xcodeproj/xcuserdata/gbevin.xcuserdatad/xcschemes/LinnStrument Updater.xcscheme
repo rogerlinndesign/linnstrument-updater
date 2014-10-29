@@ -15,7 +15,7 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "3F172520F1BC48D040D2DD06"
-               BuildableName = "LinnStrumentUpdater.app"
+               BuildableName = "LinnStrument Updater.app"
                BlueprintName = "LinnStrument Updater"
                ReferencedContainer = "container:LinnStrument Updater.xcodeproj">
             </BuildableReference>
@@ -33,7 +33,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "3F172520F1BC48D040D2DD06"
-            BuildableName = "LinnStrumentUpdater.app"
+            BuildableName = "LinnStrument Updater.app"
             BlueprintName = "LinnStrument Updater"
             ReferencedContainer = "container:LinnStrument Updater.xcodeproj">
          </BuildableReference>
@@ -52,7 +52,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "3F172520F1BC48D040D2DD06"
-            BuildableName = "LinnStrumentUpdater.app"
+            BuildableName = "LinnStrument Updater.app"
             BlueprintName = "LinnStrument Updater"
             ReferencedContainer = "container:LinnStrument Updater.xcodeproj">
          </BuildableReference>
@@ -70,7 +70,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "3F172520F1BC48D040D2DD06"
-            BuildableName = "LinnStrumentUpdater.app"
+            BuildableName = "LinnStrument Updater.app"
             BlueprintName = "LinnStrument Updater"
             ReferencedContainer = "container:LinnStrument Updater.xcodeproj">
          </BuildableReference>

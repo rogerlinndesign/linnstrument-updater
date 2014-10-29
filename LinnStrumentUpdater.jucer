@@ -1,36 +1,42 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <JUCERPROJECT id="ibSWwr" name="LinnStrument Updater" projectType="guiapp"
-              version="1.0.0" bundleIdentifier="com.rogerlinndesign.linnstrument.Updater"
+              version="1.2.0" bundleIdentifier="com.rogerlinndesign.linnstrument.Updater"
               includeBinaryInAppConfig="1" jucerVersion="3.1.0" companyName="Roger Linn Design"
               companyWebsite="http://www.rogerlinndesign.com" companyEmail="support@rogerlinndesign.com">
   <MAINGROUP id="AAWYcK" name="LinnStrument Updater">
     <GROUP id="{081FD492-2698-BE98-7252-D9D20BECB5C7}" name="Source">
+      <FILE id="YN4BdW" name="disphelper.c" compile="1" resource="0" file="Source/disphelper.c"/>
+      <FILE id="fPE2k5" name="disphelper.h" compile="0" resource="0" file="Source/disphelper.h"/>
+      <FILE id="FvWw9I" name="LinnStrumentSerial.h" compile="0" resource="0"
+            file="Source/LinnStrumentSerial.h"/>
+      <FILE id="CLCtHR" name="LinnStrumentSerialMac.cpp" compile="1" resource="0"
+            file="Source/LinnStrumentSerialMac.cpp"/>
+      <FILE id="CLCtHR" name="LinnStrumentSerialMac.h" compile="1" resource="0"
+            file="Source/LinnStrumentSerialMac.h"/>
+      <FILE id="LoU1G8" name="LinnStrumentSerialWindows.cpp" compile="1"
+            resource="0" file="Source/LinnStrumentSerialWindows.cpp"/>
+      <FILE id="Dk84CM" name="LinnStrumentSerialWindows.h" compile="0" resource="0"
+            file="Source/LinnStrumentSerialWindows.h"/>
+      <FILE id="I3gdXz" name="Main.cpp" compile="1" resource="0" file="Source/Main.cpp"/>
+      <FILE id="P06HEI" name="MainComponent.cpp" compile="1" resource="0"
+            file="Source/MainComponent.cpp"/>
+      <FILE id="JFBGdV" name="MainComponent.h" compile="0" resource="0" file="Source/MainComponent.h"/>
       <FILE id="IETGnj" name="MainWindow.cpp" compile="1" resource="0" file="Source/MainWindow.cpp"/>
       <FILE id="qtSEY3" name="MainWindow.h" compile="0" resource="0" file="Source/MainWindow.h"/>
       <FILE id="riaUP9" name="UpdaterApplication.cpp" compile="1" resource="0"
             file="Source/UpdaterApplication.cpp"/>
       <FILE id="mTh9n7" name="UpdaterApplication.h" compile="0" resource="0"
             file="Source/UpdaterApplication.h"/>
-      <FILE id="CLCtHR" name="LinnStrumentSerialMac.cpp" compile="1" resource="0"
-            file="Source/LinnStrumentSerialMac.cpp"/>
-      <FILE id="CLCtHR" name="LinnStrumentSerialMac.h" compile="1" resource="0"
-            file="Source/LinnStrumentSerialMac.h"/>
-      <FILE id="FvWw9I" name="LinnStrumentSerial.h" compile="0" resource="0"
-            file="Source/LinnStrumentSerial.h"/>
-      <FILE id="P06HEI" name="MainComponent.cpp" compile="1" resource="0"
-            file="Source/MainComponent.cpp"/>
-      <FILE id="JFBGdV" name="MainComponent.h" compile="0" resource="0" file="Source/MainComponent.h"/>
-      <FILE id="I3gdXz" name="Main.cpp" compile="1" resource="0" file="Source/Main.cpp"/>
     </GROUP>
   </MAINGROUP>
   <EXPORTFORMATS>
     <XCODE_MAC targetFolder="Builds/MacOSX">
       <CONFIGURATIONS>
         <CONFIGURATION name="Debug" osxSDK="default" osxCompatibility="default" osxArchitecture="default"
-                       isDebug="1" optimisation="1" targetName="LinnStrumentUpdater"/>
+                       isDebug="1" optimisation="1" targetName="LinnStrument Updater"/>
         <CONFIGURATION name="Release" osxSDK="default" osxCompatibility="default" osxArchitecture="default"
-                       isDebug="0" optimisation="2" targetName="LinnStrumentUpdater"/>
+                       isDebug="0" optimisation="2" targetName="LinnStrument Updater"/>
       </CONFIGURATIONS>
       <MODULEPATHS>
         <MODULEPATH id="juce_core" path="../juce/modules"/>
@@ -44,9 +50,9 @@
     <VS2013 targetFolder="Builds/VisualStudio2013">
       <CONFIGURATIONS>
         <CONFIGURATION name="Debug" winWarningLevel="4" generateManifest="1" winArchitecture="32-bit"
-                       isDebug="1" optimisation="1" targetName="LinnStrumentUpdater"/>
+                       isDebug="1" optimisation="1" targetName="LinnStrument Updater"/>
         <CONFIGURATION name="Release" winWarningLevel="4" generateManifest="1" winArchitecture="32-bit"
-                       isDebug="0" optimisation="2" targetName="LinnStrumentUpdater"/>
+                       isDebug="0" optimisation="2" targetName="LinnStrument Updater"/>
       </CONFIGURATIONS>
       <MODULEPATHS>
         <MODULEPATH id="juce_gui_extra" path="../juce/modules"/>
