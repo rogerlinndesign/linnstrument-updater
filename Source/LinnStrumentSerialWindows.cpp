@@ -59,7 +59,8 @@ bool LinnStrumentSerialWindows::detect()
 	dhInitialize(TRUE);
 	dhToggleExceptions(TRUE);
 	dhGetObject(L"winmgmts:{impersonationLevel=impersonate}!\\\\.\\root\\cimv2", NULL, &wmiSvc);
-	dhGetValue(L"%o", &colDevices, wmiSvc, L".ExecQuery(%S)", L"Select * from Win32_PnPEntity");
+	// only use entities that are COM ports with the vendor and product ID of LinnStrument
+	dhGetValue(L"%o", &colDevices, wmiSvc, L".ExecQuery(%S)", L"SELECT * from Win32_PnPEntity WHERE Name LIKE \"%(COM%\" AND PnPDeviceID LIKE \"%VID_F055&PID_0070%\"");
 	FOR_EACH(objDevice, colDevices, NULL)
 	{
 		char* name = NULL;
@@ -67,10 +68,7 @@ bool LinnStrumentSerialWindows::detect()
 		char* match;
 		dhGetValue(L"%s", &name, objDevice, L".Name");
 		dhGetValue(L"%s", &pnpid, objDevice, L".PnPDeviceID");
-		if (name != NULL &&
-			pnpid != NULL &&
-			((match = strstr(name, "(COM")) != NULL) && // only use COM ports
-			strstr(pnpid, "VID_F055&PID_0070") != NULL) // only use a COM port that has the vendor and product ID of LinnStrument
+		if (name != NULL && pnpid != NULL && (match = strstr(name, "(COM")) != NULL)
 		{
 			char* comname = strtok(match, "()");
 			linnstrumentDevice = String(comname);
