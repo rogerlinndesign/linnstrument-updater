@@ -76,6 +76,7 @@ bool LinnStrumentSerialMac::detect()
                 else
                 {
                     String locationId = output.substring(indexBegin+location.length(), indexEnd);
+                    locationId = locationId.trimCharactersAtStart("0");
                     locationId = locationId.trimCharactersAtEnd("0");
                     String deviceName = "tty.usbmodem"+locationId+"1";
                     String devicePath = "/dev/"+deviceName;
