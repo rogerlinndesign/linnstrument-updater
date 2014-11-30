@@ -45,7 +45,8 @@ public:
     
     void findFirmware();
     void detectLinnStrument();
-    void prepareLinnStrument();
+    void upgradeLinnStrument();
+    void restoreSettings();
     
     void setUpgradeDone();
     void setUpgradeFailed();

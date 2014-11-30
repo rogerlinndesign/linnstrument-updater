@@ -18,12 +18,19 @@ public:
     LinnStrumentSerial() {};
     virtual ~LinnStrumentSerial() {};
 
+    virtual String getFullLinnStrumentDevice() = 0;
     virtual bool findFirmwareFile() = 0;
     virtual bool hasFirmwareFile() = 0;
     virtual bool detect() = 0;
     virtual bool isDetected() = 0;
     virtual bool prepareDevice() = 0;
     virtual bool performUpgrade() = 0;
+    
+    bool readSettings();
+    bool restoreSettings();
+    
+private:
+    std::vector<uint8_t> settings;
 };
 
 #endif  // LINNSTRUMENTSERIAL_H_INCLUDED

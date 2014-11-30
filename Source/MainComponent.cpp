@@ -115,7 +115,7 @@ void MainComponent::buttonClicked (Button* buttonThatWasClicked)
     {
         //[UserButtonCode_updateButton] -- add your button handler code here..
         updateButton->setVisible(false);
-        UpdaterApplication::getApp().prepareLinnStrument();
+        UpdaterApplication::getApp().upgradeLinnStrument();
         //[/UserButtonCode_updateButton]
     }
 

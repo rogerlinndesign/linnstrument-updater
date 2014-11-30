@@ -34,6 +34,13 @@ LinnStrumentSerialMac::~LinnStrumentSerialMac()
 {
 }
 
+String LinnStrumentSerialMac::getFullLinnStrumentDevice()
+{
+    if (!isDetected()) return String::empty;
+    
+    return "/dev/"+linnstrumentDevice;
+}
+
 bool LinnStrumentSerialMac::findFirmwareFile()
 {
     File current_app = File::getSpecialLocation(File::SpecialLocationType::currentApplicationFile);
@@ -303,7 +310,7 @@ bool LinnStrumentSerialMac::prepareDevice()
     if (!hasFirmwareFile() || !isDetected()) return false;
 
     int flags = (O_RDWR | O_NOCTTY | O_NONBLOCK | O_CLOEXEC | O_SYNC);
-    int fd = open(("/dev/"+linnstrumentDevice).toRawUTF8(), flags);
+    int fd = open(getFullLinnStrumentDevice().toRawUTF8(), flags);
     
     if (fd == -1) {
         std::cerr << "Can't find serial device /dev/" << linnstrumentDevice << " (" << errno << ")" << std::endl;
@@ -389,7 +396,7 @@ void LinnStrumentSerialMac::timerCallback()
         
         if (upgradeSuccessful)
         {
-            UpdaterApplication::getApp().setUpgradeDone();
+            UpdaterApplication::getApp().restoreSettings();
         }
         else
         {
@@ -419,4 +426,3 @@ void LinnStrumentSerialMac::timerCallback()
         }
     }
 }
-

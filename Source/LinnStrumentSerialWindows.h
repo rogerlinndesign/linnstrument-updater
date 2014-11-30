@@ -23,6 +23,7 @@ public:
     
     void timerCallback() override;
     
+    String getFullLinnStrumentDevice() override;
     bool findFirmwareFile() override;
     bool hasFirmwareFile() override;
     bool detect() override;
