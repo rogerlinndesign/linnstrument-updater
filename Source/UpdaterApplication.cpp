@@ -118,17 +118,19 @@ void UpdaterApplication::handleMessage(const juce::Message &message)
             
         case ApplicationMessageType::readSettings:
         {
-            ((MainComponent *)mainWindow->getContentComponent())->setLabelText("Retrieving the LinnStrument's settings.", false);
+            ((MainComponent *)mainWindow->getContentComponent())->setLabelText("Retrieving LinnStrument's settings.", false);
             
             if (linnStrumentSerial->readSettings())
             {
                 ((MainComponent *)mainWindow->getContentComponent())->setLabelText("LinnStrument's settings have been retrieved.", false);
-                postMessage(new ApplicationMessage(ApplicationMessageType::prepareDevice, (void *)nullptr));
+                MessageManager::getInstance()->runDispatchLoopUntil(2000);
             }
             else
             {
-                ((MainComponent *)mainWindow->getContentComponent())->setLabelText("The current settings couldn't be retrieved.\nPlease reconnect LinnStrument, possibly to another USB port, quit and restart the updater.", false);
+                ((MainComponent *)mainWindow->getContentComponent())->setLabelText("Couldn't retrieve LinnStrument's settings,\nprobably due to older firmware.\n\nPerforming upgrade with default settings.", false);
+                MessageManager::getInstance()->runDispatchLoopUntil(6000);
             }
+            postMessage(new ApplicationMessage(ApplicationMessageType::prepareDevice, (void *)nullptr));
             break;
         }
         
@@ -157,7 +159,7 @@ void UpdaterApplication::handleMessage(const juce::Message &message)
             
         case ApplicationMessageType::restoreSettings:
         {
-            ((MainComponent *)mainWindow->getContentComponent())->setLabelText("Restoring the LinnStrument's settings.", false);
+            ((MainComponent *)mainWindow->getContentComponent())->setLabelText("Restoring LinnStrument's settings.", false);
             ((MainComponent *)mainWindow->getContentComponent())->setProgressText("");
 
             if (linnStrumentSerial->restoreSettings())
@@ -167,7 +169,7 @@ void UpdaterApplication::handleMessage(const juce::Message &message)
             }
             else
             {
-                ((MainComponent *)mainWindow->getContentComponent())->setLabelText("The settings couldn't be restored.\nThe LinnStrument firmware has been upgraded, but a manual calibration will have to be performed.", false);
+                ((MainComponent *)mainWindow->getContentComponent())->setLabelText("The LinnStrument firmware has been upgraded.\n\nPlease perform the calibration by carefully sliding over the light guides.", false);
             }
             break;
         }

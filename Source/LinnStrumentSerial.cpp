@@ -35,7 +35,7 @@ bool LinnStrumentSerial::readSettings()
     settings.clear();
     
     try {
-        serial::Serial linnSerial(getFullLinnStrumentDevice().toRawUTF8(), 115200, serial::Timeout::simpleTimeout(5000));
+        serial::Serial linnSerial(getFullLinnStrumentDevice().toRawUTF8(), 115200, serial::Timeout::simpleTimeout(3000));
         
         if (!linnSerial.isOpen()) {
             std::cerr << "Wasn't able to open serial device " << getFullLinnStrumentDevice() << " with baud rate 115200" << std::endl;
@@ -96,10 +96,10 @@ bool LinnStrumentSerial::readSettings()
 
 bool LinnStrumentSerial::restoreSettings()
 {
-    if (!isDetected()) return false;
+    if (!isDetected() || settings.size() == 0) return false;
     
     try {
-        serial::Serial linnSerial(getFullLinnStrumentDevice().toRawUTF8(), 115200, serial::Timeout::simpleTimeout(5000));
+        serial::Serial linnSerial(getFullLinnStrumentDevice().toRawUTF8(), 115200, serial::Timeout::simpleTimeout(3000));
         
         if (!linnSerial.isOpen()) {
             std::cerr << "Wasn't able to open serial device " << getFullLinnStrumentDevice() << " with baud rate 115200" << std::endl;
@@ -179,13 +179,6 @@ bool LinnStrumentSerial::restoreSettings()
         ackCode = linnSerial.readline();
         if (ackCode != "ACK\n") {
             std::cerr << "Didn't receive restore settings finish ACK code from serial device " << getFullLinnStrumentDevice() << std::endl;
-            return false;
-        }
-        
-        MessageManager::getInstance()->runDispatchLoopUntil(100);
-
-        if (linnSerial.write("d") != 1) {
-            std::cerr << "Couldn't to give the done command to serial device " << getFullLinnStrumentDevice() << std::endl;
             return false;
         }
     }
