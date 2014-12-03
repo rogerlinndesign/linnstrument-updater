@@ -13,26 +13,11 @@
 
 #include "serial/serial.h"
 
-#include <unistd.h>
-#include <fcntl.h>
-#include <errno.h>
-#include <termios.h>
-
-#include <AvailabilityMacros.h>
-#include <sys/param.h>
-#include <IOKit/IOKitLib.h>
-#include <IOKit/IOCFPlugIn.h>
-#include <IOKit/usb/IOUSBLib.h>
-#include <IOKit/serial/IOSerialKeys.h>
-#include <sys/ioctl.h>
-#include <IOKit/serial/ioss.h>
-#include <errno.h>
-
 bool LinnStrumentSerial::readSettings()
 {
     if (!isDetected()) return false;
     
-    settings.clear();
+    settings.reset();
     
     try {
         serial::Serial linnSerial(getFullLinnStrumentDevice().toRawUTF8(), 115200, serial::Timeout::simpleTimeout(3000));
@@ -75,7 +60,8 @@ bool LinnStrumentSerial::readSettings()
         int32_t settingsSize;
         std::memcpy(&settingsSize, sizeBuffer, sizeof(int32_t));
         
-        if (linnSerial.read(settings, settingsSize) != settingsSize) {
+		settings.ensureSize(settingsSize);
+		if (linnSerial.read((uint8_t *)settings.getData(), settingsSize) != size_t(settingsSize)) {
             std::cerr << "Couldn't retrieve the settings from device " << getFullLinnStrumentDevice() << std::endl;
             return false;
         }
@@ -96,7 +82,7 @@ bool LinnStrumentSerial::readSettings()
 
 bool LinnStrumentSerial::restoreSettings()
 {
-    if (!isDetected() || settings.size() == 0) return false;
+    if (!isDetected() || settings.getSize() == 0) return false;
     
     try {
         serial::Serial linnSerial(getFullLinnStrumentDevice().toRawUTF8(), 115200, serial::Timeout::simpleTimeout(3000));
@@ -131,7 +117,7 @@ bool LinnStrumentSerial::restoreSettings()
             return false;
         }
         
-        int32_t settingsSize = settings.size();
+        int32_t settingsSize = settings.getSize();
         uint8_t sizeBuffer[4];
         std::memcpy(sizeBuffer, &settingsSize, sizeof(int32_t));
         
@@ -140,9 +126,6 @@ bool LinnStrumentSerial::restoreSettings()
             return false;
         }
         
-        uint8_t settingsBuffer[settingsSize];
-        copy(settings.begin(), settings.end(), settingsBuffer);
-        
         ackCode = linnSerial.readline();
         if (ackCode != "ACK\n") {
             std::cerr << "Didn't receive restore settings progress ACK code from serial device " << getFullLinnStrumentDevice() << std::endl;
@@ -150,7 +133,7 @@ bool LinnStrumentSerial::restoreSettings()
         }
 
         uint8_t batchsize = 32;
-        uint8_t* source = settingsBuffer;
+		uint8_t* source = (uint8_t*)settings.getData();
         int i = 0;
         while (i+batchsize < settingsSize) {
             MessageManager::getInstance()->runDispatchLoopUntil(10);
@@ -167,7 +150,7 @@ bool LinnStrumentSerial::restoreSettings()
             }
         }
         
-        int remaining = settingsSize - i;
+        size_t remaining = settingsSize - i;
         if (remaining > 0) {
             MessageManager::getInstance()->runDispatchLoopUntil(10);
             if (linnSerial.write(source+i, remaining) != remaining) {

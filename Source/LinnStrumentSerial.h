@@ -12,6 +12,8 @@
 
 #include "JuceHeader.h"
 
+#include <serial/v8stdint.h>
+
 class LinnStrumentSerial
 {
 public:
@@ -30,7 +32,7 @@ public:
     bool restoreSettings();
     
 private:
-    std::vector<uint8_t> settings;
+	MemoryBlock settings;
 };
 
 #endif  // LINNSTRUMENTSERIAL_H_INCLUDED

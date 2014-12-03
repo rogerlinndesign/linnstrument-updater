@@ -139,7 +139,8 @@ void UpdaterApplication::handleMessage(const juce::Message &message)
             if (linnStrumentSerial->prepareDevice())
             {
                 ((MainComponent *)mainWindow->getContentComponent())->setLabelText("LinnStrument has been prepared for OS Update.", false);
-                postMessage(new ApplicationMessage(ApplicationMessageType::updateDevice, (void *)nullptr));
+				MessageManager::getInstance()->runDispatchLoopUntil(2000);
+				postMessage(new ApplicationMessage(ApplicationMessageType::updateDevice, (void *)nullptr));
             }
             else
             {

@@ -29,12 +29,13 @@ LinnStrumentSerialWindows::~LinnStrumentSerialWindows()
 {
 }
 
-String LinnStrumentSerialMac::getFullLinnStrumentDevice()
+String LinnStrumentSerialWindows::getFullLinnStrumentDevice()
 {
     if (!isDetected()) return String::empty;
     
     return linnstrumentDevice;
 }
+
 bool LinnStrumentSerialWindows::findFirmwareFile()
 {
     File current_app = File::getSpecialLocation(File::SpecialLocationType::currentExecutableFile);

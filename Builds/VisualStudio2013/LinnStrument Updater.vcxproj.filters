@@ -199,6 +199,21 @@
     <Filter Include="Juce Library Code">
       <UniqueIdentifier>{8B4D1BAA-6DB4-CAEC-A0FA-271F354D5C61}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Serial">
+      <UniqueIdentifier>{81be938e-abd3-4a6b-8f03-f2588cca867b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Serial\serial">
+      <UniqueIdentifier>{3ab15ac6-c305-489c-acd4-498b7e47375d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Serial\impl">
+      <UniqueIdentifier>{788c4384-a24f-416d-a810-f520fc03e58d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Serial\impl\list_ports">
+      <UniqueIdentifier>{d68605b6-5933-4aab-bd48-389d3bc3507e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Serial\serial\impl">
+      <UniqueIdentifier>{efac8726-e906-43b9-aea1-14a8086bf798}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\Source\MainWindow.cpp">
@@ -1046,6 +1061,18 @@
     </ClCompile>
     <ClCompile Include="..\..\Source\disphelper.c">
       <Filter>LinnStrument Updater\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\LinnStrumentSerial.cpp">
+      <Filter>LinnStrument Updater\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Serial\serial.cc">
+      <Filter>Serial</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Serial\impl\win.cc">
+      <Filter>Serial\impl</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Serial\impl\list_ports\list_ports_win.cc">
+      <Filter>Serial\impl\list_ports</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -2064,6 +2091,15 @@
       <Filter>LinnStrument Updater\Source</Filter>
     </ClInclude>
     <ClInclude Include="resource.h" />
+    <ClInclude Include="..\..\Serial\serial\serial.h">
+      <Filter>Serial\serial</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Serial\serial\v8stdint.h">
+      <Filter>Serial\serial</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Serial\serial\impl\win.h">
+      <Filter>Serial\serial\impl</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\JuceLibraryCode\modules\juce_core\juce_module_info">
