@@ -197,7 +197,7 @@ void LinnStrumentSerialWindows::timerCallback()
         
         if (upgradeSuccessful)
         {
-            UpdaterApplication::getApp().setUpgradeDone();
+			UpdaterApplication::getApp().restoreSettings();
         }
         else
         {

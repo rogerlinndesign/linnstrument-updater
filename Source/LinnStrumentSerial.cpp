@@ -61,10 +61,17 @@ bool LinnStrumentSerial::readSettings()
         std::memcpy(&settingsSize, sizeBuffer, sizeof(int32_t));
         
 		settings.ensureSize(settingsSize);
-		if (linnSerial.read((uint8_t *)settings.getData(), settingsSize) != size_t(settingsSize)) {
-            std::cerr << "Couldn't retrieve the settings from device " << getFullLinnStrumentDevice() << std::endl;
-            return false;
-        }
+		uint8_t* dest = (uint8_t*)settings.getData();
+		int32_t remaining = settingsSize;
+		while (remaining > 0) {
+			size_t actual = linnSerial.read(dest, remaining);
+			if (0 == actual) {
+				std::cerr << "Couldn't retrieve the settings from device " << getFullLinnStrumentDevice() << std::endl;
+				return false;
+			}
+			remaining -= actual;
+			dest += actual;
+		}
         
         ackCode = linnSerial.readline();
         if (ackCode != "ACK\n") {
