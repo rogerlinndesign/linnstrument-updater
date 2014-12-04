@@ -12,8 +12,6 @@
 
 #include "JuceHeader.h"
 
-#include <serial/v8stdint.h>
-
 class LinnStrumentSerial
 {
 public:
