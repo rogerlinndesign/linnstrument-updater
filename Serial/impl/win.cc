@@ -299,14 +299,14 @@ Serial::SerialImpl::available ()
 }
 
 bool
-Serial::SerialImpl::waitReadable (uint32_t timeout)
+Serial::SerialImpl::waitReadable (uint32_t)
 {
   THROW (IOException, "waitReadable is not implemented on Windows.");
   return false;
 }
 
 void
-Serial::SerialImpl::waitByteTimes (size_t count)
+Serial::SerialImpl::waitByteTimes (size_t)
 {
   THROW (IOException, "waitByteTimes is not implemented on Windows.");
 }
@@ -465,7 +465,7 @@ Serial::SerialImpl::flushOutput ()
 }
 
 void
-Serial::SerialImpl::sendBreak (int duration)
+Serial::SerialImpl::sendBreak (int)
 {
   THROW (IOException, "sendBreak is not supported on Windows.");
 }
