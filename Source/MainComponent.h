@@ -7,7 +7,7 @@
   the "//[xyz]" and "//[/xyz]" sections will be retained when the file is loaded
   and re-saved.
 
-  Created with Introjucer version: 3.1.0
+  Created with Introjucer version: 3.1.1
 
   ------------------------------------------------------------------------------
 
@@ -74,6 +74,7 @@ private:
     ScopedPointer<Label> progressLabel;
     ScopedPointer<TextButton> updateButton;
     ScopedPointer<Label> linnstrumentLabel;
+    ScopedPointer<TextButton> goAheadButton;
     Image cachedImage_rogerlinndesign_png;
 
 

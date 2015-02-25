@@ -7,7 +7,7 @@
   the "//[xyz]" and "//[/xyz]" sections will be retained when the file is loaded
   and re-saved.
 
-  Created with Introjucer version: 3.1.0
+  Created with Introjucer version: 3.1.1
 
   ------------------------------------------------------------------------------
 
@@ -52,13 +52,20 @@ MainComponent::MainComponent ()
     linnstrumentLabel->setColour (TextEditor::textColourId, Colours::black);
     linnstrumentLabel->setColour (TextEditor::backgroundColourId, Colour (0x00000000));
 
+    addAndMakeVisible (goAheadButton = new TextButton ("go ahead"));
+    goAheadButton->setButtonText (TRANS("Go Ahead"));
+    goAheadButton->addListener (this);
+    goAheadButton->setColour (TextButton::buttonColourId, Colour (0xffd0d0d0));
+    goAheadButton->setColour (TextButton::buttonOnColourId, Colour (0xff868686));
+
     cachedImage_rogerlinndesign_png = ImageCache::getFromMemory (rogerlinndesign_png, rogerlinndesign_pngSize);
 
     //[UserPreSize]
+    updateButton->setVisible(false);
     updateButton->setEnabled(false);
     //[/UserPreSize]
 
-    setSize (400, 210);
+    setSize (400, 218);
 
 
     //[Constructor] You can add your own custom stuff here..
@@ -73,6 +80,7 @@ MainComponent::~MainComponent()
     progressLabel = nullptr;
     updateButton = nullptr;
     linnstrumentLabel = nullptr;
+    goAheadButton = nullptr;
 
 
     //[Destructor]. You can add your own custom destruction code here..
@@ -99,9 +107,13 @@ void MainComponent::paint (Graphics& g)
 
 void MainComponent::resized()
 {
-    progressLabel->setBounds ((getWidth() / 2) - (328 / 2), 168, 328, 24);
-    updateButton->setBounds ((getWidth() / 2) - (136 / 2), 168, 136, 24);
+    //[UserPreResize] Add your own custom resize code here..
+    //[/UserPreResize]
+
+    progressLabel->setBounds ((getWidth() / 2) - (328 / 2), 176, 328, 24);
+    updateButton->setBounds ((getWidth() / 2) - (136 / 2), 176, 136, 24);
     linnstrumentLabel->setBounds ((getWidth() / 2) - (328 / 2), 96, 328, 64);
+    goAheadButton->setBounds ((getWidth() / 2) - (136 / 2), 176, 136, 24);
     //[UserResized] Add your own custom resize handling here..
     //[/UserResized]
 }
@@ -117,6 +129,14 @@ void MainComponent::buttonClicked (Button* buttonThatWasClicked)
         updateButton->setVisible(false);
         UpdaterApplication::getApp().upgradeLinnStrument();
         //[/UserButtonCode_updateButton]
+    }
+    else if (buttonThatWasClicked == goAheadButton)
+    {
+        //[UserButtonCode_goAheadButton] -- add your button handler code here..
+        updateButton->setVisible(true);
+        goAheadButton->setVisible(false);
+        UpdaterApplication::getApp().detectLinnStrument();
+        //[/UserButtonCode_goAheadButton]
     }
 
     //[UserbuttonClicked_Post]
@@ -151,18 +171,18 @@ BEGIN_JUCER_METADATA
 <JUCER_COMPONENT documentType="Component" className="MainComponent" componentName=""
                  parentClasses="public Component" constructorParams="" variableInitialisers=""
                  snapPixels="8" snapActive="1" snapShown="1" overlayOpacity="0.330"
-                 fixedSize="0" initialWidth="400" initialHeight="210">
+                 fixedSize="0" initialWidth="400" initialHeight="218">
   <BACKGROUND backgroundColour="ffffffff">
     <IMAGE pos="0Cc 20 175 68" resource="rogerlinndesign_png" opacity="1"
            mode="1"/>
   </BACKGROUND>
   <LABEL name="progress label" id="25076abe0a4bd824" memberName="progressLabel"
-         virtualName="" explicitFocusOrder="0" pos="0Cc 168 328 24" edTextCol="ff000000"
+         virtualName="" explicitFocusOrder="0" pos="0Cc 176 328 24" edTextCol="ff000000"
          edBkgCol="0" labelText="" editableSingleClick="0" editableDoubleClick="0"
          focusDiscardsChanges="0" fontname="Default font" fontsize="15"
          bold="0" italic="0" justification="36"/>
   <TEXTBUTTON name="update button" id="30f4597546a7ddb9" memberName="updateButton"
-              virtualName="" explicitFocusOrder="0" pos="0Cc 168 136 24" bgColOff="ffd0d0d0"
+              virtualName="" explicitFocusOrder="0" pos="0Cc 176 136 24" bgColOff="ffd0d0d0"
               bgColOn="ff868686" buttonText="Update Firmware" connectedEdges="0"
               needsCallback="1" radioGroupId="0"/>
   <LABEL name="linnstrument label" id="62da816b2e6b995a" memberName="linnstrumentLabel"
@@ -170,6 +190,10 @@ BEGIN_JUCER_METADATA
          edBkgCol="0" labelText="" editableSingleClick="0" editableDoubleClick="0"
          focusDiscardsChanges="0" fontname="Default font" fontsize="15"
          bold="0" italic="0" justification="36"/>
+  <TEXTBUTTON name="go ahead" id="47cc25a35e9d524d" memberName="goAheadButton"
+              virtualName="" explicitFocusOrder="0" pos="0Cc 176 136 24" bgColOff="ffd0d0d0"
+              bgColOn="ff868686" buttonText="Go Ahead" connectedEdges="0" needsCallback="1"
+              radioGroupId="0"/>
 </JUCER_COMPONENT>
 
 END_JUCER_METADATA

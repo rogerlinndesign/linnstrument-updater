@@ -44,6 +44,7 @@ public:
     LinnStrumentSerial &getLinnStrumentSerial();
     
     void findFirmware();
+    void connectionWarning();
     void detectLinnStrument();
     void upgradeLinnStrument();
     void restoreSettings();

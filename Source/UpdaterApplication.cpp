@@ -21,6 +21,7 @@ namespace
     enum ApplicationMessageType
     {
         findFirmware,
+        connectionWarning,
         detectLinnStrument,
         readSettings,
         prepareDevice,
@@ -92,13 +93,19 @@ void UpdaterApplication::handleMessage(const juce::Message &message)
         {
             if (linnStrumentSerial->findFirmwareFile())
             {
-                detectLinnStrument();
+                connectionWarning();
             }
             else
             {
                 ((MainComponent *)mainWindow->getContentComponent())->setLabelText("No firmware file could be found in the same directory as the updater tool.", false);
                 startTimer(300);
             }
+            break;
+        }
+            
+        case ApplicationMessageType::connectionWarning:
+        {
+            ((MainComponent *)mainWindow->getContentComponent())->setLabelText("Please connect LinnStrument's USB cable.\nDO NOT use a USB hub!\n\nThen activate Update OS mode in Global Settings.", false);
             break;
         }
             
@@ -198,6 +205,11 @@ LinnStrumentSerial &UpdaterApplication::getLinnStrumentSerial()
 void UpdaterApplication::findFirmware()
 {
     postMessage(new ApplicationMessage(ApplicationMessageType::findFirmware, (void *)nullptr));
+}
+
+void UpdaterApplication::connectionWarning()
+{
+    postMessage(new ApplicationMessage(ApplicationMessageType::connectionWarning, (void *)nullptr));
 }
 
 void UpdaterApplication::detectLinnStrument()
