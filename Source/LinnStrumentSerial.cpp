@@ -83,7 +83,11 @@ bool LinnStrumentSerial::readSettings()
         std::cerr << e.what() << std::endl;
         return false;
     }
-    
+    catch (serial::IOException e) {
+      std::cerr << e.what() << std::endl;
+      return false;
+    }
+  
     return true;
 }
 
