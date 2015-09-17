@@ -31,8 +31,8 @@
 namespace ProjectInfo
 {
     const char* const  projectName    = "LinnStrument Updater";
-    const char* const  versionString  = "1.3.3";
-    const int          versionNumber  = 0x10303;
+    const char* const  versionString  = "1.3.4";
+    const int          versionNumber  = 0x10304;
 }
 #endif
 

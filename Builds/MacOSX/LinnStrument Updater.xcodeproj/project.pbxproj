@@ -2012,7 +2012,16 @@
 		0A4C278C97A750535B90F14D /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0630;
+				LastUpgradeCheck = 0700;
+				TargetAttributes = {
+					3F172520F1BC48D040D2DD06 = {
+						SystemCapabilities = {
+							com.apple.Sandbox = {
+								enabled = 0;
+							};
+						};
+					};
+				};
 			};
 			buildConfigurationList = 9BA9157A05694DA6164DEE4E /* Build configuration list for PBXProject "LinnStrument Updater" */;
 			compatibilityVersion = "Xcode 3.2";
@@ -2078,6 +2087,7 @@
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CODE_SIGN_IDENTITY = "Roger Linn Design";
 				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_TESTABILITY = YES;
 				GCC_C_LANGUAGE_STANDARD = c99;
 				GCC_INLINES_ARE_PRIVATE_EXTERN = YES;
 				GCC_MODEL_TUNING = G5;
@@ -2111,8 +2121,8 @@
 					"_DEBUG=1",
 					"DEBUG=1",
 					"JUCER_XCODE_MAC_F6D2F4CF=1",
-					"JUCE_APP_VERSION=1.3.3",
-					"JUCE_APP_VERSION_HEX=0x10303",
+					"JUCE_APP_VERSION=1.3.4",
+					"JUCE_APP_VERSION_HEX=0x10304",
 				);
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				HEADER_SEARCH_PATHS = (
@@ -2125,6 +2135,7 @@
 				INSTALL_PATH = "$(HOME)/Applications";
 				MACOSX_DEPLOYMENT_TARGET = 10.6;
 				MACOSX_DEPLOYMENT_TARGET_ppc = 10.4;
+				PRODUCT_BUNDLE_IDENTIFIER = com.rogerlinndesign.linnstrument.Updater;
 				SDKROOT_ppc = macosx10.5;
 			};
 			name = Debug;
@@ -2145,8 +2156,8 @@
 					"_NDEBUG=1",
 					"NDEBUG=1",
 					"JUCER_XCODE_MAC_F6D2F4CF=1",
-					"JUCE_APP_VERSION=1.3.3",
-					"JUCE_APP_VERSION_HEX=0x10303",
+					"JUCE_APP_VERSION=1.3.4",
+					"JUCE_APP_VERSION_HEX=0x10304",
 				);
 				GCC_SYMBOLS_PRIVATE_EXTERN = YES;
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
@@ -2160,6 +2171,7 @@
 				INSTALL_PATH = "$(HOME)/Applications";
 				MACOSX_DEPLOYMENT_TARGET = 10.6;
 				MACOSX_DEPLOYMENT_TARGET_ppc = 10.4;
+				PRODUCT_BUNDLE_IDENTIFIER = com.rogerlinndesign.linnstrument.Updater;
 				SDKROOT_ppc = macosx10.5;
 			};
 			name = Release;

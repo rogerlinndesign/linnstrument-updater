@@ -62,8 +62,8 @@ bool LinnStrumentSerialMac::hasFirmwareFile()
 
 typedef struct SerialDevice {
     char port[MAXPATHLEN];
-    char vendorId[MAXPATHLEN];
-    char productId[MAXPATHLEN];
+    UInt16 vendorId;
+    UInt16 productId;
 } stSerialDevice;
 
 typedef struct DeviceListItem {
@@ -91,55 +91,7 @@ static kern_return_t FindModems(io_iterator_t *matchingServices)
     return kernResult;
 }
 
-static io_registry_entry_t GetUsbDevice(char* pathName)
-{
-    io_registry_entry_t device = 0;
-    
-    CFMutableDictionaryRef classesToMatch = IOServiceMatching(kIOUSBDeviceClassName);
-    if (classesToMatch != NULL)
-    {
-        io_iterator_t matchingServices;
-        kern_return_t kernResult = IOServiceGetMatchingServices(kIOMasterPortDefault, classesToMatch, &matchingServices);
-        if (KERN_SUCCESS == kernResult)
-        {
-            io_service_t service;
-            Boolean deviceFound = false;
-            
-            while ((service = IOIteratorNext(matchingServices)) && !deviceFound)
-            {
-                CFStringRef bsdPathAsCFString = (CFStringRef) IORegistryEntrySearchCFProperty(service, kIOServicePlane, CFSTR(kIOCalloutDeviceKey), kCFAllocatorDefault, kIORegistryIterateRecursively);
-                
-                if (bsdPathAsCFString)
-                {
-                    Boolean result;
-                    char bsdPath[MAXPATHLEN];
-                    
-                    // Convert the path from a CFString to a C (NUL-terminated)
-                    result = CFStringGetCString(bsdPathAsCFString, bsdPath, sizeof(bsdPath), kCFStringEncodingUTF8);
-                    CFRelease(bsdPathAsCFString);
-                    
-                    if (result && (strcmp(bsdPath, pathName) == 0))
-                    {
-                        deviceFound = true;
-                        //memset(bsdPath, 0, sizeof(bsdPath));
-                        device = service;
-                    }
-                    else
-                    {
-                        // Release the object which are no longer needed
-                        (void) IOObjectRelease(service);
-                    }
-                }
-            }
-            // Release the iterator.
-            IOObjectRelease(matchingServices);
-        }
-    }
-    
-    return device;
-}
-
-static void ExtractUsbInformation(stSerialDevice *serialDevice, IOUSBDeviceInterface  **deviceInterface)
+static void ExtractUsbInformation(stSerialDevice *serialDevice, IOUSBDeviceInterface197 **deviceInterface)
 {
     kern_return_t kernResult;
     
@@ -147,28 +99,83 @@ static void ExtractUsbInformation(stSerialDevice *serialDevice, IOUSBDeviceInter
     kernResult = (*deviceInterface)->GetDeviceVendor(deviceInterface, &vendorID);
     if (KERN_SUCCESS == kernResult)
     {
-        snprintf(serialDevice->vendorId, 7, "0x%04x", vendorID);
+        serialDevice->vendorId = vendorID;
     }
     
     UInt16 productID;
     kernResult = (*deviceInterface)->GetDeviceProduct(deviceInterface, &productID);
     if (KERN_SUCCESS == kernResult)
     {
-        snprintf(serialDevice->productId, 7, "0x%04x", productID);
+        serialDevice->productId = productID;
     }
 }
 
+static void MatchUsbDevice(char* pathName, stSerialDevice *serialDevice)
+{
+    kern_return_t e;
+    
+    CFMutableDictionaryRef d = IOServiceMatching(kIOUSBDeviceClassName);
+    if (d == NULL)
+    {
+        return;
+    }
+    
+    io_iterator_t matchingServices;
+    if ((e = IOServiceGetMatchingServices(kIOMasterPortDefault, d, &matchingServices)))
+    {
+        return;
+    }
+    
+    io_service_t service;
+    Boolean deviceFound = false;
+    
+    SInt32 score;
+    IOCFPlugInInterface **plug;
+    IOUSBDeviceInterface197 **deviceInterface;
+    while ((service = IOIteratorNext(matchingServices)) && !deviceFound)
+    {
+        e = IOCreatePlugInInterfaceForService(service, kIOUSBDeviceUserClientTypeID, kIOCFPlugInInterfaceID, &plug, &score);
+        IOObjectRelease(service);
+        if (e || !plug) continue;
+        
+        (*plug)->QueryInterface(plug, CFUUIDGetUUIDBytes(kIOUSBDeviceInterfaceID197), (void **)&deviceInterface);
+        (*plug)->Stop(plug);
+        
+        IODestroyPlugInInterface(plug);
+        if (!deviceInterface) continue;
+        
+        UInt32 locationID;
+        (*deviceInterface)->GetLocationID(deviceInterface, &locationID);
+        char locationIdHex[255];
+        snprintf(locationIdHex, 254, "%x", locationID);
+        
+        String locationIdString(locationIdHex);
+        locationIdString = locationIdString.trimCharactersAtStart("0");
+        locationIdString = locationIdString.trimCharactersAtEnd("0");
+        String deviceName = "cu.usbmodem"+locationIdString+"1";
+        String devicePath = "/dev/"+deviceName;
+        File deviceFile(devicePath);
+        if (deviceFile.exists() && devicePath == pathName)
+        {
+            ExtractUsbInformation(serialDevice, deviceInterface);
+            (*deviceInterface)->Release(deviceInterface);
+            
+            deviceFound = true;
+        }
+    }
+
+    IOObjectRelease(matchingServices);
+}
+
+
 static stDeviceListItem* GetSerialDevices()
 {
-    kern_return_t kernResult;
     io_iterator_t serialPortIterator;
     char bsdPath[MAXPATHLEN];
     
     FindModems(&serialPortIterator);
     
     io_service_t modemService;
-    kernResult = KERN_FAILURE;
-    Boolean modemFound = false;
     
     // Initialize the returned path
     *bsdPath = '\0';
@@ -196,8 +203,8 @@ static stDeviceListItem* GetSerialDevices()
                 stDeviceListItem *deviceListItem = (stDeviceListItem*) malloc(sizeof(stDeviceListItem));
                 stSerialDevice *serialDevice = &(deviceListItem->value);
                 strcpy(serialDevice->port, bsdPath);
-                memset(serialDevice->vendorId, 0, sizeof(serialDevice->vendorId));
-                memset(serialDevice->productId, 0, sizeof(serialDevice->productId));
+                serialDevice->vendorId = 0;
+                serialDevice->productId = 0;
                 deviceListItem->next = NULL;
                 deviceListItem->length = &length;
                 
@@ -213,43 +220,7 @@ static stDeviceListItem* GetSerialDevices()
                 lastDevice = deviceListItem;
                 length++;
                 
-                modemFound = true;
-                kernResult = KERN_SUCCESS;
-                
-                io_registry_entry_t device = GetUsbDevice(bsdPath);
-                
-                if (device) {
-                    IOCFPlugInInterface **plugInInterface = NULL;
-                    SInt32 score;
-                    HRESULT res;
-                    
-                    IOUSBDeviceInterface **deviceInterface = NULL;
-                    
-                    kernResult = IOCreatePlugInInterfaceForService(device, kIOUSBDeviceUserClientTypeID, kIOCFPlugInInterfaceID, &plugInInterface, &score);
-                    if ((kIOReturnSuccess != kernResult) || !plugInInterface) {
-                        continue;
-                    }
-                    
-                    // Use the plugin interface to retrieve the device interface.
-                    res = (*plugInInterface)->QueryInterface(plugInInterface, CFUUIDGetUUIDBytes(kIOUSBDeviceInterfaceID), (LPVOID*) &deviceInterface);
-                    
-                    // Now done with the plugin interface.
-                    (*plugInInterface)->Release(plugInInterface);
-                    
-                    if (res || deviceInterface == NULL)
-                    {
-                        continue;
-                    }
-                    
-                    // Extract the desired Information
-                    ExtractUsbInformation(serialDevice, deviceInterface);
-                    
-                    // Release the Interface
-                    (*deviceInterface)->Release(deviceInterface);
-                    
-                    // Release the device
-                    (void) IOObjectRelease(device);
-                }
+                MatchUsbDevice(bsdPath, serialDevice);
             }
         }
         
@@ -278,8 +249,8 @@ bool LinnStrumentSerialMac::detect()
             stSerialDevice device = (* next).value;
 
             // only use serial devices with the vendor and product ID of LinnStrument
-            if (strcasecmp(device.vendorId, "0xf055") == 0 &&
-                strcasecmp(device.productId, "0x0070") == 0 &&
+            if (device.vendorId == 0xf055 &&
+                device.productId == 0x0070 &&
                 strstr(device.port, "/dev/") == device.port) {
                 linnstrumentDevice = String(device.port);
                 linnstrumentDevice = linnstrumentDevice.substring(5);
