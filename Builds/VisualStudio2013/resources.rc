@@ -32,9 +32,9 @@ BEGIN
         BEGIN
             VALUE "CompanyName", "Roger Linn Design"
             VALUE "FileDescription", "LinnStrument Updater"
-            VALUE "FileVersion", "1.3.4"
+            VALUE "FileVersion", "1.3.5"
             VALUE "ProductName", "LinnStrument Updater"
-            VALUE "ProductVersion", "1.3.4"
+            VALUE "ProductVersion", "1.3.5"
         END
     END
     BLOCK "VarFileInfo"
