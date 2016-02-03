@@ -147,7 +147,7 @@ static void MatchUsbDevice(char* pathName, stSerialDevice *serialDevice)
         UInt32 locationID;
         (*deviceInterface)->GetLocationID(deviceInterface, &locationID);
         char locationIdHex[255];
-        snprintf(locationIdHex, 254, "%x", locationID);
+        snprintf(locationIdHex, 254, "%X", locationID);
         
         String locationIdString(locationIdHex);
         locationIdString = locationIdString.trimCharactersAtStart("0");
