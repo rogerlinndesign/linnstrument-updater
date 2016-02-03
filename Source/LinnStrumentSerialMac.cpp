@@ -154,8 +154,8 @@ static void MatchUsbDevice(char* pathName, stSerialDevice *serialDevice)
         locationIdString = locationIdString.trimCharactersAtEnd("0");
         String deviceName = "cu.usbmodem"+locationIdString+"1";
         String devicePath = "/dev/"+deviceName;
-        File deviceFile(devicePath);
-        if (deviceFile.exists() && devicePath == pathName)
+        File deviceFile(pathName);
+        if (devicePath.equalsIgnoreCase(pathName) && deviceFile.exists())
         {
             ExtractUsbInformation(serialDevice, deviceInterface);
             (*deviceInterface)->Release(deviceInterface);
