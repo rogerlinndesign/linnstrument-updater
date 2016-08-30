@@ -249,11 +249,13 @@ bool LinnStrumentSerialMac::detect()
             stSerialDevice device = (* next).value;
 
             // only use serial devices with the vendor and product ID of LinnStrument
-            if (device.vendorId == 0xf055 &&
+            if (linnstrumentDevice.isEmpty() &&
+                device.vendorId == 0xf055 &&
                 device.productId == 0x0070 &&
                 strstr(device.port, "/dev/") == device.port) {
                 linnstrumentDevice = String(device.port);
                 linnstrumentDevice = linnstrumentDevice.substring(5);
+                std::cout << "Using LinnStrument device " << linnstrumentDevice << std::endl;
             }
             
             stDeviceListItem* current = next;

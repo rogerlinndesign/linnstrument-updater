@@ -115,8 +115,6 @@ Serial::SerialImpl::SerialImpl (const string &port, unsigned long baudrate,
 {
   pthread_mutex_init(&this->read_mutex, NULL);
   pthread_mutex_init(&this->write_mutex, NULL);
-  if (port_.empty () == false)
-    open ();
 }
 
 Serial::SerialImpl::~SerialImpl ()

@@ -17,13 +17,31 @@ bool LinnStrumentSerial::readSettings()
 {
     if (!isDetected()) return false;
     
+    std::cout << "Reading settings" << std::endl;
+
     settings.reset();
     
     try {
-        serial::Serial linnSerial(getFullLinnStrumentDevice().toRawUTF8(), 115200, serial::Timeout::simpleTimeout(3000));
+        juce::String fullDevice = getFullLinnStrumentDevice();
+        const char* devicePort = fullDevice.toRawUTF8();
+        const std::string devicePortString(devicePort);
+        serial::Timeout timeout = serial::Timeout::simpleTimeout(3000);
+        serial::Serial linnSerial(devicePortString, 115200, timeout);
+        
+        std::cout << "Opening serial device " << devicePortString << " for settings retrieval with baud rate 115200" << std::endl;
+        for (int i = 1; i <= 5; ++i) {
+            try {
+                linnSerial.open();
+                break;
+            }
+            catch (serial::SerialException e) {
+                std::cerr << "Try " << i << " : wasn't able to open serial device " << getFullLinnStrumentDevice() << ": " << e.what() << std::endl;
+                MessageManager::getInstance()->runDispatchLoopUntil(500);
+            }
+        }
         
         if (!linnSerial.isOpen()) {
-            std::cerr << "Wasn't able to open serial device " << getFullLinnStrumentDevice() << " with baud rate 115200" << std::endl;
+            std::cerr << "Wasn't able to open serial device " << getFullLinnStrumentDevice() << std::endl;
             return false;
         }
         
@@ -97,13 +115,31 @@ bool LinnStrumentSerial::readSettings()
 
 bool LinnStrumentSerial::restoreSettings()
 {
+    std::cout << "Restoring settings" << std::endl;
+    
     if (!isDetected() || settings.getSize() == 0) return false;
     
     try {
-        serial::Serial linnSerial(getFullLinnStrumentDevice().toRawUTF8(), 115200, serial::Timeout::simpleTimeout(3000));
+        juce::String fullDevice = getFullLinnStrumentDevice();
+        const char* devicePort = fullDevice.toRawUTF8();
+        const std::string devicePortString(devicePort);
+        serial::Timeout timeout = serial::Timeout::simpleTimeout(3000);
+        serial::Serial linnSerial(devicePortString, 115200, timeout);
+        
+        std::cout << "Opening serial device " << devicePortString << " for settings restore with baud rate 115200" << std::endl;
+        for (int i = 1; i <= 5; ++i) {
+            try {
+                linnSerial.open();
+                break;
+            }
+            catch (serial::SerialException e) {
+                std::cerr << "Try " << i << " : wasn't able to open serial device " << getFullLinnStrumentDevice() << " : " << e.what() << std::endl;
+                MessageManager::getInstance()->runDispatchLoopUntil(500);
+            }
+        }
         
         if (!linnSerial.isOpen()) {
-            std::cerr << "Wasn't able to open serial device " << getFullLinnStrumentDevice() << " with baud rate 115200" << std::endl;
+            std::cerr << "Wasn't able to open serial device " << getFullLinnStrumentDevice() << std::endl;
             return false;
         }
         
@@ -121,11 +157,11 @@ bool LinnStrumentSerial::restoreSettings()
         }
         
         if (linnSerial.write("r") != 1) {
-            std::cerr << "Couldn't to give the restore settings command to serial device " << getFullLinnStrumentDevice() << std::endl;
+            std::cerr << "Couldn't give the restore settings command to serial device " << getFullLinnStrumentDevice() << std::endl;
             return false;
         }
         
-        MessageManager::getInstance()->runDispatchLoopUntil(10);
+        MessageManager::getInstance()->runDispatchLoopUntil(20);
         std::string ackCode = linnSerial.readline();
         if (ackCode != "ACK\n") {
             std::cerr << "Didn't receive the restore settings ACK code from serial device " << getFullLinnStrumentDevice() << std::endl;
@@ -151,7 +187,7 @@ bool LinnStrumentSerial::restoreSettings()
 		uint8_t* source = (uint8_t*)settings.getData();
         int i = 0;
         while (i+batchsize < settingsSize) {
-            MessageManager::getInstance()->runDispatchLoopUntil(10);
+            MessageManager::getInstance()->runDispatchLoopUntil(20);
             if (linnSerial.write(source+i, batchsize) != batchsize) {
                 std::cerr << "Couldn't write the settings to device " << getFullLinnStrumentDevice() << std::endl;
                 return false;
@@ -167,7 +203,7 @@ bool LinnStrumentSerial::restoreSettings()
         
         size_t remaining = settingsSize - i;
         if (remaining > 0) {
-            MessageManager::getInstance()->runDispatchLoopUntil(10);
+            MessageManager::getInstance()->runDispatchLoopUntil(20);
             if (linnSerial.write(source+i, remaining) != remaining) {
                 std::cerr << "Couldn't write the settings to device " << getFullLinnStrumentDevice() << std::endl;
                 return false;
