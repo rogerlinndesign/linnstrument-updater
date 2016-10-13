@@ -208,6 +208,12 @@ bool LinnStrumentSerial::restoreSettings()
                 std::cerr << "Couldn't write the settings to device " << getFullLinnStrumentDevice() << std::endl;
                 return false;
             }
+            
+            ackCode = linnSerial.readline();
+            if (ackCode != "ACK\n") {
+                std::cerr << "Didn't receive restore settings progress ACK code from serial device " << getFullLinnStrumentDevice() << std::endl;
+                return false;
+            }
         }
         
         ackCode = linnSerial.readline();
