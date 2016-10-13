@@ -13,6 +13,48 @@
 
 #include "serial/serial.h"
 
+namespace {
+    bool handshake(const juce::String& fullDevice, serial::Serial& linnSerial)
+    {
+        std::cout << "Opening serial device " << linnSerial.getPort() << " for settings retrieval with baud rate 115200" << std::endl;
+        for (int i = 1; i <= 5; ++i) {
+            try {
+                linnSerial.open();
+                break;
+            }
+            catch (serial::SerialException e) {
+                std::cerr << "Try " << i << " : wasn't able to open serial device " << fullDevice << ": " << e.what() << std::endl;
+                MessageManager::getInstance()->runDispatchLoopUntil(500);
+            }
+        }
+        
+        if (!linnSerial.isOpen()) {
+            std::cerr << "Wasn't able to open serial device " << fullDevice << std::endl;
+            return false;
+        }
+        
+        MessageManager::getInstance()->runDispatchLoopUntil(1000);
+        
+        for (int i = 1; i <= 5; ++i) {
+            if (linnSerial.write("5, 4, 3, 2, 1 ...\n") != 18) {
+                std::cerr << "Couldn't write the complete handshake message to serial device " << fullDevice << std::endl;
+                return false;
+            }
+            
+            std::string linnGoCode = linnSerial.readline();
+            if (linnGoCode == "LinnStruments are go!\n") {
+                return true;
+            }
+            else {
+                std::cerr << "Didn't receive the correct go code from serial device " << fullDevice << " (" << linnGoCode << ")" << std::endl;
+                MessageManager::getInstance()->runDispatchLoopUntil(500);
+            }
+        }
+        
+        return false;
+    }
+}
+
 bool LinnStrumentSerial::readSettings()
 {
     if (!isDetected()) return false;
@@ -28,33 +70,7 @@ bool LinnStrumentSerial::readSettings()
         serial::Timeout timeout = serial::Timeout::simpleTimeout(3000);
         serial::Serial linnSerial(devicePortString, 115200, timeout);
         
-        std::cout << "Opening serial device " << devicePortString << " for settings retrieval with baud rate 115200" << std::endl;
-        for (int i = 1; i <= 5; ++i) {
-            try {
-                linnSerial.open();
-                break;
-            }
-            catch (serial::SerialException e) {
-                std::cerr << "Try " << i << " : wasn't able to open serial device " << getFullLinnStrumentDevice() << ": " << e.what() << std::endl;
-                MessageManager::getInstance()->runDispatchLoopUntil(500);
-            }
-        }
-        
-        if (!linnSerial.isOpen()) {
-            std::cerr << "Wasn't able to open serial device " << getFullLinnStrumentDevice() << std::endl;
-            return false;
-        }
-        
-        MessageManager::getInstance()->runDispatchLoopUntil(1500);
-        
-        if (linnSerial.write("5, 4, 3, 2, 1 ...\n") != 18) {
-            std::cerr << "Couldn't write the complete handshake message to serial device " << getFullLinnStrumentDevice() << std::endl;
-            return false;
-        }
-        
-        std::string linnGoCode = linnSerial.readline();
-        if (linnGoCode != "LinnStruments are go!\n") {
-            std::cerr << "Didn't receive the correct go code from serial device " << getFullLinnStrumentDevice() << std::endl;
+        if (!handshake(fullDevice, linnSerial)) {
             return false;
         }
         
@@ -123,36 +139,10 @@ bool LinnStrumentSerial::restoreSettings()
         juce::String fullDevice = getFullLinnStrumentDevice();
         const char* devicePort = fullDevice.toRawUTF8();
         const std::string devicePortString(devicePort);
-        serial::Timeout timeout = serial::Timeout::simpleTimeout(3000);
+        serial::Timeout timeout = serial::Timeout::simpleTimeout(1500);
         serial::Serial linnSerial(devicePortString, 115200, timeout);
         
-        std::cout << "Opening serial device " << devicePortString << " for settings restore with baud rate 115200" << std::endl;
-        for (int i = 1; i <= 5; ++i) {
-            try {
-                linnSerial.open();
-                break;
-            }
-            catch (serial::SerialException e) {
-                std::cerr << "Try " << i << " : wasn't able to open serial device " << getFullLinnStrumentDevice() << " : " << e.what() << std::endl;
-                MessageManager::getInstance()->runDispatchLoopUntil(500);
-            }
-        }
-        
-        if (!linnSerial.isOpen()) {
-            std::cerr << "Wasn't able to open serial device " << getFullLinnStrumentDevice() << std::endl;
-            return false;
-        }
-        
-        MessageManager::getInstance()->runDispatchLoopUntil(1500);
-        
-        if (linnSerial.write("5, 4, 3, 2, 1 ...\n") != 18) {
-            std::cerr << "Couldn't write the complete handshake message to serial device " << getFullLinnStrumentDevice() << std::endl;
-            return false;
-        }
-        
-        std::string linnGoCode = linnSerial.readline();
-        if (linnGoCode != "LinnStruments are go!\n") {
-            std::cerr << "Didn't receive the correct go code from serial device " << getFullLinnStrumentDevice() << std::endl;
+        if (!handshake(fullDevice, linnSerial)) {
             return false;
         }
         
