@@ -48,10 +48,12 @@ public:
     void detectLinnStrument();
     void upgradeLinnStrument();
     void restoreSettings();
+    void retry();
     
     void setUpgradeDone();
     void setUpgradeFailed();
     void setProgressText(const String& text);
+    void showRetry(bool flag);
 
 private:
 

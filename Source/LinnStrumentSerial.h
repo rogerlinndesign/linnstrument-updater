@@ -15,7 +15,7 @@
 class LinnStrumentSerial
 {
 public:
-    LinnStrumentSerial() {};
+    LinnStrumentSerial() : projectCount(0), projectSize(0) {};
     virtual ~LinnStrumentSerial() {};
 
     virtual String getFullLinnStrumentDevice() = 0;
@@ -31,6 +31,9 @@ public:
     
 private:
 	MemoryBlock settings;
+    MemoryBlock projects;
+    uint8_t projectCount;
+    uint32_t projectSize;
 };
 
 #endif  // LINNSTRUMENTSERIAL_H_INCLUDED

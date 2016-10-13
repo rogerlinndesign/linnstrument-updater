@@ -7,7 +7,7 @@
   the "//[xyz]" and "//[/xyz]" sections will be retained when the file is loaded
   and re-saved.
 
-  Created with Introjucer version: 3.1.1
+  Created with Introjucer version: 3.1.0
 
   ------------------------------------------------------------------------------
 
@@ -55,6 +55,7 @@ public:
     //[UserMethods]     -- You can add your own custom methods in this section.
     void setLabelText(const String& text, bool enableButton);
     void setProgressText(const String& text);
+    void showRetry(bool flag);
     //[/UserMethods]
 
     void paint (Graphics& g);
@@ -75,6 +76,7 @@ private:
     ScopedPointer<TextButton> updateButton;
     ScopedPointer<Label> linnstrumentLabel;
     ScopedPointer<TextButton> goAheadButton;
+    ScopedPointer<TextButton> retryButton;
     Image cachedImage_rogerlinndesign_png;
 
 

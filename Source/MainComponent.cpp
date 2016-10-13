@@ -7,7 +7,7 @@
   the "//[xyz]" and "//[/xyz]" sections will be retained when the file is loaded
   and re-saved.
 
-  Created with Introjucer version: 3.1.1
+  Created with Introjucer version: 3.1.0
 
   ------------------------------------------------------------------------------
 
@@ -39,7 +39,7 @@ MainComponent::MainComponent ()
     progressLabel->setColour (TextEditor::backgroundColourId, Colour (0x00000000));
 
     addAndMakeVisible (updateButton = new TextButton ("update button"));
-    updateButton->setButtonText (TRANS("Update Firmware"));
+    updateButton->setButtonText ("Update Firmware");
     updateButton->addListener (this);
     updateButton->setColour (TextButton::buttonColourId, Colour (0xffd0d0d0));
     updateButton->setColour (TextButton::buttonOnColourId, Colour (0xff868686));
@@ -53,16 +53,23 @@ MainComponent::MainComponent ()
     linnstrumentLabel->setColour (TextEditor::backgroundColourId, Colour (0x00000000));
 
     addAndMakeVisible (goAheadButton = new TextButton ("go ahead"));
-    goAheadButton->setButtonText (TRANS("Go Ahead"));
+    goAheadButton->setButtonText ("Go Ahead");
     goAheadButton->addListener (this);
     goAheadButton->setColour (TextButton::buttonColourId, Colour (0xffd0d0d0));
     goAheadButton->setColour (TextButton::buttonOnColourId, Colour (0xff868686));
+
+    addAndMakeVisible (retryButton = new TextButton ("retry"));
+    retryButton->setButtonText ("Retry");
+    retryButton->addListener (this);
+    retryButton->setColour (TextButton::buttonColourId, Colour (0xffd0d0d0));
+    retryButton->setColour (TextButton::buttonOnColourId, Colour (0xff868686));
 
     cachedImage_rogerlinndesign_png = ImageCache::getFromMemory (rogerlinndesign_png, rogerlinndesign_pngSize);
 
     //[UserPreSize]
     updateButton->setVisible(false);
     updateButton->setEnabled(false);
+    retryButton->setVisible(false);
     //[/UserPreSize]
 
     setSize (400, 218);
@@ -81,6 +88,7 @@ MainComponent::~MainComponent()
     updateButton = nullptr;
     linnstrumentLabel = nullptr;
     goAheadButton = nullptr;
+    retryButton = nullptr;
 
 
     //[Destructor]. You can add your own custom destruction code here..
@@ -97,7 +105,7 @@ void MainComponent::paint (Graphics& g)
 
     g.setColour (Colours::black);
     g.drawImageWithin (cachedImage_rogerlinndesign_png,
-                       (getWidth() / 2) - (175 / 2), 20, 175, 68,
+                       (getWidth() / 2) - ((175) / 2), 20, 175, 68,
                        RectanglePlacement::centred,
                        false);
 
@@ -107,13 +115,11 @@ void MainComponent::paint (Graphics& g)
 
 void MainComponent::resized()
 {
-    //[UserPreResize] Add your own custom resize code here..
-    //[/UserPreResize]
-
-    progressLabel->setBounds ((getWidth() / 2) - (328 / 2), 176, 328, 24);
-    updateButton->setBounds ((getWidth() / 2) - (136 / 2), 176, 136, 24);
-    linnstrumentLabel->setBounds ((getWidth() / 2) - (328 / 2), 96, 328, 64);
-    goAheadButton->setBounds ((getWidth() / 2) - (136 / 2), 176, 136, 24);
+    progressLabel->setBounds ((getWidth() / 2) - ((328) / 2), 176, 328, 24);
+    updateButton->setBounds ((getWidth() / 2) - ((136) / 2), 176, 136, 24);
+    linnstrumentLabel->setBounds ((getWidth() / 2) - ((328) / 2), 96, 328, 64);
+    goAheadButton->setBounds ((getWidth() / 2) - ((136) / 2), 176, 136, 24);
+    retryButton->setBounds ((getWidth() / 2) - ((136) / 2), 176, 136, 24);
     //[UserResized] Add your own custom resize handling here..
     //[/UserResized]
 }
@@ -138,6 +144,12 @@ void MainComponent::buttonClicked (Button* buttonThatWasClicked)
         UpdaterApplication::getApp().detectLinnStrument();
         //[/UserButtonCode_goAheadButton]
     }
+    else if (buttonThatWasClicked == retryButton)
+    {
+        //[UserButtonCode_retryButton] -- add your button handler code here..
+        UpdaterApplication::getApp().retry();
+        //[/UserButtonCode_retryButton]
+    }
 
     //[UserbuttonClicked_Post]
     //[/UserbuttonClicked_Post]
@@ -155,6 +167,12 @@ void MainComponent::setLabelText(const String& text, bool enableButton)
 void MainComponent::setProgressText(const String& text)
 {
     progressLabel->setText(text, NotificationType::sendNotificationAsync);
+}
+
+void MainComponent::showRetry(bool flag)
+{
+    retryButton->setEnabled(flag);
+    retryButton->setVisible(flag);
 }
 //[/MiscUserCode]
 
@@ -193,6 +211,10 @@ BEGIN_JUCER_METADATA
   <TEXTBUTTON name="go ahead" id="47cc25a35e9d524d" memberName="goAheadButton"
               virtualName="" explicitFocusOrder="0" pos="0Cc 176 136 24" bgColOff="ffd0d0d0"
               bgColOn="ff868686" buttonText="Go Ahead" connectedEdges="0" needsCallback="1"
+              radioGroupId="0"/>
+  <TEXTBUTTON name="retry" id="fbc747e464a4892a" memberName="retryButton" virtualName=""
+              explicitFocusOrder="0" pos="0Cc 176 136 24" bgColOff="ffd0d0d0"
+              bgColOn="ff868686" buttonText="Retry" connectedEdges="0" needsCallback="1"
               radioGroupId="0"/>
 </JUCER_COMPONENT>
 
