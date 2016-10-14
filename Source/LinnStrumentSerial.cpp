@@ -107,7 +107,7 @@ bool LinnStrumentSerial::readSettings()
             uint8_t* dest = (uint8_t*)settings.getData();
             while (remaining > 0) {
                 MessageManager::getInstance()->runDispatchLoopUntil(20);
-                int32_t requested = std::min(remaining, batchsize);
+                uint32_t requested = std::min(remaining, batchsize);
                 size_t actual = linnSerial.read(dest, requested);
                 if (actual != requested) {
                     std::cerr << "Couldn't retrieve the settings from device " << fullDevice << std::endl;
@@ -168,7 +168,7 @@ bool LinnStrumentSerial::readSettings()
                 int32_t remaining = projectSize;
                 while (remaining > 0) {
                     MessageManager::getInstance()->runDispatchLoopUntil(20);
-                    int32_t requested = std::min(remaining, batchsize);
+                    uint32_t requested = std::min(remaining, batchsize);
                     size_t actual = linnSerial.read(dest, requested);
                     if (actual != requested) {
                         std::cerr << "Couldn't retrieve the settings from device " << fullDevice << std::endl;
@@ -272,7 +272,7 @@ bool LinnStrumentSerial::restoreSettings()
                 while (remaining > 0) {
                     MessageManager::getInstance()->runDispatchLoopUntil(20);
                     
-                    int32_t actual = std::min(remaining, batchsize);
+                    uint32_t actual = std::min(remaining, batchsize);
                     if (linnSerial.write(source, actual) != actual) {
                         std::cerr << "Couldn't write the project to device " << fullDevice << std::endl;
                         return false;
@@ -330,7 +330,7 @@ bool LinnStrumentSerial::restoreSettings()
             while (remaining > 0) {
                 MessageManager::getInstance()->runDispatchLoopUntil(20);
                 
-                int32_t actual = std::min(remaining, batchsize);
+                uint32_t actual = std::min(remaining, batchsize);
                 if (linnSerial.write(source, actual) != actual) {
                     std::cerr << "Couldn't write the settings to device " << fullDevice << std::endl;
                     return false;
