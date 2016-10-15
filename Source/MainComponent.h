@@ -7,12 +7,12 @@
   the "//[xyz]" and "//[/xyz]" sections will be retained when the file is loaded
   and re-saved.
 
-  Created with Introjucer version: 3.1.0
+  Created with Introjucer version: 3.2.0
 
   ------------------------------------------------------------------------------
 
   The Introjucer is part of the JUCE library - "Jules' Utility Class Extensions"
-  Copyright 2004-13 by Raw Material Software Ltd.
+  Copyright (c) 2015 - ROLI Ltd.
 
   ==============================================================================
 */
@@ -55,6 +55,7 @@ public:
     //[UserMethods]     -- You can add your own custom methods in this section.
     void setLabelText(const String& text, bool enableButton);
     void setProgressText(const String& text);
+    void showPrepareDevice(bool flag);
     void showRetry(bool flag);
     //[/UserMethods]
 
@@ -77,7 +78,8 @@ private:
     ScopedPointer<Label> linnstrumentLabel;
     ScopedPointer<TextButton> goAheadButton;
     ScopedPointer<TextButton> retryButton;
-    Image cachedImage_rogerlinndesign_png;
+    ScopedPointer<TextButton> goAheadDefaultSettingsButton;
+    Image cachedImage_rogerlinndesign_png_1;
 
 
     //==============================================================================

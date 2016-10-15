@@ -46,10 +46,12 @@ public:
     void findFirmware();
     void connectionWarning();
     void detectLinnStrument();
+    void prepareDevice();
     void upgradeLinnStrument();
     void restoreSettings();
     void retry();
     
+    void showPrepareDevice(bool flag);
     void setUpgradeDone();
     void setUpgradeFailed();
     void setProgressText(const String& text);

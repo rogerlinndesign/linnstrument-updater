@@ -138,12 +138,14 @@ void UpdaterApplication::handleMessage(const juce::Message &message)
             {
                 ((MainComponent *)mainWindow->getContentComponent())->setLabelText("Couldn't retrieve LinnStrument's settings,\ninterrupting firmware upgrade.", false);
                 ((MainComponent *)mainWindow->getContentComponent())->setProgressText("");
+                UpdaterApplication::getApp().showPrepareDevice(true);
             }
             break;
         }
         
         case ApplicationMessageType::prepareDevice:
         {
+            UpdaterApplication::getApp().showPrepareDevice(false);
             if (linnStrumentSerial->prepareDevice())
             {
                 ((MainComponent *)mainWindow->getContentComponent())->setLabelText("LinnStrument has been prepared for OS Update.", false);
@@ -181,9 +183,14 @@ void UpdaterApplication::handleMessage(const juce::Message &message)
             }
             else
             {
-                ((MainComponent *)mainWindow->getContentComponent())->setLabelText("The LinnStrument firmware has been upgraded.\nThe settings couldn't be restored.\nYou can retry or perform the calibration manually.", false);
+                if (linnStrumentSerial->hasSettings()) {
+                    ((MainComponent *)mainWindow->getContentComponent())->setLabelText("The LinnStrument firmware has been upgraded.\nThe settings couldn't be restored.\nYou can retry or perform the calibration manually.", false);
+                    UpdaterApplication::getApp().showRetry(true);
+                }
+                else {
+                    ((MainComponent *)mainWindow->getContentComponent())->setLabelText("The LinnStrument firmware has been upgraded.\n\nPlease perform the calibration by carefully sliding over the light guides.", false);
+                }
                 UpdaterApplication::getApp().setProgressText("");
-                UpdaterApplication::getApp().showRetry(true);
             }
             break;
         }
@@ -233,8 +240,17 @@ void UpdaterApplication::restoreSettings()
     postMessage(new ApplicationMessage(ApplicationMessageType::restoreSettings, (void *)nullptr));
 }
 
+void UpdaterApplication::prepareDevice() {
+    postMessage(new ApplicationMessage(ApplicationMessageType::prepareDevice, (void *)nullptr));
+}
+
 void UpdaterApplication::retry() {
     postMessage(new ApplicationMessage(ApplicationMessageType::restoreSettings, (void *)nullptr));
+}
+
+void UpdaterApplication::showPrepareDevice(bool flag)
+{
+    ((MainComponent *)mainWindow->getContentComponent())->showPrepareDevice(flag);
 }
 
 void UpdaterApplication::setUpgradeDone()

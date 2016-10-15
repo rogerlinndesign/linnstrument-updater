@@ -7,12 +7,12 @@
   the "//[xyz]" and "//[/xyz]" sections will be retained when the file is loaded
   and re-saved.
 
-  Created with Introjucer version: 3.1.0
+  Created with Introjucer version: 3.2.0
 
   ------------------------------------------------------------------------------
 
   The Introjucer is part of the JUCE library - "Jules' Utility Class Extensions"
-  Copyright 2004-13 by Raw Material Software Ltd.
+  Copyright (c) 2015 - ROLI Ltd.
 
   ==============================================================================
 */
@@ -30,6 +30,9 @@
 //==============================================================================
 MainComponent::MainComponent ()
 {
+    //[Constructor_pre] You can add your own custom stuff here..
+    //[/Constructor_pre]
+
     addAndMakeVisible (progressLabel = new Label ("progress label",
                                                   String::empty));
     progressLabel->setFont (Font (15.00f, Font::plain));
@@ -39,7 +42,7 @@ MainComponent::MainComponent ()
     progressLabel->setColour (TextEditor::backgroundColourId, Colour (0x00000000));
 
     addAndMakeVisible (updateButton = new TextButton ("update button"));
-    updateButton->setButtonText ("Update Firmware");
+    updateButton->setButtonText (TRANS("Update Firmware"));
     updateButton->addListener (this);
     updateButton->setColour (TextButton::buttonColourId, Colour (0xffd0d0d0));
     updateButton->setColour (TextButton::buttonOnColourId, Colour (0xff868686));
@@ -53,23 +56,30 @@ MainComponent::MainComponent ()
     linnstrumentLabel->setColour (TextEditor::backgroundColourId, Colour (0x00000000));
 
     addAndMakeVisible (goAheadButton = new TextButton ("go ahead"));
-    goAheadButton->setButtonText ("Go Ahead");
+    goAheadButton->setButtonText (TRANS("Go Ahead"));
     goAheadButton->addListener (this);
     goAheadButton->setColour (TextButton::buttonColourId, Colour (0xffd0d0d0));
     goAheadButton->setColour (TextButton::buttonOnColourId, Colour (0xff868686));
 
     addAndMakeVisible (retryButton = new TextButton ("retry"));
-    retryButton->setButtonText ("Retry");
+    retryButton->setButtonText (TRANS("Retry"));
     retryButton->addListener (this);
     retryButton->setColour (TextButton::buttonColourId, Colour (0xffd0d0d0));
     retryButton->setColour (TextButton::buttonOnColourId, Colour (0xff868686));
 
-    cachedImage_rogerlinndesign_png = ImageCache::getFromMemory (rogerlinndesign_png, rogerlinndesign_pngSize);
+    addAndMakeVisible (goAheadDefaultSettingsButton = new TextButton ("goAheadDefaultSettings"));
+    goAheadDefaultSettingsButton->setButtonText (TRANS("Go ahead with default settings"));
+    goAheadDefaultSettingsButton->addListener (this);
+    goAheadDefaultSettingsButton->setColour (TextButton::buttonColourId, Colour (0xffd0d0d0));
+    goAheadDefaultSettingsButton->setColour (TextButton::buttonOnColourId, Colour (0xff868686));
+
+    cachedImage_rogerlinndesign_png_1 = ImageCache::getFromMemory (rogerlinndesign_png, rogerlinndesign_pngSize);
 
     //[UserPreSize]
     updateButton->setVisible(false);
     updateButton->setEnabled(false);
     retryButton->setVisible(false);
+    goAheadDefaultSettingsButton->setVisible(false);
     //[/UserPreSize]
 
     setSize (400, 218);
@@ -89,6 +99,7 @@ MainComponent::~MainComponent()
     linnstrumentLabel = nullptr;
     goAheadButton = nullptr;
     retryButton = nullptr;
+    goAheadDefaultSettingsButton = nullptr;
 
 
     //[Destructor]. You can add your own custom destruction code here..
@@ -104,8 +115,8 @@ void MainComponent::paint (Graphics& g)
     g.fillAll (Colours::white);
 
     g.setColour (Colours::black);
-    g.drawImageWithin (cachedImage_rogerlinndesign_png,
-                       (getWidth() / 2) - ((175) / 2), 20, 175, 68,
+    g.drawImageWithin (cachedImage_rogerlinndesign_png_1,
+                       (getWidth() / 2) - (175 / 2), 20, 175, 68,
                        RectanglePlacement::centred,
                        false);
 
@@ -115,11 +126,15 @@ void MainComponent::paint (Graphics& g)
 
 void MainComponent::resized()
 {
-    progressLabel->setBounds ((getWidth() / 2) - ((328) / 2), 176, 328, 24);
-    updateButton->setBounds ((getWidth() / 2) - ((136) / 2), 176, 136, 24);
-    linnstrumentLabel->setBounds ((getWidth() / 2) - ((328) / 2), 96, 328, 64);
-    goAheadButton->setBounds ((getWidth() / 2) - ((136) / 2), 176, 136, 24);
-    retryButton->setBounds ((getWidth() / 2) - ((136) / 2), 176, 136, 24);
+    //[UserPreResize] Add your own custom resize code here..
+    //[/UserPreResize]
+
+    progressLabel->setBounds ((getWidth() / 2) - (328 / 2), 176, 328, 24);
+    updateButton->setBounds ((getWidth() / 2) - (136 / 2), 176, 136, 24);
+    linnstrumentLabel->setBounds ((getWidth() / 2) - (328 / 2), 96, 328, 64);
+    goAheadButton->setBounds ((getWidth() / 2) - (136 / 2), 176, 136, 24);
+    retryButton->setBounds ((getWidth() / 2) - (136 / 2), 176, 136, 24);
+    goAheadDefaultSettingsButton->setBounds ((getWidth() / 2) - (216 / 2), 176, 216, 24);
     //[UserResized] Add your own custom resize handling here..
     //[/UserResized]
 }
@@ -150,6 +165,12 @@ void MainComponent::buttonClicked (Button* buttonThatWasClicked)
         UpdaterApplication::getApp().retry();
         //[/UserButtonCode_retryButton]
     }
+    else if (buttonThatWasClicked == goAheadDefaultSettingsButton)
+    {
+        //[UserButtonCode_goAheadDefaultSettingsButton] -- add your button handler code here..
+        UpdaterApplication::getApp().prepareDevice();
+        //[/UserButtonCode_goAheadDefaultSettingsButton]
+    }
 
     //[UserbuttonClicked_Post]
     //[/UserbuttonClicked_Post]
@@ -167,6 +188,12 @@ void MainComponent::setLabelText(const String& text, bool enableButton)
 void MainComponent::setProgressText(const String& text)
 {
     progressLabel->setText(text, NotificationType::sendNotificationAsync);
+}
+
+void MainComponent::showPrepareDevice(bool flag)
+{
+    goAheadDefaultSettingsButton->setEnabled(flag);
+    goAheadDefaultSettingsButton->setVisible(flag);
 }
 
 void MainComponent::showRetry(bool flag)
@@ -216,6 +243,10 @@ BEGIN_JUCER_METADATA
               explicitFocusOrder="0" pos="0Cc 176 136 24" bgColOff="ffd0d0d0"
               bgColOn="ff868686" buttonText="Retry" connectedEdges="0" needsCallback="1"
               radioGroupId="0"/>
+  <TEXTBUTTON name="goAheadDefaultSettings" id="b42e54770a3a5b10" memberName="goAheadDefaultSettingsButton"
+              virtualName="" explicitFocusOrder="0" pos="0Cc 176 216 24" bgColOff="ffd0d0d0"
+              bgColOn="ff868686" buttonText="Go ahead with default settings"
+              connectedEdges="0" needsCallback="1" radioGroupId="0"/>
 </JUCER_COMPONENT>
 
 END_JUCER_METADATA

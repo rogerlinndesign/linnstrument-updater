@@ -27,6 +27,7 @@ public:
     virtual bool isDetected() = 0;
     virtual bool prepareDevice() = 0;
     virtual bool performUpgrade() = 0;
+    virtual bool hasSettings();
     
     bool readSettings();
     bool restoreSettings();

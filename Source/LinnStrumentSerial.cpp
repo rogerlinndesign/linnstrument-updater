@@ -21,7 +21,7 @@ namespace {
         MessageManager::getInstance()->runDispatchLoopUntil(1000);
 
         std::cout << "Opening serial device " << linnSerial.getPort() << " for settings retrieval with baud rate 115200" << std::endl;
-        for (int i = 1; i <= 5; ++i) {
+        for (int i = 1; i <= 3; ++i) {
             try {
                 linnSerial.open();
                 break;
@@ -39,7 +39,7 @@ namespace {
         
         MessageManager::getInstance()->runDispatchLoopUntil(1000);
         
-        for (int i = 1; i <= 5; ++i) {
+        for (int i = 1; i <= 2; ++i) {
             if (linnSerial.write("5, 4, 3, 2, 1 ...\n") != 18) {
                 std::cerr << "Couldn't write the complete handshake message to serial device " << fullDevice << std::endl;
                 return false;
@@ -211,7 +211,7 @@ bool LinnStrumentSerial::readSettings()
 
 bool LinnStrumentSerial::restoreSettings()
 {
-    if (!isDetected() || settings.getSize() == 0) return false;
+    if (!isDetected() || !hasSettings()) return false;
     
     try {
         juce::String fullDevice = getFullLinnStrumentDevice();
@@ -358,4 +358,8 @@ bool LinnStrumentSerial::restoreSettings()
     }
     
     return true;
+}
+
+bool LinnStrumentSerial::hasSettings() {
+    return settings.getSize() > 0;
 }
