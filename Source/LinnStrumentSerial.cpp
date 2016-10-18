@@ -16,6 +16,31 @@
 #include <algorithm>
 
 namespace {
+    static uint32_t crc_table[16] = {
+        0x00000000, 0x1db71064, 0x3b6e20c8, 0x26d930ac,
+        0x76dc4190, 0x6b6b51f4, 0x4db26158, 0x5005713c,
+        0xedb88320, 0xf00f9344, 0xd6d6a3e8, 0xcb61b38c,
+        0x9b64c2b0, 0x86d3d2d4, 0xa00ae278, 0xbdbdf21c
+    };
+    
+    uint32_t crc_update(uint32_t crc, uint8_t data) {
+        uint8_t tbl_idx;
+        tbl_idx = crc ^ (data >> (0 * 4));
+        crc = crc_table[tbl_idx & 0x0f] ^ (crc >> 4);
+        tbl_idx = crc ^ (data >> (1 * 4));
+        crc = crc_table[tbl_idx & 0x0f] ^ (crc >> 4);
+        return crc;
+    }
+    
+    uint32_t crc_byte_array(uint8_t* s, uint8_t size) {
+        uint32_t crc = ~0L;
+        for (uint8_t i = 0; i < size; ++i) {
+            crc = crc_update(crc, *s++);
+        }
+        crc = ~crc;
+        return crc;
+    }
+
     bool handshake(const juce::String& fullDevice, serial::Serial& linnSerial)
     {
         MessageManager::getInstance()->runDispatchLoopUntil(1000);
@@ -56,6 +81,63 @@ namespace {
         }
         
         return false;
+    }
+    
+    int negotiateIncomingCRC(serial::Serial& linnSerial, juce::String& fullDevice, uint8_t* buffer, uint32_t size) {
+        if (linnSerial.write("c") != 1) {
+            std::cerr << "Couldn't to write the check command to serial device " << fullDevice << std::endl;
+            return -1;
+        }
+        
+        uint32_t remote_crc = 0;
+        size_t actual_crc = linnSerial.read((uint8_t*)&remote_crc, sizeof(uint32_t));
+        if (actual_crc != sizeof(uint32_t)) {
+            std::cerr << "Couldn't retrieve data from device " << fullDevice << " (wrong CRC length)" << std::endl;
+            return -1;
+        }
+        
+        uint32_t local_crc = crc_byte_array(buffer, size);
+        if (local_crc != remote_crc) {
+            std::cerr << "Couldn't retrieve data from device " << fullDevice << " (wrong CRC " << local_crc << " != " << remote_crc << "), retrying" << std::endl;
+            if (linnSerial.write("w") != 1) {
+                std::cerr << "Couldn't to write the CRC wrong command to serial device " << fullDevice << std::endl;
+                return -1;
+            }
+            return 0;
+        }
+
+        if (linnSerial.write("o") != 1) {
+            std::cerr << "Couldn't to write the CRC ok command to serial device " << fullDevice << std::endl;
+            return -1;
+        }
+        
+        return 1;
+    }
+    
+    int negotiateOutgoingCRC(serial::Serial& linnSerial, juce::String& fullDevice, uint8_t* buffer, uint32_t size) {
+        uint8_t serialCheck;
+        if (linnSerial.read(&serialCheck, 1) != 1 || serialCheck != 'c') {
+            std::cerr << "Didn't receive the CRC check code from device " << fullDevice << std::endl;
+            return -1;
+        }
+        
+        uint32_t crc = crc_byte_array(buffer, size);
+        if (linnSerial.write((uint8_t*)&crc, sizeof(uint32_t)) != sizeof(uint32_t)) {
+            std::cerr << "Couldn't write the CRC to device " << fullDevice << std::endl;
+            return -1;
+        }
+        
+        uint8_t serialCRCState;
+        if (linnSerial.read(&serialCRCState, 1) != 1) {
+            std::cerr << "Didn't receive the CRC state from device " << fullDevice << std::endl;
+            return -1;
+        }
+        if (serialCRCState == 'w') {
+            std::cerr << "CRC code " << crc << " didn't correspond for device " << fullDevice << std::endl;
+            return 0;
+        }
+        
+        return 1;
     }
 }
 
@@ -110,12 +192,22 @@ bool LinnStrumentSerial::readSettings()
                 uint32_t requested = std::min(remaining, batchsize);
                 size_t actual = linnSerial.read(dest, requested);
                 if (actual != requested) {
-                    std::cerr << "Couldn't retrieve the settings from device " << fullDevice << std::endl;
+                    std::cerr << "Couldn't retrieve the settings from device " << fullDevice << " (wrong batch length)" << std::endl;
                     return false;
                 }
-                if (linnSerial.write("a") != 1) {
-                    std::cerr << "Couldn't to write the ack command to serial device " << fullDevice << std::endl;
-                    return false;
+                
+                // version 2.0.0-beta1 and 2.0.0-beta2
+                if (settings[0] == 9) {
+                    if (linnSerial.write("a") != 1) {
+                        std::cerr << "Couldn't to write the ack command to serial device " << fullDevice << std::endl;
+                        return false;
+                    }
+                }
+                // version 2.0.0-beta3 and later
+                else if (settings[0] >= 10) {
+                    int crc = negotiateIncomingCRC(linnSerial, fullDevice, dest, actual);
+                    if (crc == -1)      return false;
+                    else if (crc == 0)  continue;
                 }
 
                 remaining -= actual;
@@ -171,12 +263,22 @@ bool LinnStrumentSerial::readSettings()
                     uint32_t requested = std::min(remaining, batchsize);
                     size_t actual = linnSerial.read(dest, requested);
                     if (actual != requested) {
-                        std::cerr << "Couldn't retrieve the settings from device " << fullDevice << std::endl;
+                        std::cerr << "Couldn't retrieve the settings from device " << fullDevice << " (wrong batch length)" << std::endl;
                         return false;
                     }
-                    if (linnSerial.write("a") != 1) {
-                        std::cerr << "Couldn't to write the ack command to serial device " << fullDevice << std::endl;
-                        return false;
+                    
+                    // version 2.0.0-beta1 and 2.0.0-beta2
+                    if (settings[0] == 9) {
+                        if (linnSerial.write("a") != 1) {
+                            std::cerr << "Couldn't to write the ack command to serial device " << fullDevice << std::endl;
+                            return false;
+                        }
+                    }
+                    // version 2.0.0-beta3 and later
+                    else if (settings[0] >= 10) {
+                        int crc = negotiateIncomingCRC(linnSerial, fullDevice, dest, actual);
+                        if (crc == -1)      return false;
+                        else if (crc == 0)  continue;
                     }
                     
                     remaining -= actual;
@@ -277,14 +379,13 @@ bool LinnStrumentSerial::restoreSettings()
                         std::cerr << "Couldn't write the project to device " << fullDevice << std::endl;
                         return false;
                     }
+                    
+                    int crc = negotiateOutgoingCRC(linnSerial, fullDevice, source, actual);
+                    if (crc == -1)      return false;
+                    else if (crc == 0)  continue;
+
                     remaining -= actual;
                     source += actual;
-                    
-                    ackCode = linnSerial.readline();
-                    if (ackCode != "ACK\n") {
-                        std::cerr << "Didn't receive restore project progress ACK code from serial device " << fullDevice << std::endl;
-                        return false;
-                    }
                 }
                 
                 ackCode = linnSerial.readline();
@@ -313,7 +414,7 @@ bool LinnStrumentSerial::restoreSettings()
             }
             
             int32_t settingsSize = settings.getSize();
-            if (linnSerial.write((uint8_t*)&settingsSize, 4) != 4) {
+            if (linnSerial.write((uint8_t*)&settingsSize, sizeof(int32_t)) != sizeof(int32_t)) {
                 std::cerr << "Couldn't write the size of the settings to device " << fullDevice << std::endl;
                 return false;
             }
@@ -335,14 +436,13 @@ bool LinnStrumentSerial::restoreSettings()
                     std::cerr << "Couldn't write the settings to device " << fullDevice << std::endl;
                     return false;
                 }
+                
+                int crc = negotiateOutgoingCRC(linnSerial, fullDevice, source, actual);
+                if (crc == -1)      return false;
+                else if (crc == 0)  continue;
+                
                 remaining -= actual;
                 source += actual;
-                
-                ackCode = linnSerial.readline();
-                if (ackCode != "ACK\n") {
-                    std::cerr << "Didn't receive restore settings progress ACK code from serial device " << fullDevice << std::endl;
-                    return false;
-                }
             }
             
             ackCode = linnSerial.readline();
