@@ -23,7 +23,7 @@ namespace {
         0x9b64c2b0, 0x86d3d2d4, 0xa00ae278, 0xbdbdf21c
     };
     
-	uint32_t crc_update(uint32_t crc, uint32_t data) {
+	uint32_t crc_update(uint32_t crc, uint8_t data) {
         uint8_t tbl_idx;
 		tbl_idx = (uint8_t)(crc ^ (data >> (0 * 4)));
         crc = crc_table[tbl_idx & 0x0f] ^ (crc >> 4);
@@ -32,7 +32,7 @@ namespace {
         return crc;
     }
     
-	uint32_t crc_byte_array(uint8_t* s, uint32_t size) {
+	uint32_t crc_byte_array(uint8_t* s, uint8_t size) {
 		uint32_t crc = ~(uint32_t)0;
         for (uint8_t i = 0; i < size; ++i) {
             crc = crc_update(crc, *s++);
@@ -83,7 +83,7 @@ namespace {
         return false;
     }
     
-    int negotiateIncomingCRC(serial::Serial& linnSerial, juce::String& fullDevice, uint8_t* buffer, uint32_t size) {
+	int negotiateIncomingCRC(serial::Serial& linnSerial, juce::String& fullDevice, uint8_t* buffer, uint8_t size) {
         if (linnSerial.write("c") != 1) {
             std::cerr << "Couldn't to write the check command to serial device " << fullDevice << std::endl;
             return -1;
@@ -114,7 +114,7 @@ namespace {
         return 1;
     }
     
-    int negotiateOutgoingCRC(serial::Serial& linnSerial, juce::String& fullDevice, uint8_t* buffer, uint32_t size) {
+	int negotiateOutgoingCRC(serial::Serial& linnSerial, juce::String& fullDevice, uint8_t* buffer, uint8_t size) {
         uint8_t serialCheck;
         if (linnSerial.read(&serialCheck, 1) != 1 || serialCheck != 'c') {
             std::cerr << "Didn't receive the CRC check code from device " << fullDevice << std::endl;
@@ -189,7 +189,7 @@ bool LinnStrumentSerial::readSettings()
             uint8_t* dest = (uint8_t*)settings.getData();
             while (remaining > 0) {
                 MessageManager::getInstance()->runDispatchLoopUntil(20);
-                uint32_t requested = std::min(remaining, batchsize);
+				uint8_t requested = (uint8_t)std::min(remaining, batchsize);
                 size_t actual = linnSerial.read(dest, requested);
                 if (actual != requested) {
                     std::cerr << "Couldn't retrieve the settings from device " << fullDevice << " (wrong batch length)" << std::endl;
@@ -205,7 +205,7 @@ bool LinnStrumentSerial::readSettings()
                 }
                 // version 2.0.0-beta3 and later
                 else if (settings[0] >= 10) {
-                    int crc = negotiateIncomingCRC(linnSerial, fullDevice, dest, actual);
+					int crc = negotiateIncomingCRC(linnSerial, fullDevice, dest, requested);
                     if (crc == -1)      return false;
                     else if (crc == 0)  continue;
                 }
@@ -260,7 +260,7 @@ bool LinnStrumentSerial::readSettings()
                 int32_t remaining = projectSize;
                 while (remaining > 0) {
                     MessageManager::getInstance()->runDispatchLoopUntil(20);
-                    uint32_t requested = std::min(remaining, batchsize);
+					uint8_t requested = (uint8_t)std::min(remaining, batchsize);
                     size_t actual = linnSerial.read(dest, requested);
                     if (actual != requested) {
                         std::cerr << "Couldn't retrieve the settings from device " << fullDevice << " (wrong batch length)" << std::endl;
@@ -276,7 +276,7 @@ bool LinnStrumentSerial::readSettings()
                     }
                     // version 2.0.0-beta3 and later
                     else if (settings[0] >= 10) {
-                        int crc = negotiateIncomingCRC(linnSerial, fullDevice, dest, actual);
+						int crc = negotiateIncomingCRC(linnSerial, fullDevice, dest, requested);
                         if (crc == -1)      return false;
                         else if (crc == 0)  continue;
                     }
@@ -374,7 +374,7 @@ bool LinnStrumentSerial::restoreSettings()
                 while (remaining > 0) {
                     MessageManager::getInstance()->runDispatchLoopUntil(20);
                     
-                    uint32_t actual = std::min(remaining, batchsize);
+					uint8_t actual = (uint8_t)std::min(remaining, batchsize);
                     if (linnSerial.write(source, actual) != actual) {
                         std::cerr << "Couldn't write the project to device " << fullDevice << std::endl;
                         return false;
@@ -431,7 +431,7 @@ bool LinnStrumentSerial::restoreSettings()
             while (remaining > 0) {
                 MessageManager::getInstance()->runDispatchLoopUntil(20);
                 
-                uint32_t actual = std::min(remaining, batchsize);
+				uint8_t actual = (uint8_t)std::min(remaining, batchsize);
                 if (linnSerial.write(source, actual) != actual) {
                     std::cerr << "Couldn't write the settings to device " << fullDevice << std::endl;
                     return false;
