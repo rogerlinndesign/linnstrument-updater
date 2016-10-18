@@ -23,17 +23,17 @@ namespace {
         0x9b64c2b0, 0x86d3d2d4, 0xa00ae278, 0xbdbdf21c
     };
     
-    uint32_t crc_update(uint32_t crc, uint8_t data) {
+	uint32_t crc_update(uint32_t crc, uint32_t data) {
         uint8_t tbl_idx;
-        tbl_idx = crc ^ (data >> (0 * 4));
+		tbl_idx = (uint8_t)(crc ^ (data >> (0 * 4)));
         crc = crc_table[tbl_idx & 0x0f] ^ (crc >> 4);
-        tbl_idx = crc ^ (data >> (1 * 4));
+		tbl_idx = (uint8_t)(crc ^ (data >> (1 * 4)));
         crc = crc_table[tbl_idx & 0x0f] ^ (crc >> 4);
         return crc;
     }
     
-    uint32_t crc_byte_array(uint8_t* s, uint8_t size) {
-        uint32_t crc = ~0L;
+	uint32_t crc_byte_array(uint8_t* s, uint32_t size) {
+		uint32_t crc = ~(uint32_t)0;
         for (uint8_t i = 0; i < size; ++i) {
             crc = crc_update(crc, *s++);
         }
