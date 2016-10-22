@@ -1,3 +1,5 @@
+#if defined(_WIN32)
+
 /* This file is the compacted single file version of the DispHelper COM helper library.
  * DispHelper allows you to call COM objects with an extremely simple printf style syntax.
  * DispHelper can be used from C++ or even plain C. It works with most Windows compilers
@@ -1290,3 +1292,4 @@ void dhUninitialize(BOOL bUninitializeCOM)
 	if (bUninitializeCOM) CoUninitialize();
 }
 
+#endif

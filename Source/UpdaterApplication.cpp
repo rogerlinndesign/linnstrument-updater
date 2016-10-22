@@ -10,6 +10,7 @@
 #include "UpdaterApplication.h"
 
 #include "MainComponent.h"
+#include "UpgradeComponent.h"
 #if JUCE_MAC
     #include "LinnStrumentSerialMac.h"
 #elif JUCE_WINDOWS
@@ -21,7 +22,6 @@ namespace
     enum ApplicationMessageType
     {
         findFirmware,
-        connectionWarning,
         detectLinnStrument,
         readSettings,
         prepareDevice,
@@ -67,7 +67,7 @@ bool UpdaterApplication::moreThanOneInstanceAllowed()
 void UpdaterApplication::initialise(const String&)
 {
     mainWindow = new MainWindow();
-    findFirmware();
+    detectLinnStrument();
 }
 
 void UpdaterApplication::shutdown()
@@ -84,40 +84,45 @@ void UpdaterApplication::anotherInstanceStarted(const String&)
 {
 }
 
+MainComponent* UpdaterApplication::getMainComponent()
+{
+    return (MainComponent*)mainWindow->getContentComponent();
+}
+
+UpgradeComponent* UpdaterApplication::getUpgradeComponent()
+{
+    return getMainComponent()->getUpgradeComponent();
+}
+
 void UpdaterApplication::handleMessage(const juce::Message &message)
 {
     ApplicationMessage *msg = (ApplicationMessage *)&message;
     switch(msg->type_)
     {
-        case ApplicationMessageType::findFirmware:
+        case ApplicationMessageType::detectLinnStrument:
         {
-            if (linnStrumentSerial->findFirmwareFile())
+            if (linnStrumentSerial->isDetected() || linnStrumentSerial->detect())
             {
-                connectionWarning();
+                getMainComponent()->setIntroText("Found LinnStrument.\n\nPlease click on the action that you want to perform below.", true);
+                getMainComponent()->setButtonsEnabled(true);
             }
             else
             {
-                ((MainComponent *)mainWindow->getContentComponent())->setLabelText("No firmware file could be found in the same directory as the updater tool.", false);
+                getMainComponent()->setIntroText("Please connect LinnStrument's USB cable. DO NOT use a USB hub!\n\nThen activate Update OS mode in Global Settings.", false);
                 startTimer(300);
             }
             break;
         }
             
-        case ApplicationMessageType::connectionWarning:
+        case ApplicationMessageType::findFirmware:
         {
-            ((MainComponent *)mainWindow->getContentComponent())->setLabelText("Please connect LinnStrument's USB cable.\nDO NOT use a USB hub!\n\nThen activate Update OS mode in Global Settings.", false);
-            break;
-        }
-            
-        case ApplicationMessageType::detectLinnStrument:
-        {
-            if (linnStrumentSerial->isDetected() || linnStrumentSerial->detect())
+            if (linnStrumentSerial->findFirmwareFile())
             {
-                ((MainComponent *)mainWindow->getContentComponent())->setLabelText("Found LinnStrument ready for OS Update.", true);
+                upgradeLinnStrument();
             }
             else
             {
-                ((MainComponent *)mainWindow->getContentComponent())->setLabelText("No LinnStrument found!\nPlease make sure Update OS mode is selected in Global Settings.", false);
+                getUpgradeComponent()->setLabelText("No firmware file could be found in the same directory as the updater tool.", false);
                 startTimer(300);
             }
             break;
@@ -125,19 +130,19 @@ void UpdaterApplication::handleMessage(const juce::Message &message)
             
         case ApplicationMessageType::readSettings:
         {
-            ((MainComponent *)mainWindow->getContentComponent())->setLabelText("Retrieving LinnStrument's settings.", false);
+            getUpgradeComponent()->setLabelText("Retrieving LinnStrument's settings.", false);
             
             if (linnStrumentSerial->readSettings())
             {
-                ((MainComponent *)mainWindow->getContentComponent())->setLabelText("LinnStrument's settings have been retrieved.", false);
+                getUpgradeComponent()->setLabelText("LinnStrument's settings have been retrieved.", false);
                 UpdaterApplication::getApp().setProgressText("");
                 MessageManager::getInstance()->runDispatchLoopUntil(2000);
                 postMessage(new ApplicationMessage(ApplicationMessageType::prepareDevice, (void *)nullptr));
             }
             else
             {
-                ((MainComponent *)mainWindow->getContentComponent())->setLabelText("Couldn't retrieve LinnStrument's settings,\ninterrupting firmware upgrade.", false);
-                ((MainComponent *)mainWindow->getContentComponent())->setProgressText("");
+                getUpgradeComponent()->setLabelText("Couldn't retrieve LinnStrument's settings,\ninterrupting firmware upgrade.", false);
+                getUpgradeComponent()->setProgressText("");
                 UpdaterApplication::getApp().showPrepareDevice(true);
             }
             break;
@@ -148,13 +153,13 @@ void UpdaterApplication::handleMessage(const juce::Message &message)
             UpdaterApplication::getApp().showPrepareDevice(false);
             if (linnStrumentSerial->prepareDevice())
             {
-                ((MainComponent *)mainWindow->getContentComponent())->setLabelText("LinnStrument has been prepared for OS Update.", false);
+                getUpgradeComponent()->setLabelText("LinnStrument has been prepared for OS Update.", false);
 				MessageManager::getInstance()->runDispatchLoopUntil(2000);
 				postMessage(new ApplicationMessage(ApplicationMessageType::updateDevice, (void *)nullptr));
             }
             else
             {
-                ((MainComponent *)mainWindow->getContentComponent())->setLabelText("An unexpected error occurred.\nPlease reconnect LinnStrument, quit and restart the updater.", false);
+                getUpgradeComponent()->setLabelText("An unexpected error occurred.\nPlease reconnect LinnStrument, quit and restart the updater.", false);
             }
             break;
         }
@@ -163,7 +168,7 @@ void UpdaterApplication::handleMessage(const juce::Message &message)
         {
             if (linnStrumentSerial->performUpgrade())
             {
-                ((MainComponent *)mainWindow->getContentComponent())->setLabelText("Performing LinnStrument firmware update.\nDO NOT disconnect LinnStrument.\nDO NOT quit the updater.", false);
+                getUpgradeComponent()->setLabelText("Performing LinnStrument firmware update.\nDO NOT disconnect LinnStrument.\nDO NOT quit the updater.", false);
             }
             break;
         }
@@ -172,23 +177,24 @@ void UpdaterApplication::handleMessage(const juce::Message &message)
         {
             UpdaterApplication::getApp().showRetry(false);
             
-            ((MainComponent *)mainWindow->getContentComponent())->setLabelText("Restoring LinnStrument's settings.", false);
-            ((MainComponent *)mainWindow->getContentComponent())->setProgressText("");
+            getUpgradeComponent()->setLabelText("Restoring LinnStrument's settings.", false);
+            getUpgradeComponent()->setProgressText("");
 
             if (linnStrumentSerial->restoreSettings())
             {
-                ((MainComponent *)mainWindow->getContentComponent())->setLabelText("LinnStrument's settings have been restored.", false);
-                UpdaterApplication::getApp().setProgressText("");
-                setUpgradeDone();
+                getUpgradeComponent()->setLabelText("All done!", false);
+                getUpgradeComponent()->setProgressText("");
+                getUpgradeComponent()->showGoBack(true);
             }
             else
             {
                 if (linnStrumentSerial->hasSettings()) {
-                    ((MainComponent *)mainWindow->getContentComponent())->setLabelText("The LinnStrument firmware has been upgraded.\nThe settings couldn't be restored.\nYou can retry or perform the calibration manually.", false);
+                    getUpgradeComponent()->setLabelText("The LinnStrument firmware has been upgraded.\nThe settings couldn't be restored.\nYou can retry or perform the calibration manually.", false);
                     UpdaterApplication::getApp().showRetry(true);
                 }
                 else {
-                    ((MainComponent *)mainWindow->getContentComponent())->setLabelText("The LinnStrument firmware has been upgraded.\n\nPlease perform the calibration by carefully sliding over the light guides.", false);
+                    getUpgradeComponent()->setLabelText("The LinnStrument firmware has been upgraded.\n\nPlease perform the calibration by carefully sliding over the light guides.", false);
+                    getUpgradeComponent()->showGoBack(true);
                 }
                 UpdaterApplication::getApp().setProgressText("");
             }
@@ -199,14 +205,7 @@ void UpdaterApplication::handleMessage(const juce::Message &message)
 
 void UpdaterApplication::timerCallback()
 {
-    if (linnStrumentSerial->hasFirmwareFile())
-    {
-        detectLinnStrument();
-    }
-    else
-    {
-        findFirmware();
-    }
+    detectLinnStrument();
     stopTimer();
 }
 
@@ -215,14 +214,17 @@ LinnStrumentSerial &UpdaterApplication::getLinnStrumentSerial()
     return *linnStrumentSerial;
 }
 
+void UpdaterApplication::home()
+{
+    getMainComponent()->setButtonsEnabled(false);
+ 
+    linnStrumentSerial->resetDetection();
+    detectLinnStrument();
+}
+
 void UpdaterApplication::findFirmware()
 {
     postMessage(new ApplicationMessage(ApplicationMessageType::findFirmware, (void *)nullptr));
-}
-
-void UpdaterApplication::connectionWarning()
-{
-    postMessage(new ApplicationMessage(ApplicationMessageType::connectionWarning, (void *)nullptr));
 }
 
 void UpdaterApplication::detectLinnStrument()
@@ -250,28 +252,22 @@ void UpdaterApplication::retry() {
 
 void UpdaterApplication::showPrepareDevice(bool flag)
 {
-    ((MainComponent *)mainWindow->getContentComponent())->showPrepareDevice(flag);
-}
-
-void UpdaterApplication::setUpgradeDone()
-{
-    ((MainComponent *)mainWindow->getContentComponent())->setLabelText("All done!", false);
-    ((MainComponent *)mainWindow->getContentComponent())->setProgressText("");
+    getUpgradeComponent()->showPrepareDevice(flag);
 }
 
 void UpdaterApplication::setUpgradeFailed()
 {
-    ((MainComponent *)mainWindow->getContentComponent())->setLabelText("The firmware upgrade failed.\nPlease reconnect LinnStrument, quit and restart the updater.", false);
-    ((MainComponent *)mainWindow->getContentComponent())->setProgressText("");
+    getUpgradeComponent()->setLabelText("The firmware upgrade failed.\nPlease reconnect LinnStrument, quit and restart the updater.", false);
+    getUpgradeComponent()->setProgressText("");
 }
 
 void UpdaterApplication::setProgressText(const String& text)
 {
-    ((MainComponent *)mainWindow->getContentComponent())->setProgressText(text);
+    getUpgradeComponent()->setProgressText(text);
 }
 
 void UpdaterApplication::showRetry(bool flag)
 {
-    ((MainComponent *)mainWindow->getContentComponent())->showRetry(flag);
+    getUpgradeComponent()->showRetry(flag);
 }
 

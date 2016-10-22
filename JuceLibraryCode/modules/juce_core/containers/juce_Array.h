@@ -2,7 +2,7 @@
   ==============================================================================
 
    This file is part of the juce_core module of the JUCE library.
-   Copyright (c) 2013 - Raw Material Software Ltd.
+   Copyright (c) 2015 - ROLI Ltd.
 
    Permission to use, copy, modify, and/or distribute this software for any purpose with
    or without fee is hereby granted, provided that the above copyright notice and this
@@ -96,8 +96,7 @@ public:
         @param values   the array to copy from
     */
     template <typename TypeToCreateFrom>
-    explicit Array (const TypeToCreateFrom* values)
-       : numUsed (0)
+    explicit Array (const TypeToCreateFrom* values)  : numUsed (0)
     {
         while (*values != TypeToCreateFrom())
             add (*values++);
@@ -109,14 +108,21 @@ public:
         @param numValues    the number of values in the array
     */
     template <typename TypeToCreateFrom>
-    Array (const TypeToCreateFrom* values, int numValues)
-       : numUsed (numValues)
+    Array (const TypeToCreateFrom* values, int numValues)  : numUsed (numValues)
     {
         data.setAllocatedSize (numValues);
 
         for (int i = 0; i < numValues; ++i)
             new (data.elements + i) ElementType (values[i]);
     }
+
+   #if JUCE_COMPILER_SUPPORTS_INITIALIZER_LISTS
+    template <typename TypeToCreateFrom>
+    Array (const std::initializer_list<TypeToCreateFrom>& items)  : numUsed (0)
+    {
+        addArray (items);
+    }
+   #endif
 
     /** Destructor. */
     ~Array()
@@ -210,11 +216,16 @@ public:
     }
 
     //==============================================================================
-    /** Returns the current number of elements in the array.
-    */
+    /** Returns the current number of elements in the array. */
     inline int size() const noexcept
     {
         return numUsed;
+    }
+
+    /** Returns true if the array is empty, false otherwise. */
+    inline bool isEmpty() const noexcept
+    {
+        return size() == 0;
     }
 
     /** Returns one of the elements in the array.
@@ -354,7 +365,7 @@ public:
 
         for (; e != end_; ++e)
             if (elementToLookFor == *e)
-                return static_cast <int> (e - data.elements.getData());
+                return static_cast<int> (e - data.elements.getData());
 
         return -1;
     }
@@ -474,7 +485,11 @@ public:
             numUsed += numberOfTimesToInsertIt;
 
             while (--numberOfTimesToInsertIt >= 0)
-                new (insertPos++) ElementType (newElement);
+            {
+                new (insertPos) ElementType (newElement);
+                ++insertPos; // NB: this increment is done separately from the
+                             // new statement to avoid a compiler bug in VS2014
+            }
         }
     }
 
@@ -504,7 +519,7 @@ public:
             {
                 insertPos += indexToInsertAt;
                 const int numberToMove = numUsed - indexToInsertAt;
-                memmove (insertPos + numberOfElements, insertPos, numberToMove * sizeof (ElementType));
+                memmove (insertPos + numberOfElements, insertPos, (size_t) numberToMove * sizeof (ElementType));
             }
             else
             {
@@ -525,13 +540,17 @@ public:
         will be done.
 
         @param newElement   the new object to add to the array
+        @return             true if the element was added to the array; false otherwise.
     */
-    void addIfNotAlreadyThere (ParameterType newElement)
+    bool addIfNotAlreadyThere (ParameterType newElement)
     {
         const ScopedLockType lock (getLock());
 
-        if (! contains (newElement))
-            add (newElement);
+        if (contains (newElement))
+            return false;
+
+        add (newElement);
+        return true;
     }
 
     /** Replaces an element with a new value.
@@ -599,6 +618,21 @@ public:
             }
         }
     }
+
+   #if JUCE_COMPILER_SUPPORTS_INITIALIZER_LISTS
+    template <typename TypeToCreateFrom>
+    void addArray (const std::initializer_list<TypeToCreateFrom>& items)
+    {
+        const ScopedLockType lock (getLock());
+        data.ensureAllocatedSize (numUsed + (int) items.size());
+
+        for (auto& item : items)
+        {
+            new (data.elements + numUsed) ElementType (item);
+            ++numUsed;
+        }
+    }
+   #endif
 
     /** Adds elements from a null-terminated array of pointers to the end of this array.
 
@@ -732,8 +766,8 @@ public:
     template <typename ElementComparator, typename TargetValueType>
     int indexOfSorted (ElementComparator& comparator, TargetValueType elementToLookFor) const
     {
-        (void) comparator;  // if you pass in an object with a static compareElements() method, this
-                            // avoids getting warning messages about the parameter being unused
+        ignoreUnused (comparator); // if you pass in an object with a static compareElements() method, this
+                                   // avoids getting warning messages about the parameter being unused
 
         const ScopedLockType lock (getLock());
 
@@ -764,10 +798,30 @@ public:
         If the index passed in is out-of-range, nothing will happen.
 
         @param indexToRemove    the index of the element to remove
+        @see removeAndReturn, removeFirstMatchingValue, removeAllInstancesOf, removeRange
+    */
+    void remove (int indexToRemove)
+    {
+        const ScopedLockType lock (getLock());
+
+        if (isPositiveAndBelow (indexToRemove, numUsed))
+        {
+            jassert (data.elements != nullptr);
+            removeInternal (indexToRemove);
+        }
+    }
+
+    /** Removes an element from the array.
+
+        This will remove the element at a given index, and move back
+        all the subsequent elements to close the gap.
+        If the index passed in is out-of-range, nothing will happen.
+
+        @param indexToRemove    the index of the element to remove
         @returns                the element that has been removed
         @see removeFirstMatchingValue, removeAllInstancesOf, removeRange
     */
-    ElementType remove (const int indexToRemove)
+    ElementType removeAndReturn (const int indexToRemove)
     {
         const ScopedLockType lock (getLock());
 
@@ -782,13 +836,35 @@ public:
         return ElementType();
     }
 
+    /** Removes an element from the array.
+
+        This will remove the element pointed to by the given iterator,
+        and move back all the subsequent elements to close the gap.
+        If the iterator passed in does not point to an element within the
+        array, behaviour is undefined.
+
+        @param elementToRemove  a pointer to the element to remove
+        @see removeFirstMatchingValue, removeAllInstancesOf, removeRange, removeIf
+    */
+    void remove (const ElementType* elementToRemove)
+    {
+        jassert (elementToRemove != nullptr);
+        const ScopedLockType lock (getLock());
+
+        jassert (data.elements != nullptr);
+        const int indexToRemove = int (elementToRemove - data.elements);
+        jassert (isPositiveAndBelow (indexToRemove, numUsed));
+
+        removeInternal (indexToRemove);
+    }
+
     /** Removes an item from the array.
 
         This will remove the first occurrence of the given element from the array.
         If the item isn't found, no action is taken.
 
         @param valueToRemove   the object to try to remove
-        @see remove, removeRange
+        @see remove, removeRange, removeIf
     */
     void removeFirstMatchingValue (ParameterType valueToRemove)
     {
@@ -805,21 +881,59 @@ public:
         }
     }
 
-    /** Removes an item from the array.
+    /** Removes items from the array.
 
-        This will remove the first occurrence of the given element from the array.
-        If the item isn't found, no action is taken.
+        This will remove all occurrences of the given element from the array.
+        If no such items are found, no action is taken.
 
         @param valueToRemove   the object to try to remove
-        @see remove, removeRange
+        @return how many objects were removed.
+        @see remove, removeRange, removeIf
     */
-    void removeAllInstancesOf (ParameterType valueToRemove)
+    int removeAllInstancesOf (ParameterType valueToRemove)
     {
+        int numRemoved = 0;
         const ScopedLockType lock (getLock());
 
         for (int i = numUsed; --i >= 0;)
+        {
             if (valueToRemove == data.elements[i])
+            {
                 removeInternal (i);
+                ++numRemoved;
+            }
+        }
+
+        return numRemoved;
+    }
+
+    /** Removes items from the array.
+
+        This will remove all objects from the array that match a condition.
+        If no such items are found, no action is taken.
+
+        @param predicate   the condition when to remove an item. Must be a callable
+                           type that takes an ElementType and returns a bool
+
+        @return how many objects were removed.
+        @see remove, removeRange, removeAllInstancesOf
+    */
+    template <typename PredicateType>
+    int removeIf (PredicateType predicate)
+    {
+        int numRemoved = 0;
+        const ScopedLockType lock (getLock());
+
+        for (int i = numUsed; --i >= 0;)
+        {
+            if (predicate (data.elements[i]) == true)
+            {
+                removeInternal (i);
+                ++numRemoved;
+            }
+        }
+
+        return numRemoved;
     }
 
     /** Removes a range of elements from the array.
@@ -832,7 +946,7 @@ public:
 
         @param startIndex       the index of the first element to remove
         @param numberToRemove   how many elements should be removed
-        @see remove, removeFirstMatchingValue, removeAllInstancesOf
+        @see remove, removeFirstMatchingValue, removeAllInstancesOf, removeIf
     */
     void removeRange (int startIndex, int numberToRemove)
     {
@@ -1023,6 +1137,16 @@ public:
     }
 
     //==============================================================================
+    /** Sorts the array using a default comparison operation.
+        If the type of your elements isn't supported by the DefaultElementComparator class
+        then you may need to use the other version of sort, which takes a custom comparator.
+    */
+    void sort()
+    {
+        DefaultElementComparator<ElementType> comparator;
+        sort (comparator);
+    }
+
     /** Sorts the elements in the array.
 
         This will use a comparator object to sort the elements into order. The object
@@ -1051,11 +1175,11 @@ public:
     */
     template <class ElementComparator>
     void sort (ElementComparator& comparator,
-               const bool retainOrderOfEquivalentItems = false) const
+               const bool retainOrderOfEquivalentItems = false)
     {
         const ScopedLockType lock (getLock());
-        (void) comparator;  // if you pass in an object with a static compareElements() method, this
-                            // avoids getting warning messages about the parameter being unused
+        ignoreUnused (comparator); // if you pass in an object with a static compareElements() method, this
+                                   // avoids getting warning messages about the parameter being unused
         sortArray (comparator, data.elements.getData(), 0, size() - 1, retainOrderOfEquivalentItems);
     }
 

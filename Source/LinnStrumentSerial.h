@@ -23,6 +23,7 @@ public:
     virtual String getFullLinnStrumentDevice() = 0;
     virtual bool findFirmwareFile() = 0;
     virtual bool hasFirmwareFile() = 0;
+    virtual void resetDetection() = 0;
     virtual bool detect() = 0;
     virtual bool isDetected() = 0;
     virtual bool prepareDevice() = 0;

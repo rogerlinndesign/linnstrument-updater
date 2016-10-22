@@ -2,7 +2,7 @@
   ==============================================================================
 
    This file is part of the juce_core module of the JUCE library.
-   Copyright (c) 2013 - Raw Material Software Ltd.
+   Copyright (c) 2015 - ROLI Ltd.
 
    Permission to use, copy, modify, and/or distribute this software for any purpose with
    or without fee is hereby granted, provided that the above copyright notice and this
@@ -131,8 +131,8 @@ public:
     /** Sets a named property to an XML element.
 
         @param keyName      the name of the property to set. (This mustn't be an empty string)
-        @param xml          the new element to set it to. If this is zero, the value will be set to
-                            an empty string
+        @param xml          the new element to set it to. If this is a nullptr, the value will
+                            be set to an empty string
         @see getXmlValue
     */
     void setValue (const String& keyName, const XmlElement* xml);

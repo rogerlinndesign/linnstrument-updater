@@ -1,17 +1,17 @@
 /*
   ==============================================================================
 
-  This is an automatically generated GUI class created by the Introjucer!
+  This is an automatically generated GUI class created by the Projucer!
 
   Be careful when adding custom code to these files, as only the code within
   the "//[xyz]" and "//[/xyz]" sections will be retained when the file is loaded
   and re-saved.
 
-  Created with Introjucer version: 3.2.0
+  Created with Projucer version: 4.2.4
 
   ------------------------------------------------------------------------------
 
-  The Introjucer is part of the JUCE library - "Jules' Utility Class Extensions"
+  The Projucer is part of the JUCE library - "Jules' Utility Class Extensions"
   Copyright (c) 2015 - ROLI Ltd.
 
   ==============================================================================
@@ -30,6 +30,7 @@
  To view a copy of this license, visit http://creativecommons.org/licenses/by-sa/3.0/
  or send a letter to Creative Commons, PO Box 1866, Mountain View, CA 94042, USA.
 */
+#include "UpgradeComponent.h"
 #include "JuceHeader.h"
 //[/Headers]
 
@@ -53,15 +54,14 @@ public:
 
     //==============================================================================
     //[UserMethods]     -- You can add your own custom methods in this section.
-    void setLabelText(const String& text, bool enableButton);
-    void setProgressText(const String& text);
-    void showPrepareDevice(bool flag);
-    void showRetry(bool flag);
+    void setIntroText(const String& text, bool enableButton);
+    UpgradeComponent* getUpgradeComponent();
+    void setButtonsEnabled(bool enabled);
     //[/UserMethods]
 
-    void paint (Graphics& g);
-    void resized();
-    void buttonClicked (Button* buttonThatWasClicked);
+    void paint (Graphics& g) override;
+    void resized() override;
+    void buttonClicked (Button* buttonThatWasClicked) override;
 
     // Binary resources:
     static const char* rogerlinndesign_png;
@@ -73,12 +73,11 @@ private:
     //[/UserVariables]
 
     //==============================================================================
-    ScopedPointer<Label> progressLabel;
-    ScopedPointer<TextButton> updateButton;
-    ScopedPointer<Label> linnstrumentLabel;
-    ScopedPointer<TextButton> goAheadButton;
-    ScopedPointer<TextButton> retryButton;
-    ScopedPointer<TextButton> goAheadDefaultSettingsButton;
+    ScopedPointer<UpgradeComponent> upgrade_;
+    ScopedPointer<Label> introLabel_;
+    ScopedPointer<TextButton> saveProjectButton_;
+    ScopedPointer<TextButton> loadProjectButton_;
+    ScopedPointer<TextButton> updateFirmwareButton_;
     Image cachedImage_rogerlinndesign_png_1;
 
 

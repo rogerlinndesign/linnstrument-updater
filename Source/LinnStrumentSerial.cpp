@@ -11,7 +11,7 @@
 
 #include "UpdaterApplication.h"
 
-#include "serial/serial.h"
+#include "Serial/serial/serial.h"
 
 #include <algorithm>
 

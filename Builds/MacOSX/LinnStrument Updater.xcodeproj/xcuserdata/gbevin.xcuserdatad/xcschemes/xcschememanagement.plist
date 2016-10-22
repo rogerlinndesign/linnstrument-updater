@@ -4,7 +4,7 @@
 <dict>
 	<key>SchemeUserState</key>
 	<dict>
-		<key>LinnStrument Updater.xcscheme</key>
+		<key>LinnStrument Updater (App).xcscheme</key>
 		<dict>
 			<key>orderHint</key>
 			<integer>0</integer>
@@ -12,7 +12,7 @@
 	</dict>
 	<key>SuppressBuildableAutocreation</key>
 	<dict>
-		<key>3F172520F1BC48D040D2DD06</key>
+		<key>C74383895BA02947723BEB8F</key>
 		<dict>
 			<key>primary</key>
 			<true/>

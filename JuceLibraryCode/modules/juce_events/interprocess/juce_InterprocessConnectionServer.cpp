@@ -2,7 +2,7 @@
   ==============================================================================
 
    This file is part of the JUCE library.
-   Copyright (c) 2013 - Raw Material Software Ltd.
+   Copyright (c) 2015 - ROLI Ltd.
 
    Permission is granted to use this software under the terms of either:
    a) the GPL v2 (or any later version)
@@ -33,13 +33,13 @@ InterprocessConnectionServer::~InterprocessConnectionServer()
 }
 
 //==============================================================================
-bool InterprocessConnectionServer::beginWaitingForSocket (const int portNumber)
+bool InterprocessConnectionServer::beginWaitingForSocket (const int portNumber, const String& bindAddress)
 {
     stop();
 
     socket = new StreamingSocket();
 
-    if (socket->createListener (portNumber))
+    if (socket->createListener (portNumber, bindAddress))
     {
         startThread();
         return true;

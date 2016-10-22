@@ -2,7 +2,7 @@
   ==============================================================================
 
    This file is part of the JUCE library.
-   Copyright (c) 2013 - Raw Material Software Ltd.
+   Copyright (c) 2015 - ROLI Ltd.
 
    Permission is granted to use this software under the terms of either:
    a) the GPL v2 (or any later version)
@@ -153,7 +153,8 @@ bool UndoManager::perform (UndoableAction* const newAction)
             actionSet->actions.add (action.release());
             newTransaction = false;
 
-            clearFutureTransactions();
+            moveFutureTransactionsToStash();
+            dropOldTransactionsIfTooLarge();
             sendChangeMessage();
             return true;
         }
@@ -162,14 +163,41 @@ bool UndoManager::perform (UndoableAction* const newAction)
     return false;
 }
 
-void UndoManager::clearFutureTransactions()
+void UndoManager::moveFutureTransactionsToStash()
+{
+    if (nextIndex < transactions.size())
+    {
+        stashedFutureTransactions.clear();
+
+        while (nextIndex < transactions.size())
+        {
+            ActionSet* removed = transactions.removeAndReturn (nextIndex);
+            stashedFutureTransactions.add (removed);
+            totalUnitsStored -= removed->getTotalSize();
+        }
+    }
+}
+
+void UndoManager::restoreStashedFutureTransactions()
 {
     while (nextIndex < transactions.size())
     {
-        totalUnitsStored -= transactions.getLast()->getTotalSize();
-        transactions.removeLast();
+        totalUnitsStored -= transactions.getUnchecked (nextIndex)->getTotalSize();
+        transactions.remove (nextIndex);
     }
 
+    for (int i = 0; i < stashedFutureTransactions.size(); ++i)
+    {
+        ActionSet* action = stashedFutureTransactions.removeAndReturn (i);
+        totalUnitsStored += action->getTotalSize();
+        transactions.add (action);
+    }
+
+    stashedFutureTransactions.clearQuick (false);
+}
+
+void UndoManager::dropOldTransactionsIfTooLarge()
+{
     while (nextIndex > 0
             && totalUnitsStored > maxNumUnitsToKeep
             && transactions.size() > minimumTransactionsToKeep)
@@ -201,6 +229,14 @@ void UndoManager::setCurrentTransactionName (const String& newName) noexcept
         newTransactionName = newName;
     else if (ActionSet* action = getCurrentSet())
         action->name = newName;
+}
+
+String UndoManager::getCurrentTransactionName() const noexcept
+{
+    if (ActionSet* action = getCurrentSet())
+        return action->name;
+
+    return newTransactionName;
 }
 
 //==============================================================================
@@ -282,7 +318,13 @@ Time UndoManager::getTimeOfRedoTransaction() const
 
 bool UndoManager::undoCurrentTransactionOnly()
 {
-    return newTransaction ? false : undo();
+    if ((! newTransaction) && undo())
+    {
+        restoreStashedFutureTransactions();
+        return true;
+    }
+
+    return false;
 }
 
 void UndoManager::getActionsInCurrentTransaction (Array<const UndoableAction*>& actionsFound) const

@@ -2,7 +2,7 @@
   ==============================================================================
 
    This file is part of the juce_core module of the JUCE library.
-   Copyright (c) 2013 - Raw Material Software Ltd.
+   Copyright (c) 2015 - ROLI Ltd.
 
    Permission to use, copy, modify, and/or distribute this software for any purpose with
    or without fee is hereby granted, provided that the above copyright notice and this
@@ -29,7 +29,6 @@
 #ifndef JUCE_BASICNATIVEHEADERS_H_INCLUDED
 #define JUCE_BASICNATIVEHEADERS_H_INCLUDED
 
-#include "../system/juce_TargetPlatform.h"
 #undef T
 
 //==============================================================================
@@ -42,12 +41,8 @@
   #import <MobileCoreServices/MobileCoreServices.h>
   #include <sys/fcntl.h>
  #else
-  #define Point CarbonDummyPointName
-  #define Component CarbonDummyCompName
   #import <Cocoa/Cocoa.h>
   #import <CoreAudio/HostTime.h>
-  #undef Point
-  #undef Component
   #include <sys/dir.h>
  #endif
 
@@ -80,8 +75,7 @@
    #error "You're compiling without exceptions enabled! This is needed for a lot of JUCE classes, please update your compiler settings!"
   #endif
 
-  #pragma warning (push)
-  #pragma warning (disable : 4100 4201 4514 4312 4995)
+  #pragma warning (push, 0) // disable all warnings whilst including system headers
  #endif
 
  #define STRICT 1
@@ -114,9 +108,17 @@
 
  #if JUCE_MINGW
   #include <basetyps.h>
+  #include <sys/time.h>
+  #ifndef alloca
+   #define alloca __builtin_alloca
+  #endif
  #else
   #include <crtdbg.h>
   #include <comutil.h>
+ #endif
+
+ #ifndef S_FALSE
+  #define S_FALSE (1) // (apparently some obscure win32 dev environments don't define this)
  #endif
 
  #undef PACKED

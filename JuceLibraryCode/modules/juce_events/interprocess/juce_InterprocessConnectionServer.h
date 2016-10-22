@@ -2,7 +2,7 @@
   ==============================================================================
 
    This file is part of the JUCE library.
-   Copyright (c) 2013 - Raw Material Software Ltd.
+   Copyright (c) 2015 - ROLI Ltd.
 
    Permission is granted to use this software under the terms of either:
    a) the GPL v2 (or any later version)
@@ -57,9 +57,16 @@ public:
 
         Use stop() to stop the thread running.
 
+        @param portNumber    The port on which the server will receive
+                             connections
+        @param bindAddress   The address on which the server will listen
+                             for connections. An empty string indicates
+                             that it should listen on all addresses
+                             assigned to this machine.
+
         @see createConnectionObject, stop
     */
-    bool beginWaitingForSocket (int portNumber);
+    bool beginWaitingForSocket (int portNumber, const String& bindAddress = String());
 
     /** Terminates the listener thread, if it's active.
 
@@ -82,7 +89,7 @@ protected:
 
 private:
     //==============================================================================
-    ScopedPointer <StreamingSocket> socket;
+    ScopedPointer<StreamingSocket> socket;
 
     void run() override;
 

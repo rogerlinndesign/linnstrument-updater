@@ -15,6 +15,9 @@
 #include "MainWindow.h"
 #include "LinnStrumentSerial.h"
 
+class MainComponent;
+class UpgradeComponent;
+
 class UpdaterApplication : public JUCEApplication,
                            public MessageListener,
                            public Timer
@@ -38,11 +41,15 @@ public:
     void systemRequestedQuit() override;
     void anotherInstanceStarted (const String& commandLine) override;
     
+    MainComponent* getMainComponent();
+    UpgradeComponent* getUpgradeComponent();
+    
     void handleMessage(const juce::Message &message) override;
     void timerCallback() override;
     
     LinnStrumentSerial &getLinnStrumentSerial();
     
+    void home();
     void findFirmware();
     void connectionWarning();
     void detectLinnStrument();
@@ -52,7 +59,6 @@ public:
     void retry();
     
     void showPrepareDevice(bool flag);
-    void setUpgradeDone();
     void setUpgradeFailed();
     void setProgressText(const String& text);
     void showRetry(bool flag);

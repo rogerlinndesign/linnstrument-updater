@@ -2,7 +2,7 @@
   ==============================================================================
 
    This file is part of the JUCE library.
-   Copyright (c) 2013 - Raw Material Software Ltd.
+   Copyright (c) 2015 - ROLI Ltd.
 
    Permission is granted to use this software under the terms of either:
    a) the GPL v2 (or any later version)
@@ -43,7 +43,7 @@ public:
           imageOffset (offset),
           hasCheckedForExternalDrag (false)
     {
-        setSize (im.getWidth(), im.getHeight());
+        updateSize();
 
         if (mouseDragSource == nullptr)
             mouseDragSource = sourceComponent;
@@ -69,6 +69,8 @@ public:
                 if (current->isInterestedInDragSource (sourceDetails))
                     current->itemDragExit (sourceDetails);
         }
+
+        owner.dragOperationEnded();
     }
 
     void paint (Graphics& g) override
@@ -158,20 +160,27 @@ public:
         forceMouseCursorUpdate();
     }
 
+    void updateImage (const Image& newImage)
+    {
+        image = newImage;
+        updateSize();
+        repaint();
+    }
+
     void timerCallback() override
     {
         forceMouseCursorUpdate();
 
         if (sourceDetails.sourceComponent == nullptr)
         {
-            delete this;
+            deleteSelf();
         }
         else if (! isMouseButtonDownAnywhere())
         {
             if (mouseDragSource != nullptr)
                 mouseDragSource->removeMouseListener (this);
 
-            delete this;
+            deleteSelf();
         }
     }
 
@@ -180,7 +189,7 @@ public:
         if (key == KeyPress::escapeKey)
         {
             dismissWithAnimation (true);
-            delete this;
+            deleteSelf();
             return true;
         }
 
@@ -204,6 +213,11 @@ private:
     const Point<int> imageOffset;
     bool hasCheckedForExternalDrag;
     Time lastTimeOverTarget;
+
+    void updateSize()
+    {
+        setSize (image.getWidth(), image.getHeight());
+    }
 
     void forceMouseCursorUpdate()
     {
@@ -311,10 +325,15 @@ private:
                       && ModifierKeys::getCurrentModifiersRealtime().isAnyMouseButtonDown())
                 {
                     (new ExternalDragAndDropMessage (files, canMoveFiles))->post();
-                    delete this;
+                    deleteSelf();
                 }
             }
         }
+    }
+
+    void deleteSelf()
+    {
+        delete this;
     }
 
     void dismissWithAnimation (const bool shouldSnapBack)
@@ -449,6 +468,8 @@ void DragAndDropContainer::startDragging (const var& sourceDescription,
         if (ComponentPeer* const peer = dragImageComponent->getPeer())
             peer->performAnyPendingRepaintsNow();
        #endif
+
+        dragOperationStarted();
     }
 }
 
@@ -463,6 +484,12 @@ var DragAndDropContainer::getCurrentDragDescription() const
                                          : var();
 }
 
+void DragAndDropContainer::setCurrentDragImage (const Image& newImage)
+{
+    if (dragImageComponent != nullptr)
+        dragImageComponent->updateImage (newImage);
+}
+
 DragAndDropContainer* DragAndDropContainer::findParentDragContainerFor (Component* c)
 {
     return c != nullptr ? c->findParentComponentOfClass<DragAndDropContainer>() : nullptr;
@@ -472,6 +499,9 @@ bool DragAndDropContainer::shouldDropFilesWhenDraggedExternally (const DragAndDr
 {
     return false;
 }
+
+void DragAndDropContainer::dragOperationStarted()  {}
+void DragAndDropContainer::dragOperationEnded()    {}
 
 //==============================================================================
 DragAndDropTarget::SourceDetails::SourceDetails (const var& desc, Component* comp, Point<int> pos) noexcept

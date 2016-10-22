@@ -1,3 +1,5 @@
+#if defined(_WIN32)
+
 /*
  Copyright 2014 Roger Linn Design (www.rogerlinndesign.com)
  
@@ -58,13 +60,16 @@ bool LinnStrumentSerialWindows::hasFirmwareFile()
     return firmwareFile.isNotEmpty();
 }
 
-bool LinnStrumentSerialWindows::detect()
+void LinnStrumentSerialMac::resetDetection()
 {
-    if (!hasFirmwareFile()) return false;
-
     linnstrumentDevice = String::empty;
+}
 
-	DISPATCH_OBJ(wmiSvc);
+bool LinnStrumentSerialMac::detect()
+{
+    resetDetection();
+    
+    DISPATCH_OBJ(wmiSvc);
 	DISPATCH_OBJ(colDevices);
 	dhInitialize(TRUE);
 	dhToggleExceptions(TRUE);
@@ -231,3 +236,4 @@ void LinnStrumentSerialWindows::timerCallback()
     }
 }
 
+#endif

@@ -2,7 +2,7 @@
   ==============================================================================
 
    This file is part of the JUCE library.
-   Copyright (c) 2013 - Raw Material Software Ltd.
+   Copyright (c) 2015 - ROLI Ltd.
 
    Permission is granted to use this software under the terms of either:
    a) the GPL v2 (or any later version)
@@ -232,7 +232,7 @@ int JUCEApplicationBase::main()
     jassert (app != nullptr);
 
     if (! app->initialiseApp())
-        return app->getApplicationReturnValue();
+        return app->shutdownApp();
 
     JUCE_TRY
     {
@@ -254,6 +254,20 @@ bool JUCEApplicationBase::initialiseApp()
     {
         DBG ("Another instance is running - quitting...");
         return false;
+    }
+   #endif
+
+   #if JUCE_WINDOWS && JUCE_STANDALONE_APPLICATION && (! defined (_CONSOLE)) && (! JUCE_MINGW)
+    if (AttachConsole (ATTACH_PARENT_PROCESS) != 0)
+    {
+        // if we've launched a GUI app from cmd.exe or PowerShell, we need this to enable printf etc.
+        // However, only reassign stdout, stderr, stdin if they have not been already opened by
+        // a redirect or similar.
+        FILE* ignore;
+
+        if (_fileno(stdout) < 0) freopen_s (&ignore, "CONOUT$", "w", stdout);
+        if (_fileno(stderr) < 0) freopen_s (&ignore, "CONOUT$", "w", stderr);
+        if (_fileno(stdin)  < 0) freopen_s (&ignore, "CONIN$",  "r", stdin);
     }
    #endif
 

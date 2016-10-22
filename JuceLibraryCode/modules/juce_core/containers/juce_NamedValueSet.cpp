@@ -2,7 +2,7 @@
   ==============================================================================
 
    This file is part of the juce_core module of the JUCE library.
-   Copyright (c) 2013 - Raw Material Software Ltd.
+   Copyright (c) 2015 - ROLI Ltd.
 
    Permission to use, copy, modify, and/or distribute this software for any purpose with
    or without fee is hereby granted, provided that the above copyright notice and this
@@ -26,38 +26,6 @@
   ==============================================================================
 */
 
-struct NamedValueSet::NamedValue
-{
-    NamedValue() noexcept {}
-    NamedValue (Identifier n, const var& v)  : name (n), value (v) {}
-    NamedValue (const NamedValue& other) : name (other.name), value (other.value) {}
-
-   #if JUCE_COMPILER_SUPPORTS_MOVE_SEMANTICS
-    NamedValue (NamedValue&& other) noexcept
-        : name (static_cast<Identifier&&> (other.name)),
-          value (static_cast<var&&> (other.value))
-    {
-    }
-
-    NamedValue (Identifier n, var&& v)  : name (n), value (static_cast<var&&> (v))
-    {
-    }
-
-    NamedValue& operator= (NamedValue&& other) noexcept
-    {
-        name = static_cast<Identifier&&> (other.name);
-        value = static_cast<var&&> (other.value);
-        return *this;
-    }
-   #endif
-
-    bool operator== (const NamedValue& other) const noexcept   { return name == other.name && value == other.value; }
-    bool operator!= (const NamedValue& other) const noexcept   { return ! operator== (other); }
-
-    Identifier name;
-    var value;
-};
-
 //==============================================================================
 NamedValueSet::NamedValueSet() noexcept
 {
@@ -77,7 +45,7 @@ NamedValueSet& NamedValueSet::operator= (const NamedValueSet& other)
 
 #if JUCE_COMPILER_SUPPORTS_MOVE_SEMANTICS
 NamedValueSet::NamedValueSet (NamedValueSet&& other) noexcept
-    : values (static_cast <Array<NamedValue>&&> (other.values))
+    : values (static_cast<Array<NamedValue>&&> (other.values))
 {
 }
 
@@ -112,12 +80,27 @@ int NamedValueSet::size() const noexcept
     return values.size();
 }
 
+bool NamedValueSet::isEmpty() const noexcept
+{
+    return values.isEmpty();
+}
+
+static const var& getNullVarRef() noexcept
+{
+   #if JUCE_ALLOW_STATIC_NULL_VARIABLES
+    return var::null;
+   #else
+    static var nullVar;
+    return nullVar;
+   #endif
+}
+
 const var& NamedValueSet::operator[] (const Identifier& name) const noexcept
 {
     if (const var* v = getVarPointer (name))
         return *v;
 
-    return var::null;
+    return getNullVarRef();
 }
 
 var NamedValueSet::getWithDefault (const Identifier& name, const var& defaultReturnValue) const
@@ -138,7 +121,7 @@ var* NamedValueSet::getVarPointer (const Identifier& name) const noexcept
 }
 
 #if JUCE_COMPILER_SUPPORTS_MOVE_SEMANTICS
-bool NamedValueSet::set (Identifier name, var&& newValue)
+bool NamedValueSet::set (const Identifier& name, var&& newValue)
 {
     if (var* const v = getVarPointer (name))
     {
@@ -154,7 +137,7 @@ bool NamedValueSet::set (Identifier name, var&& newValue)
 }
 #endif
 
-bool NamedValueSet::set (Identifier name, const var& newValue)
+bool NamedValueSet::set (const Identifier& name, const var& newValue)
 {
     if (var* const v = getVarPointer (name))
     {
@@ -216,7 +199,7 @@ const var& NamedValueSet::getValueAt (const int index) const noexcept
         return values.getReference (index).value;
 
     jassertfalse;
-    return var::null;
+    return getNullVarRef();
 }
 
 var* NamedValueSet::getVarPointerAt (int index) const noexcept

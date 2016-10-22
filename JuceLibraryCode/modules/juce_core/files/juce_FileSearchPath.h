@@ -2,7 +2,7 @@
   ==============================================================================
 
    This file is part of the juce_core module of the JUCE library.
-   Copyright (c) 2013 - Raw Material Software Ltd.
+   Copyright (c) 2015 - ROLI Ltd.
 
    Permission to use, copy, modify, and/or distribute this software for any purpose with
    or without fee is hereby granted, provided that the above copyright notice and this
@@ -92,8 +92,11 @@ public:
     void add (const File& directoryToAdd,
               int insertIndex = -1);
 
-    /** Adds a new directory to the search path if it's not already in there. */
-    void addIfNotAlreadyThere (const File& directoryToAdd);
+    /** Adds a new directory to the search path if it's not already in there.
+
+        @return true if the directory has been added, false otherwise.
+    */
+    bool addIfNotAlreadyThere (const File& directoryToAdd);
 
     /** Removes a directory from the search path. */
     void remove (int indexToRemove);

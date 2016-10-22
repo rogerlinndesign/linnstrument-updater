@@ -1,13 +1,38 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <JUCERPROJECT id="ibSWwr" name="LinnStrument Updater" projectType="guiapp"
-              version="1.4.2" bundleIdentifier="com.rogerlinndesign.linnstrument.Updater"
-              includeBinaryInAppConfig="1" jucerVersion="3.1.0" companyName="Roger Linn Design"
+              version="2.0.0" bundleIdentifier="com.rogerlinndesign.linnstrument.Updater"
+              includeBinaryInAppConfig="1" jucerVersion="4.2.4" companyName="Roger Linn Design"
               companyWebsite="http://www.rogerlinndesign.com" companyEmail="support@rogerlinndesign.com">
   <MAINGROUP id="AAWYcK" name="LinnStrument Updater">
     <GROUP id="{081FD492-2698-BE98-7252-D9D20BECB5C7}" name="Source">
+      <GROUP id="{4C6DAC94-C532-8101-23C2-22A39C7777AC}" name="Serial">
+        <GROUP id="{0B56586E-9A83-6799-6A85-D6C5A7343791}" name="impl">
+          <GROUP id="{14D68039-B234-2A7F-241F-BC28F154E3F1}" name="list_ports">
+            <FILE id="TOnGfE" name="list_ports_linux.cc" compile="1" resource="0"
+                  file="Source/Serial/impl/list_ports/list_ports_linux.cc"/>
+            <FILE id="YsTFEi" name="list_ports_osx.cc" compile="1" resource="0"
+                  file="Source/Serial/impl/list_ports/list_ports_osx.cc"/>
+            <FILE id="uCG21x" name="list_ports_win.cc" compile="1" resource="0"
+                  file="Source/Serial/impl/list_ports/list_ports_win.cc"/>
+          </GROUP>
+          <FILE id="mTbF2o" name="unix.cc" compile="1" resource="0" file="Source/Serial/impl/unix.cc"/>
+          <FILE id="jZuhrz" name="win.cc" compile="1" resource="0" file="Source/Serial/impl/win.cc"/>
+        </GROUP>
+        <GROUP id="{00CE7E81-0ED5-30B6-87B2-70173FA40F5C}" name="serial">
+          <GROUP id="{A3B15AAB-82C5-630F-7F17-A3CA9567DCA9}" name="impl">
+            <FILE id="UsCCpW" name="unix.h" compile="0" resource="0" file="Source/Serial/serial/impl/unix.h"/>
+            <FILE id="aoEa3t" name="win.h" compile="0" resource="0" file="Source/Serial/serial/impl/win.h"/>
+          </GROUP>
+          <FILE id="SRvXif" name="serial.h" compile="0" resource="0" file="Source/Serial/serial/serial.h"/>
+          <FILE id="DcDsbK" name="v8stdint.h" compile="0" resource="0" file="Source/Serial/serial/v8stdint.h"/>
+        </GROUP>
+        <FILE id="LZn0xI" name="serial.cc" compile="1" resource="0" file="Source/Serial/serial.cc"/>
+      </GROUP>
       <FILE id="YN4BdW" name="disphelper.c" compile="1" resource="0" file="Source/disphelper.c"/>
       <FILE id="fPE2k5" name="disphelper.h" compile="0" resource="0" file="Source/disphelper.h"/>
+      <FILE id="BMSMmW" name="LinnStrumentSerial.cpp" compile="1" resource="0"
+            file="Source/LinnStrumentSerial.cpp"/>
       <FILE id="FvWw9I" name="LinnStrumentSerial.h" compile="0" resource="0"
             file="Source/LinnStrumentSerial.h"/>
       <FILE id="CLCtHR" name="LinnStrumentSerialMac.cpp" compile="1" resource="0"
@@ -28,6 +53,10 @@
             file="Source/UpdaterApplication.cpp"/>
       <FILE id="mTh9n7" name="UpdaterApplication.h" compile="0" resource="0"
             file="Source/UpdaterApplication.h"/>
+      <FILE id="K6TwBF" name="UpgradeComponent.cpp" compile="1" resource="0"
+            file="Source/UpgradeComponent.cpp"/>
+      <FILE id="WPzTsE" name="UpgradeComponent.h" compile="0" resource="0"
+            file="Source/UpgradeComponent.h"/>
     </GROUP>
   </MAINGROUP>
   <EXPORTFORMATS>

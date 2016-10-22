@@ -1,3 +1,5 @@
+#if defined(__APPLE__)
+
 /*
  Copyright 2014 Roger Linn Design (www.rogerlinndesign.com)
  
@@ -233,11 +235,14 @@ static stDeviceListItem* GetSerialDevices()
     return devices;
 }
 
+void LinnStrumentSerialMac::resetDetection()
+{
+    linnstrumentDevice = String::empty;
+}
+
 bool LinnStrumentSerialMac::detect()
 {
-    if (!hasFirmwareFile()) return false;
-
-    linnstrumentDevice = String::empty;
+    resetDetection();
     
     stDeviceListItem* devices = GetSerialDevices();
     
@@ -399,3 +404,5 @@ void LinnStrumentSerialMac::timerCallback()
         }
     }
 }
+
+#endif
