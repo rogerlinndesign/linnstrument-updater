@@ -4,7 +4,7 @@
 
 #include <sstream>
 
-#include "serial/impl/win.h"
+#include "../serial/impl/win.h"
 
 using std::string;
 using std::wstring;

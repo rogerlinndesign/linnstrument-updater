@@ -27,4 +27,6 @@ BEGIN
   END
 END
 
+IDI_ICON1               ICON                    "icon1.ico"
+
 #endif

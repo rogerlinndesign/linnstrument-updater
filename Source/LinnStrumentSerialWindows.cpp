@@ -60,12 +60,12 @@ bool LinnStrumentSerialWindows::hasFirmwareFile()
     return firmwareFile.isNotEmpty();
 }
 
-void LinnStrumentSerialMac::resetDetection()
+void LinnStrumentSerialWindows::resetDetection()
 {
     linnstrumentDevice = String::empty;
 }
 
-bool LinnStrumentSerialMac::detect()
+bool LinnStrumentSerialWindows::detect()
 {
     resetDetection();
     
