@@ -2624,4 +2624,7 @@
       <Filter>Juce Library Code</Filter>
     </ResourceCompile>
   </ItemGroup>
+  <ItemGroup>
+    <Image Include="icon1.ico" />
+  </ItemGroup>
 </Project>
