@@ -51,7 +51,7 @@ public:
     
     void home();
     void findFirmware();
-    void continueWithFirmwareFile(const File& path);
+    void continueWithFirmwareFile(const File& file);
     void connectionWarning();
     void detectLinnStrument();
     void prepareDevice();
@@ -64,6 +64,9 @@ public:
     void showPrepareDevice(bool flag);
     void setUpgradeFailed();
     void showRetry(bool flag);
+    
+    bool saveProject(uint8_t number, const File& file);
+    
 
 private:
 

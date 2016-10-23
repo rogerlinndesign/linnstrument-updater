@@ -141,6 +141,38 @@ namespace {
     }
 }
 
+bool LinnStrumentSerial::findFirmwareFile()
+{
+    File current_app = File::getSpecialLocation(File::SpecialLocationType::currentApplicationFile);
+    File parent_dir = current_app.getParentDirectory();
+    Array<File> firmware_files;
+    parent_dir.findChildFiles(firmware_files, File::TypesOfFileToFind::findFiles, false, "*.bin");
+    if (firmware_files.size() > 0)
+    {
+        firmwareFile = firmware_files[0].getFullPathName();
+    }
+    
+    return hasFirmwareFile();
+}
+
+void LinnStrumentSerial::setFirmwareFile(const File& file)
+{
+    if (file.existsAsFile() && file.getFileExtension() == ".bin")
+    {
+        firmwareFile = file.getFullPathName();
+    }
+}
+
+bool LinnStrumentSerial::hasFirmwareFile()
+{
+    return firmwareFile.isNotEmpty();
+}
+
+void LinnStrumentSerial::resetDetection()
+{
+    linnstrumentDevice = String::empty;
+}
+
 bool LinnStrumentSerial::readSettings()
 {
     if (!isDetected()) return false;
@@ -263,7 +295,7 @@ bool LinnStrumentSerial::readSettings()
 					uint8_t requested = (uint8_t)std::min(remaining, batchsize);
                     size_t actual = linnSerial.read(dest, requested);
                     if (actual != requested) {
-                        std::cerr << "Couldn't retrieve the settings from device " << fullDevice << " (wrong batch length)" << std::endl;
+                        std::cerr << "Couldn't retrieve the project from device " << fullDevice << " (wrong batch length)" << std::endl;
                         return false;
                     }
                     
@@ -474,4 +506,109 @@ bool LinnStrumentSerial::restoreSettings()
 
 bool LinnStrumentSerial::hasSettings() {
     return settings.getSize() > 0;
+}
+
+bool LinnStrumentSerial::saveProject(uint8_t number, const File& file)
+{
+    if (!isDetected()) return false;
+    
+    try {
+        juce::String fullDevice = getFullLinnStrumentDevice();
+        const char* devicePort = fullDevice.toRawUTF8();
+        const std::string devicePortString(devicePort);
+        serial::Timeout timeout = serial::Timeout::simpleTimeout(3000);
+        serial::Serial linnSerial(devicePortString, 115200, timeout);
+        
+        if (!handshake(fullDevice, linnSerial)) {
+            return false;
+        }
+        
+        projects.reset();
+        
+        if (linnSerial.write("j") != 1) {
+            std::cerr << "Couldn't to give the send single project command to serial device " << fullDevice << std::endl;
+            return false;
+        }
+        
+        std::string ackCode = linnSerial.readline();
+        if (ackCode != "ACK\n") {
+            std::cerr << "Didn't receive the ACK code from serial device " << fullDevice << std::endl;
+            return false;
+        }
+        
+        if (linnSerial.write(&number, 1) != 1) {
+            std::cerr << "Couldn't write the index of the project to device " << fullDevice << std::endl;
+            return false;
+        }
+        
+        ackCode = linnSerial.readline();
+        if (ackCode != "ACK\n") {
+            std::cerr << "Didn't receive send project index ACK code from serial device " << fullDevice << std::endl;
+            return false;
+        }
+
+        uint8_t projectVersion;
+        if (linnSerial.read(&projectVersion, 1) != 1) {
+            std::cerr << "Couldn't retrieve the project version from device " << fullDevice << std::endl;
+            return false;
+        }
+        
+        if (linnSerial.read((uint8_t*)&projectSize, sizeof(int32_t)) != sizeof(int32_t)) {
+            std::cerr << "Couldn't retrieve the size of the project from device " << fullDevice << std::endl;
+            return false;
+        }
+        
+        projects.ensureSize(projectSize+1);
+        uint8_t* dest = (uint8_t*)projects.getData();
+        
+        dest[0] = projectVersion;
+        dest++;
+        
+        const int32_t batchsize = 96;
+        std::cout << "Reading project " << (int)number << " with version " << (int)projectVersion << " and a size of " << projectSize << std::endl;
+
+        int32_t remaining = projectSize;
+        while (remaining > 0) {
+            MessageManager::getInstance()->runDispatchLoopUntil(20);
+            uint8_t requested = (uint8_t)std::min(remaining, batchsize);
+            size_t actual = linnSerial.read(dest, requested);
+            if (actual != requested) {
+                std::cerr << "Couldn't retrieve the project from device " << fullDevice << " (wrong batch length)" << std::endl;
+                return false;
+            }
+            
+            int crc = negotiateIncomingCRC(linnSerial, fullDevice, dest, requested);
+            if (crc == -1)      return false;
+            else if (crc == 0)  continue;
+            
+            remaining -= actual;
+            dest += actual;
+        }
+        
+        ackCode = linnSerial.readline();
+        if (ackCode != "ACK\n") {
+            std::cerr << "Didn't receive send single project finish ACK code from serial device " << fullDevice << std::endl;
+            return false;
+        }
+        
+        FileOutputStream out(file);
+        out.write(projects.getData(), projects.getSize());
+        std::cout << "Read project " << (int)number << " from " << fullDevice << " with a size of " << projectSize << std::endl;
+        
+        projects.reset();
+    }
+    catch (serial::SerialException e) {
+        std::cerr << e.what() << std::endl;
+        return false;
+    }
+    catch (serial::IOException e) {
+        std::cerr << e.what() << std::endl;
+        return false;
+    }
+    catch (serial::PortNotOpenedException e) {
+        std::cerr << e.what() << std::endl;
+        return false;
+    }
+    
+    return true;
 }

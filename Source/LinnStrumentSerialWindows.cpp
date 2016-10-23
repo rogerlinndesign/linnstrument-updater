@@ -41,38 +41,6 @@ String LinnStrumentSerialWindows::getFullLinnStrumentDevice()
 	return linnstrumentDevice;
 }
 
-bool LinnStrumentSerialWindows::findFirmwareFile()
-{
-    File current_app = File::getSpecialLocation(File::SpecialLocationType::currentExecutableFile);
-    File parent_dir = current_app.getParentDirectory();
-    Array<File> firmware_files;
-    parent_dir.findChildFiles(firmware_files, File::TypesOfFileToFind::findFiles, false, "*.bin");
-    if (firmware_files.size() > 0)
-    {
-        firmwareFile = firmware_files[0].getFullPathName();
-    }
-    
-    return hasFirmwareFile();
-}
-
-void LinnStrumentSerialWindows::setFirmwareFile(const File& file)
-{
-    if (file.existsAsFile() && file.getFileExtension() == ".bin")
-    {
-        firmwareFile = file.getFullPathName();
-    }
-}
-
-bool LinnStrumentSerialWindows::hasFirmwareFile()
-{
-    return firmwareFile.isNotEmpty();
-}
-
-void LinnStrumentSerialWindows::resetDetection()
-{
-    linnstrumentDevice = String::empty;
-}
-
 bool LinnStrumentSerialWindows::detect()
 {
     resetDetection();

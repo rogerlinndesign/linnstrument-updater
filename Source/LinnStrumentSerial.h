@@ -21,19 +21,25 @@ public:
     virtual ~LinnStrumentSerial() {};
 
     virtual String getFullLinnStrumentDevice() = 0;
-    virtual bool findFirmwareFile() = 0;
-    virtual void setFirmwareFile(const File& file) = 0;
-    virtual bool hasFirmwareFile() = 0;
-    virtual void resetDetection() = 0;
     virtual bool detect() = 0;
     virtual bool isDetected() = 0;
     virtual bool prepareDevice() = 0;
     virtual bool performUpgrade() = 0;
-    virtual bool hasSettings();
     
+    bool findFirmwareFile();
+    void setFirmwareFile(const File& file);
+    bool hasFirmwareFile();
+    void resetDetection();
     bool readSettings();
     bool restoreSettings();
-    
+    bool hasSettings();
+
+    bool saveProject(uint8_t number, const File& file);
+
+protected:
+    String firmwareFile;
+    String linnstrumentDevice;
+ 
 private:
 	MemoryBlock settings;
     MemoryBlock projects;

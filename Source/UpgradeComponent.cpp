@@ -90,7 +90,7 @@ UpgradeComponent::UpgradeComponent ()
     resetUIState();
     //[/UserPreSize]
 
-    setSize (504, 150);
+    setSize (504, 130);
 
 
     //[Constructor] You can add your own custom stuff here..
@@ -267,7 +267,7 @@ BEGIN_JUCER_METADATA
 <JUCER_COMPONENT documentType="Component" className="UpgradeComponent" componentName=""
                  parentClasses="public Component" constructorParams="" variableInitialisers=""
                  snapPixels="8" snapActive="1" snapShown="1" overlayOpacity="0.330"
-                 fixedSize="1" initialWidth="504" initialHeight="150">
+                 fixedSize="1" initialWidth="504" initialHeight="130">
   <BACKGROUND backgroundColour="ffffffff"/>
   <LABEL name="progress label" id="25076abe0a4bd824" memberName="progressLabel_"
          virtualName="" explicitFocusOrder="0" pos="0Cc 88 328 24" edTextCol="ff000000"

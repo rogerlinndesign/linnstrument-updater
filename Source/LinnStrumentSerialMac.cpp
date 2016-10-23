@@ -43,33 +43,6 @@ String LinnStrumentSerialMac::getFullLinnStrumentDevice()
     return "/dev/"+linnstrumentDevice;
 }
 
-bool LinnStrumentSerialMac::findFirmwareFile()
-{
-    File current_app = File::getSpecialLocation(File::SpecialLocationType::currentApplicationFile);
-    File parent_dir = current_app.getParentDirectory();
-    Array<File> firmware_files;
-    parent_dir.findChildFiles(firmware_files, File::TypesOfFileToFind::findFiles, false, "*.bin");
-    if (firmware_files.size() > 0)
-    {
-        firmwareFile = firmware_files[0].getFullPathName();
-    }
-    
-    return hasFirmwareFile();
-}
-
-void LinnStrumentSerialMac::setFirmwareFile(const File& file)
-{
-    if (file.existsAsFile() && file.getFileExtension() == ".bin")
-    {
-        firmwareFile = file.getFullPathName();
-    }
-}
-
-bool LinnStrumentSerialMac::hasFirmwareFile()
-{
-    return firmwareFile.isNotEmpty();
-}
-
 typedef struct SerialDevice {
     char port[MAXPATHLEN];
     UInt16 vendorId;
@@ -241,11 +214,6 @@ static stDeviceListItem* GetSerialDevices()
     IOObjectRelease(serialPortIterator);  // Release the iterator.
     
     return devices;
-}
-
-void LinnStrumentSerialMac::resetDetection()
-{
-    linnstrumentDevice = String::empty;
 }
 
 bool LinnStrumentSerialMac::detect()

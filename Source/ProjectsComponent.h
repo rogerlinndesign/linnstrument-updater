@@ -35,9 +35,8 @@
                                                                     //[/Comments]
 */
 class ProjectsComponent  : public Component,
-                           public TextEditor::Listener,
-                           public ButtonListener,
-                           public ComboBoxListener
+                           public ComboBoxListener,
+                           public ButtonListener
 {
 public:
     //==============================================================================
@@ -46,27 +45,22 @@ public:
 
     //==============================================================================
     //[UserMethods]     -- You can add your own custom methods in this section.
-    void textEditorTextChanged (TextEditor&) override;
+    void setBusy(bool state);
     //[/UserMethods]
 
     void paint (Graphics& g) override;
     void resized() override;
-    void buttonClicked (Button* buttonThatWasClicked) override;
     void comboBoxChanged (ComboBox* comboBoxThatHasChanged) override;
+    void buttonClicked (Button* buttonThatWasClicked) override;
 
 
 
 private:
     //[UserVariables]   -- You can add your own custom variables in this section.
-    void chooseProjectFile();
     void checkTransferConditions();
     //[/UserVariables]
 
     //==============================================================================
-    ScopedPointer<TextButton> chooseProjectFileButton_;
-    ScopedPointer<TextEditor> projectFileEditor_;
-    ScopedPointer<Label> projectFileLabel_;
-    ScopedPointer<Label> projectNumberLabel_;
     ScopedPointer<ComboBox> projectNumberCombo_;
     ScopedPointer<TextButton> receiveButton_;
     ScopedPointer<TextButton> sendButton_;

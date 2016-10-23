@@ -24,18 +24,12 @@ public:
     void timerCallback() override;
     
     String getFullLinnStrumentDevice() override;
-    bool findFirmwareFile() override;
-    void setFirmwareFile(const File& file) override;
-    bool hasFirmwareFile() override;
-    void resetDetection() override;
     bool detect() override;
     bool isDetected() override;
     bool prepareDevice() override;
     bool performUpgrade() override;
     
 private:
-    String firmwareFile;
-    String linnstrumentDevice;
     ChildProcess upgradeChild;
     String upgradeOutput;
     bool upgradeVerificationPhase;

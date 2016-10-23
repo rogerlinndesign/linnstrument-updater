@@ -69,7 +69,7 @@ MainComponent::MainComponent ()
     updateFirmwareButton_->setEnabled(false);
     //[/UserPreSize]
 
-    setSize (600, 274);
+    setSize (600, 260);
 
 
     //[Constructor] You can add your own custom stuff here..
@@ -119,7 +119,7 @@ void MainComponent::resized()
     introLabel_->setBounds ((getWidth() / 2) - (504 / 2), 112, 504, 48);
     sequencerProjectsButton_->setBounds (176 - (192 / 2), 184, 192, 48);
     updateFirmwareButton_->setBounds (getWidth() - 176 - (192 / 2), 184, 192, 48);
-    projects_->setBounds ((getWidth() / 2) - (504 / 2), 96, 504, 150);
+    projects_->setBounds ((getWidth() / 2) - (504 / 2), 104, 504, 150);
     //[UserResized] Add your own custom resize handling here..
     //[/UserResized]
 }
@@ -196,7 +196,7 @@ BEGIN_JUCER_METADATA
 <JUCER_COMPONENT documentType="Component" className="MainComponent" componentName=""
                  parentClasses="public Component" constructorParams="" variableInitialisers=""
                  snapPixels="8" snapActive="1" snapShown="1" overlayOpacity="0.330"
-                 fixedSize="1" initialWidth="600" initialHeight="274">
+                 fixedSize="1" initialWidth="600" initialHeight="260">
   <BACKGROUND backgroundColour="ffffffff">
     <IMAGE pos="0Cc 20 175 68" resource="rogerlinndesign_png" opacity="1"
            mode="1"/>
@@ -218,7 +218,7 @@ BEGIN_JUCER_METADATA
               bgColOff="ffd0d0d0" bgColOn="ff868686" buttonText="Update Firmware"
               connectedEdges="0" needsCallback="1" radioGroupId="0"/>
   <GENERICCOMPONENT name="Projects component" id="6549823832b8ee63" memberName="projects_"
-                    virtualName="ProjectsComponent" explicitFocusOrder="0" pos="0Cc 96 504 150"
+                    virtualName="ProjectsComponent" explicitFocusOrder="0" pos="0Cc 104 504 150"
                     class="Component" params=""/>
 </JUCER_COMPONENT>
 

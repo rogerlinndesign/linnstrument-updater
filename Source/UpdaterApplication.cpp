@@ -289,3 +289,7 @@ void UpdaterApplication::showRetry(bool flag)
     getUpgradeComponent()->showRetry(flag);
 }
 
+bool UpdaterApplication::saveProject(uint8_t number, const File& file)
+{
+    linnStrumentSerial->saveProject(number, file);
+}
