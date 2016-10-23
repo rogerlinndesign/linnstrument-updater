@@ -183,9 +183,9 @@ void UpdaterApplication::handleMessage(const juce::Message &message)
 
             if (linnStrumentSerial->restoreSettings())
             {
-                getUpgradeComponent()->setLabelText("All done!", false);
+                getUpgradeComponent()->setLabelText("The firmware update is finished!", false);
                 getUpgradeComponent()->setProgressText("");
-                getUpgradeComponent()->showGoBack(true);
+                getUpgradeComponent()->showQuit(true);
             }
             else
             {
@@ -195,7 +195,7 @@ void UpdaterApplication::handleMessage(const juce::Message &message)
                 }
                 else {
                     getUpgradeComponent()->setLabelText("The LinnStrument firmware has been upgraded.\n\nPlease perform the calibration by carefully sliding over the light guides.", false);
-                    getUpgradeComponent()->showGoBack(true);
+                    getUpgradeComponent()->showQuit(true);
                 }
                 UpdaterApplication::getApp().setProgressText("");
             }

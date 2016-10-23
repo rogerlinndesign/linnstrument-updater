@@ -346,6 +346,18 @@ bool LinnStrumentSerial::restoreSettings()
                     return false;
                 }
                 
+                uint8_t version = settings[0];
+                if (linnSerial.write(&version, 1) != 1) {
+                    std::cerr << "Couldn't write the version of the project to device " << fullDevice << std::endl;
+                    return false;
+                }
+                
+                ackCode = linnSerial.readline();
+                if (ackCode != "ACK\n") {
+                    std::cerr << "Didn't receive restore project version ACK code from serial device " << fullDevice << std::endl;
+                    return false;
+                }
+                
                 if (linnSerial.write((uint8_t*)&projectSize, 4) != 4) {
                     std::cerr << "Couldn't write the size of the project to device " << fullDevice << std::endl;
                     return false;

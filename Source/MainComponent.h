@@ -30,6 +30,7 @@
  To view a copy of this license, visit http://creativecommons.org/licenses/by-sa/3.0/
  or send a letter to Creative Commons, PO Box 1866, Mountain View, CA 94042, USA.
 */
+#include "ProjectsComponent.h"
 #include "UpgradeComponent.h"
 #include "JuceHeader.h"
 //[/Headers]
@@ -55,6 +56,7 @@ public:
     //==============================================================================
     //[UserMethods]     -- You can add your own custom methods in this section.
     void setIntroText(const String& text, bool enableButton);
+    ProjectsComponent* getProjectsComponent();
     UpgradeComponent* getUpgradeComponent();
     void setButtonsEnabled(bool enabled);
     //[/UserMethods]
@@ -77,6 +79,7 @@ private:
     ScopedPointer<Label> introLabel_;
     ScopedPointer<TextButton> sequencerProjectsButton_;
     ScopedPointer<TextButton> updateFirmwareButton_;
+    ScopedPointer<ProjectsComponent> projects_;
     Image cachedImage_rogerlinndesign_png_1;
 
 

@@ -49,6 +49,10 @@
       <FILE id="JFBGdV" name="MainComponent.h" compile="0" resource="0" file="Source/MainComponent.h"/>
       <FILE id="IETGnj" name="MainWindow.cpp" compile="1" resource="0" file="Source/MainWindow.cpp"/>
       <FILE id="qtSEY3" name="MainWindow.h" compile="0" resource="0" file="Source/MainWindow.h"/>
+      <FILE id="Lav1O0" name="ProjectsComponent.cpp" compile="1" resource="0"
+            file="Source/ProjectsComponent.cpp"/>
+      <FILE id="onTTv3" name="ProjectsComponent.h" compile="0" resource="0"
+            file="Source/ProjectsComponent.h"/>
       <FILE id="riaUP9" name="UpdaterApplication.cpp" compile="1" resource="0"
             file="Source/UpdaterApplication.cpp"/>
       <FILE id="mTh9n7" name="UpdaterApplication.h" compile="0" resource="0"

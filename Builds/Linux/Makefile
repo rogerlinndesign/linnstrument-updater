@@ -70,6 +70,7 @@ OBJECTS := \
   $(JUCE_OBJDIR)/Main_90ebc5c2.o \
   $(JUCE_OBJDIR)/MainComponent_a6ffb4a5.o \
   $(JUCE_OBJDIR)/MainWindow_499ac812.o \
+  $(JUCE_OBJDIR)/ProjectsComponent_9939ad84.o \
   $(JUCE_OBJDIR)/UpdaterApplication_52906ad0.o \
   $(JUCE_OBJDIR)/UpgradeComponent_f099604a.o \
   $(JUCE_OBJDIR)/juce_core_75b14332.o \
@@ -163,6 +164,11 @@ $(JUCE_OBJDIR)/MainComponent_a6ffb4a5.o: ../../Source/MainComponent.cpp
 $(JUCE_OBJDIR)/MainWindow_499ac812.o: ../../Source/MainWindow.cpp
 	-@mkdir -p $(JUCE_OBJDIR)
 	@echo "Compiling MainWindow.cpp"
+	@$(CXX) $(JUCE_CXXFLAGS) -o "$@" -c "$<"
+
+$(JUCE_OBJDIR)/ProjectsComponent_9939ad84.o: ../../Source/ProjectsComponent.cpp
+	-@mkdir -p $(JUCE_OBJDIR)
+	@echo "Compiling ProjectsComponent.cpp"
 	@$(CXX) $(JUCE_CXXFLAGS) -o "$@" -c "$<"
 
 $(JUCE_OBJDIR)/UpdaterApplication_52906ad0.o: ../../Source/UpdaterApplication.cpp

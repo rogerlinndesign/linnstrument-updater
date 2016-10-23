@@ -56,16 +56,20 @@ MainComponent::MainComponent ()
     updateFirmwareButton_->setColour (TextButton::buttonColourId, Colour (0xffd0d0d0));
     updateFirmwareButton_->setColour (TextButton::buttonOnColourId, Colour (0xff868686));
 
+    addAndMakeVisible (projects_ = new ProjectsComponent());
+    projects_->setName ("Projects component");
+
     cachedImage_rogerlinndesign_png_1 = ImageCache::getFromMemory (rogerlinndesign_png, rogerlinndesign_pngSize);
 
     //[UserPreSize]
     introLabel_->setVisible(true);
+    projects_->setVisible(false);
     upgrade_->setVisible(false);
     sequencerProjectsButton_->setEnabled(false);
     updateFirmwareButton_->setEnabled(false);
     //[/UserPreSize]
 
-    setSize (600, 254);
+    setSize (600, 274);
 
 
     //[Constructor] You can add your own custom stuff here..
@@ -81,6 +85,7 @@ MainComponent::~MainComponent()
     introLabel_ = nullptr;
     sequencerProjectsButton_ = nullptr;
     updateFirmwareButton_ = nullptr;
+    projects_ = nullptr;
 
 
     //[Destructor]. You can add your own custom destruction code here..
@@ -110,10 +115,11 @@ void MainComponent::resized()
     //[UserPreResize] Add your own custom resize code here..
     //[/UserPreResize]
 
-    upgrade_->setBounds ((getWidth() / 2) - (504 / 2), 104, 504, 126);
+    upgrade_->setBounds ((getWidth() / 2) - (504 / 2), 104, 504, 130);
     introLabel_->setBounds ((getWidth() / 2) - (504 / 2), 112, 504, 48);
     sequencerProjectsButton_->setBounds (176 - (192 / 2), 184, 192, 48);
     updateFirmwareButton_->setBounds (getWidth() - 176 - (192 / 2), 184, 192, 48);
+    projects_->setBounds ((getWidth() / 2) - (504 / 2), 96, 504, 150);
     //[UserResized] Add your own custom resize handling here..
     //[/UserResized]
 }
@@ -129,6 +135,7 @@ void MainComponent::buttonClicked (Button* buttonThatWasClicked)
     if (buttonThatWasClicked == sequencerProjectsButton_)
     {
         //[UserButtonCode_sequencerProjectsButton_] -- add your button handler code here..
+        projects_->setVisible(true);
         //[/UserButtonCode_sequencerProjectsButton_]
     }
     else if (buttonThatWasClicked == updateFirmwareButton_)
@@ -148,6 +155,7 @@ void MainComponent::buttonClicked (Button* buttonThatWasClicked)
 //[MiscUserCode] You can add your own definitions of your custom methods or any other code here...
 void MainComponent::setIntroText(const String& text, bool enableButton)
 {
+    projects_->setVisible(false);
     upgrade_->setVisible(false);
 
     introLabel_->setVisible(true);
@@ -155,6 +163,11 @@ void MainComponent::setIntroText(const String& text, bool enableButton)
     updateFirmwareButton_->setVisible(true);
 
     introLabel_->setText(text, NotificationType::sendNotificationAsync);
+}
+
+ProjectsComponent* MainComponent::getProjectsComponent()
+{
+    return projects_;
 }
 
 UpgradeComponent* MainComponent::getUpgradeComponent()
@@ -183,13 +196,13 @@ BEGIN_JUCER_METADATA
 <JUCER_COMPONENT documentType="Component" className="MainComponent" componentName=""
                  parentClasses="public Component" constructorParams="" variableInitialisers=""
                  snapPixels="8" snapActive="1" snapShown="1" overlayOpacity="0.330"
-                 fixedSize="1" initialWidth="600" initialHeight="254">
+                 fixedSize="1" initialWidth="600" initialHeight="274">
   <BACKGROUND backgroundColour="ffffffff">
     <IMAGE pos="0Cc 20 175 68" resource="rogerlinndesign_png" opacity="1"
            mode="1"/>
   </BACKGROUND>
   <GENERICCOMPONENT name="upgrade component" id="4ccd819bce1b4a8" memberName="upgrade_"
-                    virtualName="UpgradeComponent" explicitFocusOrder="0" pos="0Cc 104 504 126"
+                    virtualName="UpgradeComponent" explicitFocusOrder="0" pos="0Cc 104 504 130"
                     class="Component" params=""/>
   <LABEL name="intro label" id="62da816b2e6b995a" memberName="introLabel_"
          virtualName="" explicitFocusOrder="0" pos="0Cc 112 504 48" edTextCol="ff000000"
@@ -204,6 +217,9 @@ BEGIN_JUCER_METADATA
               virtualName="" explicitFocusOrder="0" pos="176Rc 184 192 48"
               bgColOff="ffd0d0d0" bgColOn="ff868686" buttonText="Update Firmware"
               connectedEdges="0" needsCallback="1" radioGroupId="0"/>
+  <GENERICCOMPONENT name="Projects component" id="6549823832b8ee63" memberName="projects_"
+                    virtualName="ProjectsComponent" explicitFocusOrder="0" pos="0Cc 96 504 150"
+                    class="Component" params=""/>
 </JUCER_COMPONENT>
 
 END_JUCER_METADATA

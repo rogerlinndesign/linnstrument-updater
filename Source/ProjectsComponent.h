@@ -17,20 +17,11 @@
   ==============================================================================
 */
 
-#ifndef __JUCE_HEADER_98D955BBF337B26__
-#define __JUCE_HEADER_98D955BBF337B26__
+#ifndef __JUCE_HEADER_21BE87E8D8D11C1E__
+#define __JUCE_HEADER_21BE87E8D8D11C1E__
 
 //[Headers]     -- You can add your own extra header files here --
-/*
- Copyright 2014 Roger Linn Design (www.rogerlinndesign.com)
-
- Written by Geert Bevin (http://gbevin.com).
-
- This work is licensed under the Creative Commons Attribution-ShareAlike 3.0 Unported License.
- To view a copy of this license, visit http://creativecommons.org/licenses/by-sa/3.0/
- or send a letter to Creative Commons, PO Box 1866, Mountain View, CA 94042, USA.
-*/
-#include "JuceHeader.h"
+#include "../JuceLibraryCode/JuceHeader.h"
 //[/Headers]
 
 
@@ -38,60 +29,55 @@
 //==============================================================================
 /**
                                                                     //[Comments]
-    An auto-generated component, created by the Introjucer.
+    An auto-generated component, created by the Projucer.
 
     Describe your class and how it works here!
                                                                     //[/Comments]
 */
-class UpgradeComponent  : public Component,
-                          public ButtonListener
+class ProjectsComponent  : public Component,
+                           public TextEditor::Listener,
+                           public ButtonListener,
+                           public ComboBoxListener
 {
 public:
     //==============================================================================
-    UpgradeComponent ();
-    ~UpgradeComponent();
+    ProjectsComponent ();
+    ~ProjectsComponent();
 
     //==============================================================================
     //[UserMethods]     -- You can add your own custom methods in this section.
-    void setLabelText(const String& text, bool enableButton);
-    void setProgressText(const String& text);
-    void showGoAhead(bool flag);
-    void showSelectFirmware(bool flag);
-    void showPrepareDevice(bool flag);
-    void showRetry(bool flag);
-    void showQuit(bool flag);
-    void resetUIState();
+    void textEditorTextChanged (TextEditor&) override;
     //[/UserMethods]
 
     void paint (Graphics& g) override;
     void resized() override;
     void buttonClicked (Button* buttonThatWasClicked) override;
+    void comboBoxChanged (ComboBox* comboBoxThatHasChanged) override;
 
-    // Binary resources:
-    static const char* rogerlinndesign_png;
-    static const int rogerlinndesign_pngSize;
 
 
 private:
     //[UserVariables]   -- You can add your own custom variables in this section.
+    void chooseProjectFile();
+    void checkTransferConditions();
     //[/UserVariables]
 
     //==============================================================================
-    ScopedPointer<Label> progressLabel_;
-    ScopedPointer<TextButton> goAheadButton_;
-    ScopedPointer<TextButton> selectFirmwareButton_;
-    ScopedPointer<TextButton> updateButton_;
-    ScopedPointer<TextButton> retryButton_;
-    ScopedPointer<TextButton> goAheadDefaultSettingsButton_;
-    ScopedPointer<Label> linnstrumentLabel_;
-    ScopedPointer<TextButton> quitButton_;
+    ScopedPointer<TextButton> chooseProjectFileButton_;
+    ScopedPointer<TextEditor> projectFileEditor_;
+    ScopedPointer<Label> projectFileLabel_;
+    ScopedPointer<Label> projectNumberLabel_;
+    ScopedPointer<ComboBox> projectNumberCombo_;
+    ScopedPointer<TextButton> receiveButton_;
+    ScopedPointer<TextButton> sendButton_;
+    ScopedPointer<Label> introLabel_;
 
 
     //==============================================================================
-    JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (UpgradeComponent)
+    JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (ProjectsComponent)
 };
 
 //[EndFile] You can add extra defines here...
 //[/EndFile]
 
-#endif   // __JUCE_HEADER_98D955BBF337B26__
+#endif   // __JUCE_HEADER_21BE87E8D8D11C1E__
