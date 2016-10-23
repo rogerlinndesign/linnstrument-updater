@@ -57,6 +57,14 @@ bool LinnStrumentSerialMac::findFirmwareFile()
     return hasFirmwareFile();
 }
 
+void LinnStrumentSerialMac::setFirmwareFile(const File& file)
+{
+    if (file.existsAsFile() && file.getFileExtension() == ".bin")
+    {
+        firmwareFile = file.getFullPathName();
+    }
+}
+
 bool LinnStrumentSerialMac::hasFirmwareFile()
 {
     return firmwareFile.isNotEmpty();

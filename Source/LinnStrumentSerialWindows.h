@@ -25,6 +25,7 @@ public:
     
     String getFullLinnStrumentDevice() override;
     bool findFirmwareFile() override;
+    void setFirmwareFile(const File& file) override;
     bool hasFirmwareFile() override;
     void resetDetection() override;
     bool detect() override;

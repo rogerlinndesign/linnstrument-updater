@@ -122,8 +122,9 @@ void UpdaterApplication::handleMessage(const juce::Message &message)
             }
             else
             {
-                getUpgradeComponent()->setLabelText("No firmware file could be found in the same directory as the updater tool.", false);
-                startTimer(300);
+                getUpgradeComponent()->setLabelText("Please select which firmware file to use.", false);
+                getUpgradeComponent()->setProgressText("");
+                getUpgradeComponent()->showSelectFirmware(true);
             }
             break;
         }
@@ -227,6 +228,12 @@ void UpdaterApplication::findFirmware()
     postMessage(new ApplicationMessage(ApplicationMessageType::findFirmware, (void *)nullptr));
 }
 
+void UpdaterApplication::continueWithFirmwareFile(const File& file)
+{
+    linnStrumentSerial->setFirmwareFile(file);
+    findFirmware();
+}
+
 void UpdaterApplication::detectLinnStrument()
 {
     postMessage(new ApplicationMessage(ApplicationMessageType::detectLinnStrument, (void *)nullptr));
@@ -250,6 +257,22 @@ void UpdaterApplication::retry() {
     postMessage(new ApplicationMessage(ApplicationMessageType::restoreSettings, (void *)nullptr));
 }
 
+void UpdaterApplication::setLabelText(const String& text)
+{
+    if (getUpgradeComponent()->isVisible())
+    {
+        getUpgradeComponent()->setLabelText(text, false);
+    }
+}
+
+void UpdaterApplication::setProgressText(const String& text)
+{
+    if (getUpgradeComponent()->isVisible())
+    {
+        getUpgradeComponent()->setProgressText(text);
+    }
+}
+
 void UpdaterApplication::showPrepareDevice(bool flag)
 {
     getUpgradeComponent()->showPrepareDevice(flag);
@@ -259,11 +282,6 @@ void UpdaterApplication::setUpgradeFailed()
 {
     getUpgradeComponent()->setLabelText("The firmware upgrade failed.\nPlease reconnect LinnStrument, quit and restart the updater.", false);
     getUpgradeComponent()->setProgressText("");
-}
-
-void UpdaterApplication::setProgressText(const String& text)
-{
-    getUpgradeComponent()->setProgressText(text);
 }
 
 void UpdaterApplication::showRetry(bool flag)

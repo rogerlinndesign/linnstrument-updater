@@ -73,16 +73,24 @@ UpgradeComponent::UpgradeComponent ()
     goBackButton_->setColour (TextButton::buttonColourId, Colour (0xffd0d0d0));
     goBackButton_->setColour (TextButton::buttonOnColourId, Colour (0xff868686));
 
+    addAndMakeVisible (goAheadButton_ = new TextButton ("go ahead button"));
+    goAheadButton_->setButtonText (TRANS("Go Ahead"));
+    goAheadButton_->addListener (this);
+    goAheadButton_->setColour (TextButton::buttonColourId, Colour (0xffd0d0d0));
+    goAheadButton_->setColour (TextButton::buttonOnColourId, Colour (0xff868686));
+
+    addAndMakeVisible (selectFirmwareButton_ = new TextButton ("select firmware button"));
+    selectFirmwareButton_->setButtonText (TRANS("Select Firmware File"));
+    selectFirmwareButton_->addListener (this);
+    selectFirmwareButton_->setColour (TextButton::buttonColourId, Colour (0xffd0d0d0));
+    selectFirmwareButton_->setColour (TextButton::buttonOnColourId, Colour (0xff868686));
+
 
     //[UserPreSize]
-    updateButton_->setVisible(false);
-    updateButton_->setEnabled(false);
-    retryButton_->setVisible(false);
-    goAheadDefaultSettingsButton_->setVisible(false);
-    goBackButton_->setVisible(false);
+    resetUIState();
     //[/UserPreSize]
 
-    setSize (360, 130);
+    setSize (504, 130);
 
 
     //[Constructor] You can add your own custom stuff here..
@@ -100,6 +108,8 @@ UpgradeComponent::~UpgradeComponent()
     goAheadDefaultSettingsButton_ = nullptr;
     linnstrumentLabel_ = nullptr;
     goBackButton_ = nullptr;
+    goAheadButton_ = nullptr;
+    selectFirmwareButton_ = nullptr;
 
 
     //[Destructor]. You can add your own custom destruction code here..
@@ -127,8 +137,10 @@ void UpgradeComponent::resized()
     updateButton_->setBounds ((getWidth() / 2) - (136 / 2), 88, 136, 24);
     retryButton_->setBounds ((getWidth() / 2) - (136 / 2), 88, 136, 24);
     goAheadDefaultSettingsButton_->setBounds ((getWidth() / 2) - (216 / 2), 88, 216, 24);
-    linnstrumentLabel_->setBounds ((getWidth() / 2) - (328 / 2), 8, 328, 64);
+    linnstrumentLabel_->setBounds ((getWidth() / 2) - (504 / 2), 8, 504, 64);
     goBackButton_->setBounds ((getWidth() / 2) - (80 / 2), 88, 80, 24);
+    goAheadButton_->setBounds ((getWidth() / 2) - (136 / 2), 88, 136, 24);
+    selectFirmwareButton_->setBounds ((getWidth() / 2) - (180 / 2), 88, 180, 24);
     //[UserResized] Add your own custom resize handling here..
     //[/UserResized]
 }
@@ -160,13 +172,30 @@ void UpgradeComponent::buttonClicked (Button* buttonThatWasClicked)
     else if (buttonThatWasClicked == goBackButton_)
     {
         //[UserButtonCode_goBackButton_] -- add your button handler code here..
-        updateButton_->setVisible(false);
-        updateButton_->setEnabled(false);
-        retryButton_->setVisible(false);
-        goAheadDefaultSettingsButton_->setVisible(false);
-        goBackButton_->setVisible(false);
+        resetUIState();
         UpdaterApplication::getApp().home();
         //[/UserButtonCode_goBackButton_]
+    }
+    else if (buttonThatWasClicked == goAheadButton_)
+    {
+        //[UserButtonCode_goAheadButton_] -- add your button handler code here..
+        goAheadButton_->setVisible(false);
+        UpdaterApplication::getApp().findFirmware();
+        //[/UserButtonCode_goAheadButton_]
+    }
+    else if (buttonThatWasClicked == selectFirmwareButton_)
+    {
+        //[UserButtonCode_selectFirmwareButton_] -- add your button handler code here..
+        FileChooser fc("Choose which firmware file to use...",
+                       File::getCurrentWorkingDirectory(),
+                       "*.bin",
+                       true);
+        if (fc.browseForFileToOpen())
+        {
+          selectFirmwareButton_->setVisible(false);
+          UpdaterApplication::getApp().continueWithFirmwareFile(fc.getResult());
+        }
+        //[/UserButtonCode_selectFirmwareButton_]
     }
 
     //[UserbuttonClicked_Post]
@@ -176,6 +205,17 @@ void UpgradeComponent::buttonClicked (Button* buttonThatWasClicked)
 
 
 //[MiscUserCode] You can add your own definitions of your custom methods or any other code here...
+void UpgradeComponent::resetUIState()
+{
+  goAheadButton_->setVisible(true);
+  updateButton_->setVisible(false);
+  updateButton_->setEnabled(false);
+  retryButton_->setVisible(false);
+  goAheadDefaultSettingsButton_->setVisible(false);
+  goBackButton_->setVisible(false);
+  selectFirmwareButton_->setVisible(false);
+}
+
 void UpgradeComponent::setLabelText(const String& text, bool enableButton)
 {
     linnstrumentLabel_->setText(text, NotificationType::sendNotificationAsync);
@@ -185,6 +225,16 @@ void UpgradeComponent::setLabelText(const String& text, bool enableButton)
 void UpgradeComponent::setProgressText(const String& text)
 {
     progressLabel_->setText(text, NotificationType::sendNotificationAsync);
+}
+
+void UpgradeComponent::showGoAhead(bool flag)
+{
+    goAheadButton_->setVisible(flag);
+}
+
+void UpgradeComponent::showSelectFirmware(bool flag)
+{
+    selectFirmwareButton_->setVisible(flag);
 }
 
 void UpgradeComponent::showPrepareDevice(bool flag)
@@ -218,7 +268,7 @@ BEGIN_JUCER_METADATA
 <JUCER_COMPONENT documentType="Component" className="UpgradeComponent" componentName=""
                  parentClasses="public Component" constructorParams="" variableInitialisers=""
                  snapPixels="8" snapActive="1" snapShown="1" overlayOpacity="0.330"
-                 fixedSize="1" initialWidth="360" initialHeight="130">
+                 fixedSize="1" initialWidth="504" initialHeight="130">
   <BACKGROUND backgroundColour="ffffffff"/>
   <LABEL name="progress label" id="25076abe0a4bd824" memberName="progressLabel_"
          virtualName="" explicitFocusOrder="0" pos="0Cc 88 328 24" edTextCol="ff000000"
@@ -238,7 +288,7 @@ BEGIN_JUCER_METADATA
               bgColOn="ff868686" buttonText="Go ahead with default settings"
               connectedEdges="0" needsCallback="1" radioGroupId="0"/>
   <LABEL name="linnstrument label" id="62da816b2e6b995a" memberName="linnstrumentLabel_"
-         virtualName="" explicitFocusOrder="0" pos="0Cc 8 328 64" edTextCol="ff000000"
+         virtualName="" explicitFocusOrder="0" pos="0Cc 8 504 64" edTextCol="ff000000"
          edBkgCol="0" labelText="" editableSingleClick="0" editableDoubleClick="0"
          focusDiscardsChanges="0" fontname="Default font" fontsize="15"
          bold="0" italic="0" justification="36"/>
@@ -246,6 +296,14 @@ BEGIN_JUCER_METADATA
               virtualName="" explicitFocusOrder="0" pos="0Cc 88 80 24" bgColOff="ffd0d0d0"
               bgColOn="ff868686" buttonText="OK" connectedEdges="0" needsCallback="1"
               radioGroupId="0"/>
+  <TEXTBUTTON name="go ahead button" id="2925c0dd21a74d6b" memberName="goAheadButton_"
+              virtualName="" explicitFocusOrder="0" pos="0Cc 88 136 24" bgColOff="ffd0d0d0"
+              bgColOn="ff868686" buttonText="Go Ahead" connectedEdges="0" needsCallback="1"
+              radioGroupId="0"/>
+  <TEXTBUTTON name="select firmware button" id="23a2d05f189cfbea" memberName="selectFirmwareButton_"
+              virtualName="" explicitFocusOrder="0" pos="0Cc 88 180 24" bgColOff="ffd0d0d0"
+              bgColOn="ff868686" buttonText="Select Firmware File" connectedEdges="0"
+              needsCallback="1" radioGroupId="0"/>
 </JUCER_COMPONENT>
 
 END_JUCER_METADATA

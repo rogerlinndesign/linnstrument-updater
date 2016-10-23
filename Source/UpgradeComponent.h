@@ -55,9 +55,12 @@ public:
     //[UserMethods]     -- You can add your own custom methods in this section.
     void setLabelText(const String& text, bool enableButton);
     void setProgressText(const String& text);
+    void showGoAhead(bool flag);
+    void showSelectFirmware(bool flag);
     void showPrepareDevice(bool flag);
     void showRetry(bool flag);
     void showGoBack(bool flag);
+    void resetUIState();
     //[/UserMethods]
 
     void paint (Graphics& g) override;
@@ -80,6 +83,8 @@ private:
     ScopedPointer<TextButton> goAheadDefaultSettingsButton_;
     ScopedPointer<Label> linnstrumentLabel_;
     ScopedPointer<TextButton> goBackButton_;
+    ScopedPointer<TextButton> goAheadButton_;
+    ScopedPointer<TextButton> selectFirmwareButton_;
 
 
     //==============================================================================

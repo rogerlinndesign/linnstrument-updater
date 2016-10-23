@@ -44,17 +44,11 @@ MainComponent::MainComponent ()
     introLabel_->setColour (TextEditor::textColourId, Colours::black);
     introLabel_->setColour (TextEditor::backgroundColourId, Colour (0x00000000));
 
-    addAndMakeVisible (saveProjectButton_ = new TextButton ("save project button"));
-    saveProjectButton_->setButtonText (TRANS("Save Project"));
-    saveProjectButton_->addListener (this);
-    saveProjectButton_->setColour (TextButton::buttonColourId, Colour (0xffd0d0d0));
-    saveProjectButton_->setColour (TextButton::buttonOnColourId, Colour (0xff868686));
-
-    addAndMakeVisible (loadProjectButton_ = new TextButton ("load project button"));
-    loadProjectButton_->setButtonText (TRANS("Load Project"));
-    loadProjectButton_->addListener (this);
-    loadProjectButton_->setColour (TextButton::buttonColourId, Colour (0xffd0d0d0));
-    loadProjectButton_->setColour (TextButton::buttonOnColourId, Colour (0xff868686));
+    addAndMakeVisible (sequencerProjectsButton_ = new TextButton ("sequencer projects button"));
+    sequencerProjectsButton_->setButtonText (TRANS("Sequencer Projects"));
+    sequencerProjectsButton_->addListener (this);
+    sequencerProjectsButton_->setColour (TextButton::buttonColourId, Colour (0xffd0d0d0));
+    sequencerProjectsButton_->setColour (TextButton::buttonOnColourId, Colour (0xff868686));
 
     addAndMakeVisible (updateFirmwareButton_ = new TextButton ("update firmware button"));
     updateFirmwareButton_->setButtonText (TRANS("Update Firmware"));
@@ -67,8 +61,7 @@ MainComponent::MainComponent ()
     //[UserPreSize]
     introLabel_->setVisible(true);
     upgrade_->setVisible(false);
-    saveProjectButton_->setEnabled(false);
-    loadProjectButton_->setEnabled(false);
+    sequencerProjectsButton_->setEnabled(false);
     updateFirmwareButton_->setEnabled(false);
     //[/UserPreSize]
 
@@ -86,8 +79,7 @@ MainComponent::~MainComponent()
 
     upgrade_ = nullptr;
     introLabel_ = nullptr;
-    saveProjectButton_ = nullptr;
-    loadProjectButton_ = nullptr;
+    sequencerProjectsButton_ = nullptr;
     updateFirmwareButton_ = nullptr;
 
 
@@ -118,11 +110,10 @@ void MainComponent::resized()
     //[UserPreResize] Add your own custom resize code here..
     //[/UserPreResize]
 
-    upgrade_->setBounds ((getWidth() / 2) - (536 / 2), 104, 536, 126);
+    upgrade_->setBounds ((getWidth() / 2) - (504 / 2), 104, 504, 126);
     introLabel_->setBounds ((getWidth() / 2) - (504 / 2), 112, 504, 48);
-    saveProjectButton_->setBounds (112 - (160 / 2), 180, 160, 48);
-    loadProjectButton_->setBounds ((getWidth() / 2) - (160 / 2), 180, 160, 48);
-    updateFirmwareButton_->setBounds (getWidth() - 112 - (160 / 2), 180, 160, 48);
+    sequencerProjectsButton_->setBounds (176 - (192 / 2), 184, 192, 48);
+    updateFirmwareButton_->setBounds (getWidth() - 176 - (192 / 2), 184, 192, 48);
     //[UserResized] Add your own custom resize handling here..
     //[/UserResized]
 }
@@ -131,26 +122,20 @@ void MainComponent::buttonClicked (Button* buttonThatWasClicked)
 {
     //[UserbuttonClicked_Pre]
     introLabel_->setVisible(false);
-    saveProjectButton_->setVisible(false);
-    loadProjectButton_->setVisible(false);
+    sequencerProjectsButton_->setVisible(false);
     updateFirmwareButton_->setVisible(false);
     //[/UserbuttonClicked_Pre]
 
-    if (buttonThatWasClicked == saveProjectButton_)
+    if (buttonThatWasClicked == sequencerProjectsButton_)
     {
-        //[UserButtonCode_saveProjectButton_] -- add your button handler code here..
-        //[/UserButtonCode_saveProjectButton_]
-    }
-    else if (buttonThatWasClicked == loadProjectButton_)
-    {
-        //[UserButtonCode_loadProjectButton_] -- add your button handler code here..
-        //[/UserButtonCode_loadProjectButton_]
+        //[UserButtonCode_sequencerProjectsButton_] -- add your button handler code here..
+        //[/UserButtonCode_sequencerProjectsButton_]
     }
     else if (buttonThatWasClicked == updateFirmwareButton_)
     {
         //[UserButtonCode_updateFirmwareButton_] -- add your button handler code here..
         upgrade_->setVisible(true);
-        UpdaterApplication::getApp().findFirmware();
+        UpdaterApplication::getApp().setLabelText("You're about to upgrade the firmware of LinnStrument!\nDO NOT use a USB hub, DISCONNECT all other USB devices and\nQUIT all other applications!");
         //[/UserButtonCode_updateFirmwareButton_]
     }
 
@@ -164,12 +149,11 @@ void MainComponent::buttonClicked (Button* buttonThatWasClicked)
 void MainComponent::setIntroText(const String& text, bool enableButton)
 {
     upgrade_->setVisible(false);
-    
+
     introLabel_->setVisible(true);
-    saveProjectButton_->setVisible(true);
-    loadProjectButton_->setVisible(true);
+    sequencerProjectsButton_->setVisible(true);
     updateFirmwareButton_->setVisible(true);
-    
+
     introLabel_->setText(text, NotificationType::sendNotificationAsync);
 }
 
@@ -180,8 +164,7 @@ UpgradeComponent* MainComponent::getUpgradeComponent()
 
 void MainComponent::setButtonsEnabled(bool enabled)
 {
-    saveProjectButton_->setEnabled(enabled);
-    loadProjectButton_->setEnabled(enabled);
+    sequencerProjectsButton_->setEnabled(enabled);
     updateFirmwareButton_->setEnabled(enabled);
 }
 
@@ -206,23 +189,19 @@ BEGIN_JUCER_METADATA
            mode="1"/>
   </BACKGROUND>
   <GENERICCOMPONENT name="upgrade component" id="4ccd819bce1b4a8" memberName="upgrade_"
-                    virtualName="UpgradeComponent" explicitFocusOrder="0" pos="0Cc 104 536 126"
+                    virtualName="UpgradeComponent" explicitFocusOrder="0" pos="0Cc 104 504 126"
                     class="Component" params=""/>
   <LABEL name="intro label" id="62da816b2e6b995a" memberName="introLabel_"
          virtualName="" explicitFocusOrder="0" pos="0Cc 112 504 48" edTextCol="ff000000"
          edBkgCol="0" labelText="" editableSingleClick="0" editableDoubleClick="0"
          focusDiscardsChanges="0" fontname="Default font" fontsize="15"
          bold="0" italic="0" justification="36"/>
-  <TEXTBUTTON name="save project button" id="b42e54770a3a5b10" memberName="saveProjectButton_"
-              virtualName="" explicitFocusOrder="0" pos="112c 180 160 48" bgColOff="ffd0d0d0"
-              bgColOn="ff868686" buttonText="Save Project" connectedEdges="0"
-              needsCallback="1" radioGroupId="0"/>
-  <TEXTBUTTON name="load project button" id="7ed6a0f163afbf99" memberName="loadProjectButton_"
-              virtualName="" explicitFocusOrder="0" pos="0Cc 180 160 48" bgColOff="ffd0d0d0"
-              bgColOn="ff868686" buttonText="Load Project" connectedEdges="0"
+  <TEXTBUTTON name="sequencer projects button" id="b42e54770a3a5b10" memberName="sequencerProjectsButton_"
+              virtualName="" explicitFocusOrder="0" pos="176c 184 192 48" bgColOff="ffd0d0d0"
+              bgColOn="ff868686" buttonText="Sequencer Projects" connectedEdges="0"
               needsCallback="1" radioGroupId="0"/>
   <TEXTBUTTON name="update firmware button" id="f3f1b4fd430645e1" memberName="updateFirmwareButton_"
-              virtualName="" explicitFocusOrder="0" pos="112Rc 180 160 48"
+              virtualName="" explicitFocusOrder="0" pos="176Rc 184 192 48"
               bgColOff="ffd0d0d0" bgColOn="ff868686" buttonText="Update Firmware"
               connectedEdges="0" needsCallback="1" radioGroupId="0"/>
 </JUCER_COMPONENT>

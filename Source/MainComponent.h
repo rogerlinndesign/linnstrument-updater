@@ -75,8 +75,7 @@ private:
     //==============================================================================
     ScopedPointer<UpgradeComponent> upgrade_;
     ScopedPointer<Label> introLabel_;
-    ScopedPointer<TextButton> saveProjectButton_;
-    ScopedPointer<TextButton> loadProjectButton_;
+    ScopedPointer<TextButton> sequencerProjectsButton_;
     ScopedPointer<TextButton> updateFirmwareButton_;
     Image cachedImage_rogerlinndesign_png_1;
 

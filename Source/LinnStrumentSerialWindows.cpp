@@ -55,6 +55,14 @@ bool LinnStrumentSerialWindows::findFirmwareFile()
     return hasFirmwareFile();
 }
 
+void LinnStrumentSerialWindows::setFirmwareFile(const File& file)
+{
+    if (file.existsAsFile() && file.getFileExtension() == ".bin")
+    {
+        firmwareFile = file.getFullPathName();
+    }
+}
+
 bool LinnStrumentSerialWindows::hasFirmwareFile()
 {
     return firmwareFile.isNotEmpty();

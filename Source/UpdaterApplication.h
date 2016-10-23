@@ -51,6 +51,7 @@ public:
     
     void home();
     void findFirmware();
+    void continueWithFirmwareFile(const File& path);
     void connectionWarning();
     void detectLinnStrument();
     void prepareDevice();
@@ -58,9 +59,10 @@ public:
     void restoreSettings();
     void retry();
     
+    void setLabelText(const String& text);
+    void setProgressText(const String& text);
     void showPrepareDevice(bool flag);
     void setUpgradeFailed();
-    void setProgressText(const String& text);
     void showRetry(bool flag);
 
 private:
