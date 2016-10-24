@@ -153,7 +153,7 @@ void MainComponent::buttonClicked (Button* buttonThatWasClicked)
 
 
 //[MiscUserCode] You can add your own definitions of your custom methods or any other code here...
-void MainComponent::setIntroText(const String& text, bool enableButton)
+void MainComponent::setIntroText(const String& text)
 {
     projects_->setVisible(false);
     upgrade_->setVisible(false);

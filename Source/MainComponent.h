@@ -55,7 +55,7 @@ public:
 
     //==============================================================================
     //[UserMethods]     -- You can add your own custom methods in this section.
-    void setIntroText(const String& text, bool enableButton);
+    void setIntroText(const String& text);
     ProjectsComponent* getProjectsComponent();
     UpgradeComponent* getUpgradeComponent();
     void setButtonsEnabled(bool enabled);

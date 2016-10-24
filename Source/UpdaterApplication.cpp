@@ -103,12 +103,12 @@ void UpdaterApplication::handleMessage(const juce::Message &message)
         {
             if (linnStrumentSerial->isDetected() || linnStrumentSerial->detect())
             {
-                getMainComponent()->setIntroText("Found LinnStrument.\n\nPlease click on the action that you want to perform below.", true);
+                getMainComponent()->setIntroText("Found LinnStrument.\n\nPlease click on the action that you want to perform below.");
                 getMainComponent()->setButtonsEnabled(true);
             }
             else
             {
-                getMainComponent()->setIntroText("Please connect LinnStrument's USB cable. DO NOT use a USB hub!\n\nThen activate Update OS mode in Global Settings.", false);
+                getMainComponent()->setIntroText("Please connect LinnStrument's USB cable. DO NOT use a USB hub!\n\nThen activate Update OS mode in Global Settings.");
                 startTimer(300);
             }
             break;

@@ -32,7 +32,7 @@ namespace {
         return crc;
     }
     
-	uint32_t crc_byte_array(uint8_t* s, uint8_t size) {
+	uint32_t crc_byte_array(uint8_t* s, uint32_t size) {
 		uint32_t crc = ~(uint32_t)0;
         for (uint8_t i = 0; i < size; ++i) {
             crc = crc_update(crc, *s++);
@@ -643,11 +643,11 @@ bool LinnStrumentSerial::loadProject(uint8_t number, const File& file)
         }
         
         projects.reset();
-        projects.ensureSize(file.getSize());
+        projects.ensureSize((int)file.getSize());
         
         FileInputStream in(file);
         uint8_t* source = (uint8_t*)projects.getData();
-        in.read(source, file.getSize());
+		in.read(source, (int)file.getSize());
         
         if (file.getSize() < 1 + 1 + 2 * sizeof(int32_t)) {
             std::cerr << "Project file " << file.getFullPathName() << " is too small " << file.getSize() << std::endl;
@@ -666,7 +666,7 @@ bool LinnStrumentSerial::loadProject(uint8_t number, const File& file)
         int32_t totalCRC;
         std::memcpy(&totalCRC, &source[projects.getSize() - sizeof(int32_t)], sizeof(int32_t));
 
-        int32_t actualSize = projects.getSize() - 1 - 2 * sizeof(int32_t);
+        uint32_t actualSize = projects.getSize() - 1 - 2 * sizeof(int32_t);
         if (projectSize != actualSize) {
             std::cerr << "Project file " << file.getFullPathName() << " has invalid size (" << projectSize << " != " << actualSize << ")" << std::endl;
             return false;
