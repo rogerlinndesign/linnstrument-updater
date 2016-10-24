@@ -83,7 +83,7 @@ namespace {
         return false;
     }
     
-	int negotiateIncomingCRC(serial::Serial& linnSerial, juce::String& fullDevice, uint8_t* buffer, uint8_t size) {
+	int negotiateIncomingCRC(const juce::String& fullDevice, serial::Serial& linnSerial, uint8_t* buffer, uint8_t size) {
         if (linnSerial.write("c") != 1) {
             std::cerr << "Couldn't to write the check command to serial device " << fullDevice << std::endl;
             return -1;
@@ -114,7 +114,7 @@ namespace {
         return 1;
     }
     
-	int negotiateOutgoingCRC(serial::Serial& linnSerial, juce::String& fullDevice, uint8_t* buffer, uint8_t size) {
+	int negotiateOutgoingCRC(const juce::String& fullDevice, serial::Serial& linnSerial, uint8_t* buffer, uint8_t size) {
         uint8_t serialCheck;
         if (linnSerial.read(&serialCheck, 1) != 1 || serialCheck != 'c') {
             std::cerr << "Didn't receive the CRC check code from device " << fullDevice << std::endl;
@@ -138,6 +138,82 @@ namespace {
         }
         
         return 1;
+    }
+    
+    bool restoreProject(const juce::String& fullDevice, serial::Serial& linnSerial, uint8_t version, uint8_t projectIndex, uint8_t* source, uint32_t size) {
+        std::cout << "Restoring project " << (projectIndex+1) << std::endl;
+        
+        if (linnSerial.write("q") != 1) {
+            std::cerr << "Couldn't give the restore project command to serial device " << fullDevice << std::endl;
+            return false;
+        }
+        
+        MessageManager::getInstance()->runDispatchLoopUntil(20);
+        std::string ackCode = linnSerial.readline();
+        if (ackCode != "ACK\n") {
+            std::cerr << "Didn't receive the restore project ACK code from serial device " << fullDevice << std::endl;
+            return false;
+        }
+        
+        if (linnSerial.write(&version, 1) != 1) {
+            std::cerr << "Couldn't write the version of the project to device " << fullDevice << std::endl;
+            return false;
+        }
+        
+        ackCode = linnSerial.readline();
+        if (ackCode != "ACK\n") {
+            std::cerr << "Didn't receive restore project version ACK code from serial device " << fullDevice << std::endl;
+            return false;
+        }
+        
+        if (linnSerial.write((uint8_t*)&size, 4) != 4) {
+            std::cerr << "Couldn't write the size of the project to device " << fullDevice << std::endl;
+            return false;
+        }
+        
+        ackCode = linnSerial.readline();
+        if (ackCode != "ACK\n") {
+            std::cerr << "Didn't receive restore project size ACK code from serial device " << fullDevice << std::endl;
+            return false;
+        }
+        
+        if (linnSerial.write(&projectIndex, 1) != 1) {
+            std::cerr << "Couldn't write the index of the project to device " << fullDevice << std::endl;
+            return false;
+        }
+        
+        ackCode = linnSerial.readline();
+        if (ackCode != "ACK\n") {
+            std::cerr << "Didn't receive restore project index ACK code from serial device " << fullDevice << std::endl;
+            return false;
+        }
+        
+        const uint32_t batchsize = 96;
+        uint32_t remaining = size;
+        while (remaining > 0) {
+            MessageManager::getInstance()->runDispatchLoopUntil(20);
+            
+            uint8_t actual = (uint8_t)std::min(remaining, batchsize);
+            if (linnSerial.write(source, actual) != actual) {
+                std::cerr << "Couldn't write the project to device " << fullDevice << std::endl;
+                return false;
+            }
+            
+            int crc = negotiateOutgoingCRC(fullDevice, linnSerial, source, actual);
+            if (crc == -1)      return false;
+            else if (crc == 0)  continue;
+            
+            remaining -= actual;
+            source += actual;
+        }
+        
+        ackCode = linnSerial.readline();
+        if (ackCode != "ACK\n") {
+            std::cerr << "Didn't receive restore project finish ACK code from serial device " << fullDevice << std::endl;
+            return false;
+        }
+        
+        return true;
     }
 }
 
@@ -237,7 +313,7 @@ bool LinnStrumentSerial::readSettings()
                 }
                 // version 2.0.0-beta3 and later
                 else if (settings[0] >= 10) {
-					int crc = negotiateIncomingCRC(linnSerial, fullDevice, dest, requested);
+					int crc = negotiateIncomingCRC(fullDevice, linnSerial, dest, requested);
                     if (crc == -1)      return false;
                     else if (crc == 0)  continue;
                 }
@@ -308,7 +384,7 @@ bool LinnStrumentSerial::readSettings()
                     }
                     // version 2.0.0-beta3 and later
                     else if (settings[0] >= 10) {
-						int crc = negotiateIncomingCRC(linnSerial, fullDevice, dest, requested);
+						int crc = negotiateIncomingCRC(fullDevice, linnSerial, dest, requested);
                         if (crc == -1)      return false;
                         else if (crc == 0)  continue;
                     }
@@ -362,79 +438,10 @@ bool LinnStrumentSerial::restoreSettings()
             std::cout << "Restoring projects" << std::endl;
             
             for (uint8_t projectIndex = 0; projectIndex < projectCount; ++projectIndex) {
-            
-                std::cout << "Restoring project " << (projectIndex+1) << std::endl;
                 UpdaterApplication::getApp().setProgressText(String::formatted("Transferring project %d of %d...", (projectIndex+1), projectCount));
                 
-                if (linnSerial.write("q") != 1) {
-                    std::cerr << "Couldn't give the restore project command to serial device " << fullDevice << std::endl;
-                    return false;
-                }
-                
-                MessageManager::getInstance()->runDispatchLoopUntil(20);
-                std::string ackCode = linnSerial.readline();
-                if (ackCode != "ACK\n") {
-                    std::cerr << "Didn't receive the restore project ACK code from serial device " << fullDevice << std::endl;
-                    return false;
-                }
-                
-                uint8_t version = settings[0];
-                if (linnSerial.write(&version, 1) != 1) {
-                    std::cerr << "Couldn't write the version of the project to device " << fullDevice << std::endl;
-                    return false;
-                }
-                
-                ackCode = linnSerial.readline();
-                if (ackCode != "ACK\n") {
-                    std::cerr << "Didn't receive restore project version ACK code from serial device " << fullDevice << std::endl;
-                    return false;
-                }
-                
-                if (linnSerial.write((uint8_t*)&projectSize, 4) != 4) {
-                    std::cerr << "Couldn't write the size of the project to device " << fullDevice << std::endl;
-                    return false;
-                }
-                
-                ackCode = linnSerial.readline();
-                if (ackCode != "ACK\n") {
-                    std::cerr << "Didn't receive restore project size ACK code from serial device " << fullDevice << std::endl;
-                    return false;
-                }
-                
-                if (linnSerial.write(&projectIndex, 1) != 1) {
-                    std::cerr << "Couldn't write the index of the project to device " << fullDevice << std::endl;
-                    return false;
-                }
-                
-                ackCode = linnSerial.readline();
-                if (ackCode != "ACK\n") {
-                    std::cerr << "Didn't receive restore project index ACK code from serial device " << fullDevice << std::endl;
-                    return false;
-                }
-                
-                const uint32_t batchsize = 96;
                 uint8_t* source = ((uint8_t*)projects.getData()) + (projectIndex * projectSize);
-                uint32_t remaining = projectSize;
-                while (remaining > 0) {
-                    MessageManager::getInstance()->runDispatchLoopUntil(20);
-                    
-					uint8_t actual = (uint8_t)std::min(remaining, batchsize);
-                    if (linnSerial.write(source, actual) != actual) {
-                        std::cerr << "Couldn't write the project to device " << fullDevice << std::endl;
-                        return false;
-                    }
-                    
-                    int crc = negotiateOutgoingCRC(linnSerial, fullDevice, source, actual);
-                    if (crc == -1)      return false;
-                    else if (crc == 0)  continue;
-
-                    remaining -= actual;
-                    source += actual;
-                }
-                
-                ackCode = linnSerial.readline();
-                if (ackCode != "ACK\n") {
-                    std::cerr << "Didn't receive restore project finish ACK code from serial device " << fullDevice << std::endl;
+                if (!restoreProject(fullDevice, linnSerial, settings[0], projectIndex, source, projectSize)) {
                     return false;
                 }
             }
@@ -481,7 +488,7 @@ bool LinnStrumentSerial::restoreSettings()
                     return false;
                 }
                 
-                int crc = negotiateOutgoingCRC(linnSerial, fullDevice, source, actual);
+                int crc = negotiateOutgoingCRC(fullDevice, linnSerial, source, actual);
                 if (crc == -1)      return false;
                 else if (crc == 0)  continue;
                 
@@ -557,12 +564,14 @@ bool LinnStrumentSerial::saveProject(uint8_t number, const File& file)
             std::cerr << "Couldn't retrieve the size of the project from device " << fullDevice << std::endl;
             return false;
         }
-        
-        projects.ensureSize(projectSize+1);
+
+        projects.append((uint8_t*)&projectVersion, 1);
+        projects.append((uint8_t*)&projectSize, sizeof(int32_t));
+
+        projects.ensureSize(1 + sizeof(int32_t) + projectSize);
         uint8_t* dest = (uint8_t*)projects.getData();
         
-        dest[0] = projectVersion;
-        dest++;
+        dest += (1 + sizeof(int32_t));
         
         const int32_t batchsize = 96;
         std::cout << "Reading project " << (int)number << " with version " << (int)projectVersion << " and a size of " << projectSize << std::endl;
@@ -577,7 +586,7 @@ bool LinnStrumentSerial::saveProject(uint8_t number, const File& file)
                 return false;
             }
             
-            int crc = negotiateIncomingCRC(linnSerial, fullDevice, dest, requested);
+            int crc = negotiateIncomingCRC(fullDevice, linnSerial, dest, requested);
             if (crc == -1)      return false;
             else if (crc == 0)  continue;
             
@@ -591,11 +600,90 @@ bool LinnStrumentSerial::saveProject(uint8_t number, const File& file)
             return false;
         }
         
+        int32_t totalCRC = crc_byte_array((uint8_t*)&projects[1 + sizeof(int32_t)], projectSize);
+        projects.append((uint8_t*)&totalCRC, sizeof(int32_t));
+        
+        file.deleteFile();
         FileOutputStream out(file);
         out.write(projects.getData(), projects.getSize());
-        std::cout << "Read project " << (int)number << " from " << fullDevice << " with a size of " << projectSize << std::endl;
+        std::cout << "Read project " << (int)number << " from " << fullDevice << " with a size of " << projectSize << " and CRC " << totalCRC << std::endl;
         
         projects.reset();
+        projectSize = 0;
+    }
+    catch (serial::SerialException e) {
+        std::cerr << e.what() << std::endl;
+        return false;
+    }
+    catch (serial::IOException e) {
+        std::cerr << e.what() << std::endl;
+        return false;
+    }
+    catch (serial::PortNotOpenedException e) {
+        std::cerr << e.what() << std::endl;
+        return false;
+    }
+    
+    return true;
+}
+
+bool LinnStrumentSerial::loadProject(uint8_t number, const File& file)
+{
+    if (!isDetected()) return false;
+    
+    try {
+        juce::String fullDevice = getFullLinnStrumentDevice();
+        const char* devicePort = fullDevice.toRawUTF8();
+        const std::string devicePortString(devicePort);
+        serial::Timeout timeout = serial::Timeout::simpleTimeout(3000);
+        serial::Serial linnSerial(devicePortString, 115200, timeout);
+        
+        if (!handshake(fullDevice, linnSerial)) {
+            return false;
+        }
+        
+        projects.reset();
+        projects.ensureSize(file.getSize());
+        
+        FileInputStream in(file);
+        uint8_t* source = (uint8_t*)projects.getData();
+        in.read(source, file.getSize());
+        
+        if (file.getSize() < 1 + 1 + 2 * sizeof(int32_t)) {
+            std::cerr << "Project file " << file.getFullPathName() << " is too small " << file.getSize() << std::endl;
+            return false;
+        }
+        
+        uint8_t version = source[0];
+        if (version < 10) {
+            std::cerr << "Project file " << file.getFullPathName() << " has invalid version " << (int)version << std::endl;
+            return false;
+        }
+        
+        std::memcpy(&projectSize, &source[1], sizeof(int32_t));
+        std::cerr << "Processing project file " << file.getFullPathName() << " with version " << (int)version << " and size " << (int)projectSize << std::endl;
+        
+        int32_t totalCRC;
+        std::memcpy(&totalCRC, &source[projects.getSize() - sizeof(int32_t)], sizeof(int32_t));
+
+        int32_t actualSize = projects.getSize() - 1 - 2 * sizeof(int32_t);
+        if (projectSize != actualSize) {
+            std::cerr << "Project file " << file.getFullPathName() << " has invalid size (" << projectSize << " != " << actualSize << ")" << std::endl;
+            return false;
+        }
+
+        int32_t actualCRC = crc_byte_array((uint8_t*)&source[1 + sizeof(int32_t)], projectSize);
+        if (totalCRC != actualCRC) {
+            std::cerr << "Project file " << file.getFullPathName() << " has invalid CRC (" << totalCRC << " != " << actualCRC << ")" << std::endl;
+            return false;
+        }
+
+        if (!restoreProject(fullDevice, linnSerial, version, number, &source[1 + sizeof(int32_t)], projectSize)) {
+            return false;
+        }
+        
+        projects.reset();
+        projectSize = 0;
     }
     catch (serial::SerialException e) {
         std::cerr << e.what() << std::endl;

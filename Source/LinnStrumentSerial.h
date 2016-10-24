@@ -35,13 +35,14 @@ public:
     bool hasSettings();
 
     bool saveProject(uint8_t number, const File& file);
+    bool loadProject(uint8_t number, const File& file);
 
 protected:
     String firmwareFile;
     String linnstrumentDevice;
  
 private:
-	MemoryBlock settings;
+    MemoryBlock settings;
     MemoryBlock projects;
     uint8_t projectCount;
     uint32_t projectSize;

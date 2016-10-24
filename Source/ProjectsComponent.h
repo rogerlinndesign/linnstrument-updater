@@ -45,7 +45,6 @@ public:
 
     //==============================================================================
     //[UserMethods]     -- You can add your own custom methods in this section.
-    void setBusy(bool state);
     //[/UserMethods]
 
     void paint (Graphics& g) override;
@@ -57,6 +56,9 @@ public:
 
 private:
     //[UserVariables]   -- You can add your own custom variables in this section.
+    void showBusy();
+    void showDone();
+    void showError();
     void checkTransferConditions();
     //[/UserVariables]
 
@@ -65,6 +67,10 @@ private:
     ScopedPointer<TextButton> receiveButton_;
     ScopedPointer<TextButton> sendButton_;
     ScopedPointer<Label> introLabel_;
+    ScopedPointer<Label> busyLabel_;
+    ScopedPointer<Label> errorLabel_;
+    ScopedPointer<TextButton> okButton_;
+    ScopedPointer<Label> doneLabel_;
 
 
     //==============================================================================

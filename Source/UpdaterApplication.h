@@ -66,7 +66,7 @@ public:
     void showRetry(bool flag);
     
     bool saveProject(uint8_t number, const File& file);
-    
+    bool loadProject(uint8_t number, const File& file);
 
 private:
 

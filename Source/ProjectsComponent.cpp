@@ -73,6 +73,34 @@ ProjectsComponent::ProjectsComponent ()
     introLabel_->setColour (TextEditor::textColourId, Colours::black);
     introLabel_->setColour (TextEditor::backgroundColourId, Colour (0x00000000));
 
+    addAndMakeVisible (busyLabel_ = new Label ("busy label",
+                                               TRANS("Transferring project ...")));
+    busyLabel_->setFont (Font (15.00f, Font::plain));
+    busyLabel_->setJustificationType (Justification::centred);
+    busyLabel_->setEditable (false, false, false);
+    busyLabel_->setColour (TextEditor::textColourId, Colours::black);
+    busyLabel_->setColour (TextEditor::backgroundColourId, Colour (0x00000000));
+
+    addAndMakeVisible (errorLabel_ = new Label ("error label",
+                                                TRANS("An unexpected error occurred during the transfer of the project.")));
+    errorLabel_->setFont (Font (15.00f, Font::plain));
+    errorLabel_->setJustificationType (Justification::centred);
+    errorLabel_->setEditable (false, false, false);
+    errorLabel_->setColour (TextEditor::textColourId, Colours::black);
+    errorLabel_->setColour (TextEditor::backgroundColourId, Colour (0x00000000));
+
+    addAndMakeVisible (okButton_ = new TextButton ("ok button"));
+    okButton_->setButtonText (TRANS("OK"));
+    okButton_->addListener (this);
+
+    addAndMakeVisible (doneLabel_ = new Label ("done label",
+                                               TRANS("The sequencer project was transferred successfully.")));
+    doneLabel_->setFont (Font (15.00f, Font::plain));
+    doneLabel_->setJustificationType (Justification::centred);
+    doneLabel_->setEditable (false, false, false);
+    doneLabel_->setColour (TextEditor::textColourId, Colours::black);
+    doneLabel_->setColour (TextEditor::backgroundColourId, Colour (0x00000000));
+
 
     //[UserPreSize]
     //[/UserPreSize]
@@ -83,6 +111,10 @@ ProjectsComponent::ProjectsComponent ()
     //[Constructor] You can add your own custom stuff here..
     receiveButton_->setEnabled(false);
     sendButton_->setEnabled(false);
+    busyLabel_->setVisible(false);
+    errorLabel_->setVisible(false);
+    doneLabel_->setVisible(false);
+    okButton_->setVisible(false);
     //[/Constructor]
 }
 
@@ -95,6 +127,10 @@ ProjectsComponent::~ProjectsComponent()
     receiveButton_ = nullptr;
     sendButton_ = nullptr;
     introLabel_ = nullptr;
+    busyLabel_ = nullptr;
+    errorLabel_ = nullptr;
+    okButton_ = nullptr;
+    doneLabel_ = nullptr;
 
 
     //[Destructor]. You can add your own custom destruction code here..
@@ -122,6 +158,10 @@ void ProjectsComponent::resized()
     receiveButton_->setBounds (48, 104, 200, 24);
     sendButton_->setBounds (272, 104, 184, 24);
     introLabel_->setBounds ((getWidth() / 2) - (488 / 2), 8, 488, 48);
+    busyLabel_->setBounds ((getWidth() / 2) - (488 / 2), 84, 488, 24);
+    errorLabel_->setBounds ((getWidth() / 2) - (488 / 2), 64, 488, 24);
+    okButton_->setBounds ((getWidth() / 2) - (92 / 2), 104, 92, 24);
+    doneLabel_->setBounds ((getWidth() / 2) - (488 / 2), 64, 488, 24);
     //[UserResized] Add your own custom resize handling here..
     //[/UserResized]
 }
@@ -151,14 +191,18 @@ void ProjectsComponent::buttonClicked (Button* buttonThatWasClicked)
     {
         //[UserButtonCode_receiveButton_] -- add your button handler code here..
         FileChooser fc("Choose the project file to save to...",
-                       File::getCurrentWorkingDirectory(),
+                       File::getSpecialLocation(File::userHomeDirectory),
                        "*.lpr",
                        true);
         if (fc.browseForFileToSave(true))
         {
-            setBusy(true);
-            UpdaterApplication::getApp().saveProject(projectNumberCombo_->getSelectedItemIndex(), fc.getResult());
-            setBusy(false);
+            showBusy();
+            if (!UpdaterApplication::getApp().saveProject(projectNumberCombo_->getSelectedItemIndex(), fc.getResult())) {
+                showError();
+            }
+            else {
+                showDone();
+            }
         }
         //[/UserButtonCode_receiveButton_]
     }
@@ -166,13 +210,32 @@ void ProjectsComponent::buttonClicked (Button* buttonThatWasClicked)
     {
         //[UserButtonCode_sendButton_] -- add your button handler code here..
         FileChooser fc("Choose the project file to load...",
-                       File::getCurrentWorkingDirectory(),
+                       File::getSpecialLocation(File::userHomeDirectory),
                        "*.lpr",
                        true);
         if (fc.browseForFileToOpen())
         {
+            showBusy();
+            if (!UpdaterApplication::getApp().loadProject(projectNumberCombo_->getSelectedItemIndex(), fc.getResult())) {
+                showError();
+            }
+            else {
+                showDone();
+            }
         }
         //[/UserButtonCode_sendButton_]
+    }
+    else if (buttonThatWasClicked == okButton_)
+    {
+        //[UserButtonCode_okButton_] -- add your button handler code here..
+        projectNumberCombo_->setVisible(true);
+        receiveButton_->setVisible(true);
+        sendButton_->setVisible(true);
+        busyLabel_->setVisible(false);
+        errorLabel_->setVisible(false);
+        doneLabel_->setVisible(false);
+        okButton_->setVisible(false);
+        //[/UserButtonCode_okButton_]
     }
 
     //[UserbuttonClicked_Post]
@@ -182,12 +245,39 @@ void ProjectsComponent::buttonClicked (Button* buttonThatWasClicked)
 
 
 //[MiscUserCode] You can add your own definitions of your custom methods or any other code here...
-void ProjectsComponent::setBusy(bool state)
+void ProjectsComponent::showBusy()
 {
-    projectNumberCombo_->setVisible(!state);
-    receiveButton_->setVisible(!state);
-    sendButton_->setVisible(!state);
+    projectNumberCombo_->setVisible(false);
+    receiveButton_->setVisible(false);
+    sendButton_->setVisible(false);
+    busyLabel_->setVisible(true);
+    errorLabel_->setVisible(false);
+    doneLabel_->setVisible(false);
+    okButton_->setVisible(false);
 }
+
+void ProjectsComponent::showDone()
+{
+    projectNumberCombo_->setVisible(false);
+    receiveButton_->setVisible(false);
+    sendButton_->setVisible(false);
+    busyLabel_->setVisible(false);
+    errorLabel_->setVisible(false);
+    doneLabel_->setVisible(true);
+    okButton_->setVisible(true);
+}
+
+void ProjectsComponent::showError()
+{
+    projectNumberCombo_->setVisible(false);
+    receiveButton_->setVisible(false);
+    sendButton_->setVisible(false);
+    busyLabel_->setVisible(false);
+    errorLabel_->setVisible(true);
+    doneLabel_->setVisible(false);
+    okButton_->setVisible(true);
+}
+
 
 void ProjectsComponent::checkTransferConditions()
 {
@@ -231,6 +321,24 @@ BEGIN_JUCER_METADATA
   <LABEL name="intro label" id="2c00dca23c82e0a6" memberName="introLabel_"
          virtualName="" explicitFocusOrder="0" pos="0Cc 8 488 48" edTextCol="ff000000"
          edBkgCol="0" labelText="Please select which sequencer project number&#10;to transfer between LinnStrument and your computer."
+         editableSingleClick="0" editableDoubleClick="0" focusDiscardsChanges="0"
+         fontname="Default font" fontsize="15" bold="0" italic="0" justification="36"/>
+  <LABEL name="busy label" id="b628914686c6be1c" memberName="busyLabel_"
+         virtualName="" explicitFocusOrder="0" pos="0Cc 84 488 24" edTextCol="ff000000"
+         edBkgCol="0" labelText="Transferring project ..." editableSingleClick="0"
+         editableDoubleClick="0" focusDiscardsChanges="0" fontname="Default font"
+         fontsize="15" bold="0" italic="0" justification="36"/>
+  <LABEL name="error label" id="aef3e69726ed5da1" memberName="errorLabel_"
+         virtualName="" explicitFocusOrder="0" pos="0Cc 64 488 24" edTextCol="ff000000"
+         edBkgCol="0" labelText="An unexpected error occurred during the transfer of the project."
+         editableSingleClick="0" editableDoubleClick="0" focusDiscardsChanges="0"
+         fontname="Default font" fontsize="15" bold="0" italic="0" justification="36"/>
+  <TEXTBUTTON name="ok button" id="fb0f571560d07e48" memberName="okButton_"
+              virtualName="" explicitFocusOrder="0" pos="0Cc 104 92 24" buttonText="OK"
+              connectedEdges="0" needsCallback="1" radioGroupId="0"/>
+  <LABEL name="done label" id="da43df7fc3d743ed" memberName="doneLabel_"
+         virtualName="" explicitFocusOrder="0" pos="0Cc 64 488 24" edTextCol="ff000000"
+         edBkgCol="0" labelText="The sequencer project was transferred successfully."
          editableSingleClick="0" editableDoubleClick="0" focusDiscardsChanges="0"
          fontname="Default font" fontsize="15" bold="0" italic="0" justification="36"/>
 </JUCER_COMPONENT>

@@ -291,5 +291,10 @@ void UpdaterApplication::showRetry(bool flag)
 
 bool UpdaterApplication::saveProject(uint8_t number, const File& file)
 {
-    linnStrumentSerial->saveProject(number, file);
+    return linnStrumentSerial->saveProject(number, file);
+}
+
+bool UpdaterApplication::loadProject(uint8_t number, const File& file)
+{
+    return linnStrumentSerial->loadProject(number, file);
 }
