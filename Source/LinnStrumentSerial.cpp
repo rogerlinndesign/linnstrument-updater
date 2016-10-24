@@ -34,7 +34,7 @@ namespace {
     
 	uint32_t crc_byte_array(uint8_t* s, uint32_t size) {
 		uint32_t crc = ~(uint32_t)0;
-        for (uint8_t i = 0; i < size; ++i) {
+		for (uint32_t i = 0; i < size; ++i) {
             crc = crc_update(crc, *s++);
         }
         crc = ~crc;
