@@ -41,42 +41,51 @@ namespace {
         return crc;
     }
 
-    bool handshake(const juce::String& fullDevice, serial::Serial& linnSerial)
+    bool handshake(const juce::String& fullDevice, serial::Serial& linnSerial, int retries)
     {
         MessageManager::getInstance()->runDispatchLoopUntil(1000);
 
-        std::cout << "Opening serial device " << linnSerial.getPort() << " for settings retrieval with baud rate 115200" << std::endl;
-        for (int i = 1; i <= 3; ++i) {
+        for (int i = 1; i <= retries; ++i) {
             try {
+                std::cout << "Opening serial device " << linnSerial.getPort() << " for settings retrieval with baud rate 115200" << std::endl;
                 linnSerial.open();
-                break;
-            }
-            catch (serial::SerialException e) {
-                std::cerr << "Try " << i << " : wasn't able to open serial device " << fullDevice << ": " << e.what() << std::endl;
-                MessageManager::getInstance()->runDispatchLoopUntil(500);
-            }
-        }
-        
-        if (!linnSerial.isOpen()) {
-            std::cerr << "Wasn't able to open serial device " << fullDevice << std::endl;
-            return false;
-        }
-        
-        MessageManager::getInstance()->runDispatchLoopUntil(1000);
-        
-        for (int i = 1; i <= 2; ++i) {
-            if (linnSerial.write("5, 4, 3, 2, 1 ...\n") != 18) {
-                std::cerr << "Couldn't write the complete handshake message to serial device " << fullDevice << std::endl;
-                return false;
-            }
             
-            std::string linnGoCode = linnSerial.readline();
-            if (linnGoCode == "LinnStruments are go!\n") {
-                return true;
+                if (!linnSerial.isOpen()) {
+                    std::cerr << "Wasn't able to open serial device " << fullDevice << std::endl;
+                    MessageManager::getInstance()->runDispatchLoopUntil(500);
+                    continue;
+                }
+                
+                MessageManager::getInstance()->runDispatchLoopUntil(1000);
+                
+                for (int i = 1; i <= retries; ++i) {
+                    if (linnSerial.write("5, 4, 3, 2, 1 ...\n") != 18) {
+                        std::cerr << "Couldn't write the complete handshake message to serial device " << fullDevice << std::endl;
+                        return false;
+                    }
+                    
+                    std::string linnGoCode = linnSerial.readline();
+                    if (linnGoCode == "LinnStruments are go!\n") {
+                        return true;
+                    }
+                    else {
+                        std::cerr << "Didn't receive the correct go code from serial device " << fullDevice << " (" << linnGoCode << ")" << std::endl;
+                        MessageManager::getInstance()->runDispatchLoopUntil(500);
+                        continue;
+                    }
+                }
             }
-            else {
-                std::cerr << "Didn't receive the correct go code from serial device " << fullDevice << " (" << linnGoCode << ")" << std::endl;
+            catch (std::exception e) {
+                std::cerr << "Try " << i << " : wasn't able to open serial device " << fullDevice << ": " << e.what() << std::endl;
+                try {
+                    linnSerial.close();
+                }
+                catch (...) {
+                    // ignore
+                }
+
                 MessageManager::getInstance()->runDispatchLoopUntil(500);
+                continue;
             }
         }
         
@@ -262,7 +271,7 @@ bool LinnStrumentSerial::readSettings()
         serial::Timeout timeout = serial::Timeout::simpleTimeout(3000);
         serial::Serial linnSerial(devicePortString, 115200, timeout);
         
-        if (!handshake(fullDevice, linnSerial)) {
+        if (!handshake(fullDevice, linnSerial, 3)) {
             return false;
         }
         
@@ -430,7 +439,7 @@ bool LinnStrumentSerial::restoreSettings()
         serial::Timeout timeout = serial::Timeout::simpleTimeout(1500);
         serial::Serial linnSerial(devicePortString, 115200, timeout);
         
-        if (!handshake(fullDevice, linnSerial)) {
+        if (!handshake(fullDevice, linnSerial, 10)) {
             return false;
         }
         
@@ -526,7 +535,7 @@ bool LinnStrumentSerial::saveProject(uint8_t number, const File& file)
         serial::Timeout timeout = serial::Timeout::simpleTimeout(3000);
         serial::Serial linnSerial(devicePortString, 115200, timeout);
         
-        if (!handshake(fullDevice, linnSerial)) {
+        if (!handshake(fullDevice, linnSerial, 5)) {
             return false;
         }
         
@@ -638,7 +647,7 @@ bool LinnStrumentSerial::loadProject(uint8_t number, const File& file)
         serial::Timeout timeout = serial::Timeout::simpleTimeout(3000);
         serial::Serial linnSerial(devicePortString, 115200, timeout);
         
-        if (!handshake(fullDevice, linnSerial)) {
+        if (!handshake(fullDevice, linnSerial, 5)) {
             return false;
         }
         
