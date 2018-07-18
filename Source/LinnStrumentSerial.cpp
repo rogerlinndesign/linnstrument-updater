@@ -255,7 +255,7 @@ bool LinnStrumentSerial::hasFirmwareFile()
 
 void LinnStrumentSerial::resetDetection()
 {
-    linnstrumentDevice = String::empty;
+    linnstrumentDevice = String();
 }
 
 bool LinnStrumentSerial::readSettings()
@@ -473,7 +473,7 @@ bool LinnStrumentSerial::restoreSettings()
                 return false;
             }
             
-            int32_t settingsSize = settings.getSize();
+            int32_t settingsSize = (int32_t)settings.getSize();
             if (linnSerial.write((uint8_t*)&settingsSize, sizeof(int32_t)) != sizeof(int32_t)) {
                 std::cerr << "Couldn't write the size of the settings to device " << fullDevice << std::endl;
                 return false;
@@ -675,7 +675,7 @@ bool LinnStrumentSerial::loadProject(uint8_t number, const File& file)
         int32_t totalCRC;
         std::memcpy(&totalCRC, &source[projects.getSize() - sizeof(int32_t)], sizeof(int32_t));
 
-        uint32_t actualSize = projects.getSize() - 1 - 2 * sizeof(int32_t);
+        uint32_t actualSize = (uint32_t)projects.getSize() - 1 - 2 * sizeof(int32_t);
         if (projectSize != actualSize) {
             std::cerr << "Project file " << file.getFullPathName() << " has invalid size (" << projectSize << " != " << actualSize << ")" << std::endl;
             return false;

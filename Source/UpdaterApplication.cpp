@@ -9,6 +9,7 @@
 */
 #include "UpdaterApplication.h"
 
+#include "CommandIDs.h"
 #include "MainComponent.h"
 #include "UpgradeComponent.h"
 #if JUCE_MAC
@@ -66,13 +67,22 @@ bool UpdaterApplication::moreThanOneInstanceAllowed()
     
 void UpdaterApplication::initialise(const String&)
 {
+    commandManager = new ApplicationCommandManager();
+    commandManager->addListener(this);
+    commandManager->registerAllCommandsForTarget(this);
+
+    LookAndFeel::setDefaultLookAndFeel(&lookAndFeel_);
     mainWindow = new MainWindow();
     detectLinnStrument();
 }
 
 void UpdaterApplication::shutdown()
 {
+    commandManager->removeListener(this);
+    
     mainWindow = nullptr;
+    
+    deleteAndZero(commandManager);
 }
 
 void UpdaterApplication::systemRequestedQuit()
@@ -92,6 +102,77 @@ MainComponent* UpdaterApplication::getMainComponent()
 UpgradeComponent* UpdaterApplication::getUpgradeComponent()
 {
     return getMainComponent()->getUpgradeComponent();
+}
+
+
+ApplicationCommandTarget* UpdaterApplication::getNextCommandTarget()
+{
+    return nullptr;
+}
+
+void UpdaterApplication::getAllCommands(Array <CommandID> &commands)
+{
+    const CommandID ids[] = {
+        CommandIDs::version,
+        CommandIDs::quit
+    };
+    commands.addArray(ids, numElementsInArray(ids));
+}
+
+void UpdaterApplication::getCommandInfo(const CommandID commandID, ApplicationCommandInfo &result)
+{
+    const int cmd = ModifierKeys::commandModifier;
+    
+    switch (commandID)
+    {
+        case CommandIDs::version:
+            result.setInfo("LinnStrument Updater v" + String(ProjectInfo::versionString),
+                           "The version of the LinnStrument Updater.",
+                           CommandCategories::help, 0);
+            result.setActive(true);
+            break;
+            
+        case CommandIDs::quit:
+            result.setInfo("Exit",
+                           "Exit LinnStrument Updater.",
+                           CommandCategories::help, 0);
+            result.setActive(true);
+            result.defaultKeypresses.add(KeyPress('q', cmd, 0));
+            break;
+            
+        default:
+            break;
+    }
+}
+
+bool UpdaterApplication::perform(const InvocationInfo &info)
+{
+    switch (info.commandID)
+    {
+        case CommandIDs::version:
+        {
+            break;
+        }
+            
+        case CommandIDs::quit:
+        {
+            this->systemRequestedQuit();
+            break;
+        }
+        
+        default:
+            return false;
+    }
+    
+    return true;
+}
+
+void UpdaterApplication::applicationCommandInvoked(const ApplicationCommandTarget::InvocationInfo &)
+{
+}
+
+void UpdaterApplication::applicationCommandListChanged()
+{
 }
 
 void UpdaterApplication::handleMessage(const juce::Message &message)
@@ -118,7 +199,8 @@ void UpdaterApplication::handleMessage(const juce::Message &message)
         {
             if (linnStrumentSerial->findFirmwareFile())
             {
-                upgradeLinnStrument();
+                readSettings();
+//                prepareDevice();
             }
             else
             {
@@ -239,7 +321,7 @@ void UpdaterApplication::detectLinnStrument()
     postMessage(new ApplicationMessage(ApplicationMessageType::detectLinnStrument, (void *)nullptr));
 }
 
-void UpdaterApplication::upgradeLinnStrument()
+void UpdaterApplication::readSettings()
 {
     postMessage(new ApplicationMessage(ApplicationMessageType::readSettings, (void *)nullptr));
 }

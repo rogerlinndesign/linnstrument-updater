@@ -1,6 +1,7 @@
 Microsoft Visual Studio Solution File, Format Version 11.00
 # Visual Studio 2013
-Project("{D2207403-735A-53D4-950E-7C8CBDADA0FF}") = "LinnStrument Updater", "LinnStrument Updater.vcxproj", "{D9ED6B46-2648-11F4-2F30-90C94C257AAD}"
+
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "LinnStrument Updater - App", "LinnStrument Updater_App.vcxproj", "{4C88411C-4563-DC3D-0EB8-5415E727666A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -8,10 +9,10 @@ Global
 		Release|Win32 = Release|Win32
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{D9ED6B46-2648-11F4-2F30-90C94C257AAD}.Debug|Win32.ActiveCfg = Debug|Win32
-		{D9ED6B46-2648-11F4-2F30-90C94C257AAD}.Debug|Win32.Build.0 = Debug|Win32
-		{D9ED6B46-2648-11F4-2F30-90C94C257AAD}.Release|Win32.ActiveCfg = Release|Win32
-		{D9ED6B46-2648-11F4-2F30-90C94C257AAD}.Release|Win32.Build.0 = Release|Win32
+		{4C88411C-4563-DC3D-0EB8-5415E727666A}.Debug|Win32.ActiveCfg = Debug|Win32
+		{4C88411C-4563-DC3D-0EB8-5415E727666A}.Debug|Win32.Build.0 = Debug|Win32
+		{4C88411C-4563-DC3D-0EB8-5415E727666A}.Release|Win32.ActiveCfg = Release|Win32
+		{4C88411C-4563-DC3D-0EB8-5415E727666A}.Release|Win32.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

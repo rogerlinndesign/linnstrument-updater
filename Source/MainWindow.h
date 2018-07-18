@@ -12,15 +12,22 @@
 
 #include <JuceHeader.h>
 
-class MainWindow : public DocumentWindow
+class MainWindow : public DocumentWindow,
+                   public MenuBarModel
 {
 public:
     MainWindow();
-    
+    ~MainWindow();
+
     void closeButtonPressed();
     
+    StringArray getMenuBarNames();
+    PopupMenu getMenuForIndex(int, const String &);
+    void menuItemSelected(int, int);
+
 private:
-    
+    PopupMenu extraMenu_;
+
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (MainWindow)
 };
 

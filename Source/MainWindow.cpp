@@ -9,10 +9,19 @@
 */
 #include "MainWindow.h"
 
+#include "CommandIDs.h"
 #include "MainComponent.h"
+#include "UpdaterApplication.h"
 
-MainWindow::MainWindow() : DocumentWindow(String(ProjectInfo::projectName)+" "+ProjectInfo::versionString, Colours::white, DocumentWindow::closeButton)
+MainWindow::MainWindow() : DocumentWindow(String(ProjectInfo::projectName), Colours::white, DocumentWindow::closeButton)
 {
+#if JUCE_MAC
+    extraMenu_.addCommandItem(commandManager, CommandIDs::version);
+    setMacMainMenu(this, &extraMenu_);
+#else
+    setMenuBar(this);
+#endif
+
     setResizable(false, false);
     setUsingNativeTitleBar(true);
     
@@ -24,7 +33,53 @@ MainWindow::MainWindow() : DocumentWindow(String(ProjectInfo::projectName)+" "+P
     setVisible(true);
 }
 
+MainWindow::~MainWindow()
+{
+#if JUCE_MAC
+    setMacMainMenu(0, 0);
+#else
+    setMenuBar(0);
+#endif
+    
+    clearContentComponent();
+}
+
 void MainWindow::closeButtonPressed()
 {
     JUCEApplication::getInstance()->systemRequestedQuit();
+}
+
+
+StringArray MainWindow::getMenuBarNames()
+{
+#ifdef JUCE_MAC
+    return StringArray();
+#else
+    const char* const names[] = { CommandCategories::help, 0 };
+    return StringArray(names);
+#endif
+}
+
+PopupMenu MainWindow::getMenuForIndex(int topLevelMenuIndex, const String &)
+{
+    PopupMenu menu;
+    
+    if (topLevelMenuIndex == 0)
+    {
+        // "Help" menu
+        
+#ifndef JUCE_MAC
+        menu.addCommandItem(commandManager, CommandIDs::version);
+        
+        menu.addSeparator();
+        
+        menu.addCommandItem(commandManager, CommandIDs::quit);
+#endif
+    }
+    
+    return menu;
+}
+
+void MainWindow::menuItemSelected(int menuItemID, int)
+{
 }

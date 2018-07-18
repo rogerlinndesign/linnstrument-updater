@@ -7,12 +7,12 @@
   the "//[xyz]" and "//[/xyz]" sections will be retained when the file is loaded
   and re-saved.
 
-  Created with Projucer version: 4.2.4
+  Created with Projucer version: 5.3.2
 
   ------------------------------------------------------------------------------
 
-  The Projucer is part of the JUCE library - "Jules' Utility Class Extensions"
-  Copyright (c) 2015 - ROLI Ltd.
+  The Projucer is part of the JUCE library.
+  Copyright (c) 2017 - ROLI Ltd.
 
   ==============================================================================
 */
@@ -33,53 +33,62 @@ UpgradeComponent::UpgradeComponent ()
     //[Constructor_pre] You can add your own custom stuff here..
     //[/Constructor_pre]
 
-    addAndMakeVisible (progressLabel_ = new Label ("progress label",
-                                                   String()));
-    progressLabel_->setFont (Font (15.00f, Font::plain));
+    progressLabel_.reset (new Label ("progress label",
+                                     String()));
+    addAndMakeVisible (progressLabel_.get());
+    progressLabel_->setFont (Font (15.00f, Font::plain).withTypefaceStyle ("Regular"));
     progressLabel_->setJustificationType (Justification::centred);
     progressLabel_->setEditable (false, false, false);
     progressLabel_->setColour (TextEditor::textColourId, Colours::black);
     progressLabel_->setColour (TextEditor::backgroundColourId, Colour (0x00000000));
 
-    addAndMakeVisible (goAheadButton_ = new TextButton ("go ahead button"));
+    goAheadButton_.reset (new TextButton ("go ahead button"));
+    addAndMakeVisible (goAheadButton_.get());
     goAheadButton_->setButtonText (TRANS("Go Ahead"));
     goAheadButton_->addListener (this);
     goAheadButton_->setColour (TextButton::buttonColourId, Colour (0xffd0d0d0));
     goAheadButton_->setColour (TextButton::buttonOnColourId, Colour (0xff868686));
 
-    addAndMakeVisible (selectFirmwareButton_ = new TextButton ("select firmware button"));
+    selectFirmwareButton_.reset (new TextButton ("select firmware button"));
+    addAndMakeVisible (selectFirmwareButton_.get());
     selectFirmwareButton_->setButtonText (TRANS("Select Firmware File"));
     selectFirmwareButton_->addListener (this);
     selectFirmwareButton_->setColour (TextButton::buttonColourId, Colour (0xffd0d0d0));
     selectFirmwareButton_->setColour (TextButton::buttonOnColourId, Colour (0xff868686));
 
-    addAndMakeVisible (updateButton_ = new TextButton ("update button"));
+    updateButton_.reset (new TextButton ("update button"));
+    addAndMakeVisible (updateButton_.get());
     updateButton_->setButtonText (TRANS("Update Firmware"));
     updateButton_->addListener (this);
     updateButton_->setColour (TextButton::buttonColourId, Colour (0xffd0d0d0));
     updateButton_->setColour (TextButton::buttonOnColourId, Colour (0xff868686));
 
-    addAndMakeVisible (retryButton_ = new TextButton ("retry"));
+    retryButton_.reset (new TextButton ("retry"));
+    addAndMakeVisible (retryButton_.get());
     retryButton_->setButtonText (TRANS("Retry"));
     retryButton_->addListener (this);
     retryButton_->setColour (TextButton::buttonColourId, Colour (0xffd0d0d0));
     retryButton_->setColour (TextButton::buttonOnColourId, Colour (0xff868686));
 
-    addAndMakeVisible (goAheadDefaultSettingsButton_ = new TextButton ("goAheadDefaultSettings"));
+    goAheadDefaultSettingsButton_.reset (new TextButton ("goAheadDefaultSettings"));
+    addAndMakeVisible (goAheadDefaultSettingsButton_.get());
     goAheadDefaultSettingsButton_->setButtonText (TRANS("Go ahead with default settings"));
     goAheadDefaultSettingsButton_->addListener (this);
     goAheadDefaultSettingsButton_->setColour (TextButton::buttonColourId, Colour (0xffd0d0d0));
     goAheadDefaultSettingsButton_->setColour (TextButton::buttonOnColourId, Colour (0xff868686));
 
-    addAndMakeVisible (linnstrumentLabel_ = new Label ("linnstrument label",
-                                                       String()));
-    linnstrumentLabel_->setFont (Font (15.00f, Font::plain));
+    linnstrumentLabel_.reset (new Label ("linnstrument label",
+                                         String()));
+    addAndMakeVisible (linnstrumentLabel_.get());
+    linnstrumentLabel_->setFont (Font (15.00f, Font::plain).withTypefaceStyle ("Regular"));
     linnstrumentLabel_->setJustificationType (Justification::centred);
     linnstrumentLabel_->setEditable (false, false, false);
+    linnstrumentLabel_->setColour (Label::textColourId, Colours::black);
     linnstrumentLabel_->setColour (TextEditor::textColourId, Colours::black);
     linnstrumentLabel_->setColour (TextEditor::backgroundColourId, Colour (0x00000000));
 
-    addAndMakeVisible (quitButton_ = new TextButton ("quit button"));
+    quitButton_.reset (new TextButton ("quit button"));
+    addAndMakeVisible (quitButton_.get());
     quitButton_->setButtonText (TRANS("Quit"));
     quitButton_->addListener (this);
     quitButton_->setColour (TextButton::buttonColourId, Colour (0xffd0d0d0));
@@ -150,14 +159,14 @@ void UpgradeComponent::buttonClicked (Button* buttonThatWasClicked)
     //[UserbuttonClicked_Pre]
     //[/UserbuttonClicked_Pre]
 
-    if (buttonThatWasClicked == goAheadButton_)
+    if (buttonThatWasClicked == goAheadButton_.get())
     {
         //[UserButtonCode_goAheadButton_] -- add your button handler code here..
         goAheadButton_->setVisible(false);
         UpdaterApplication::getApp().findFirmware();
         //[/UserButtonCode_goAheadButton_]
     }
-    else if (buttonThatWasClicked == selectFirmwareButton_)
+    else if (buttonThatWasClicked == selectFirmwareButton_.get())
     {
         //[UserButtonCode_selectFirmwareButton_] -- add your button handler code here..
         FileChooser fc("Choose which firmware file to use...",
@@ -171,26 +180,27 @@ void UpgradeComponent::buttonClicked (Button* buttonThatWasClicked)
         }
         //[/UserButtonCode_selectFirmwareButton_]
     }
-    else if (buttonThatWasClicked == updateButton_)
+    else if (buttonThatWasClicked == updateButton_.get())
     {
         //[UserButtonCode_updateButton_] -- add your button handler code here..
         updateButton_->setVisible(false);
-        UpdaterApplication::getApp().upgradeLinnStrument();
+        UpdaterApplication::getApp().readSettings();
+//        UpdaterApplication::getApp().prepareDevice();
         //[/UserButtonCode_updateButton_]
     }
-    else if (buttonThatWasClicked == retryButton_)
+    else if (buttonThatWasClicked == retryButton_.get())
     {
         //[UserButtonCode_retryButton_] -- add your button handler code here..
         UpdaterApplication::getApp().retry();
         //[/UserButtonCode_retryButton_]
     }
-    else if (buttonThatWasClicked == goAheadDefaultSettingsButton_)
+    else if (buttonThatWasClicked == goAheadDefaultSettingsButton_.get())
     {
         //[UserButtonCode_goAheadDefaultSettingsButton_] -- add your button handler code here..
         UpdaterApplication::getApp().prepareDevice();
         //[/UserButtonCode_goAheadDefaultSettingsButton_]
     }
-    else if (buttonThatWasClicked == quitButton_)
+    else if (buttonThatWasClicked == quitButton_.get())
     {
         //[UserButtonCode_quitButton_] -- add your button handler code here..
         UpdaterApplication::getApp().systemRequestedQuit();
@@ -272,8 +282,8 @@ BEGIN_JUCER_METADATA
   <LABEL name="progress label" id="25076abe0a4bd824" memberName="progressLabel_"
          virtualName="" explicitFocusOrder="0" pos="0Cc 88 328 24" edTextCol="ff000000"
          edBkgCol="0" labelText="" editableSingleClick="0" editableDoubleClick="0"
-         focusDiscardsChanges="0" fontname="Default font" fontsize="15"
-         bold="0" italic="0" justification="36"/>
+         focusDiscardsChanges="0" fontname="Default font" fontsize="15.00000000000000000000"
+         kerning="0.00000000000000000000" bold="0" italic="0" justification="36"/>
   <TEXTBUTTON name="go ahead button" id="2925c0dd21a74d6b" memberName="goAheadButton_"
               virtualName="" explicitFocusOrder="0" pos="0Cc 88 136 24" bgColOff="ffd0d0d0"
               bgColOn="ff868686" buttonText="Go Ahead" connectedEdges="0" needsCallback="1"
@@ -295,9 +305,10 @@ BEGIN_JUCER_METADATA
               bgColOn="ff868686" buttonText="Go ahead with default settings"
               connectedEdges="0" needsCallback="1" radioGroupId="0"/>
   <LABEL name="linnstrument label" id="62da816b2e6b995a" memberName="linnstrumentLabel_"
-         virtualName="" explicitFocusOrder="0" pos="0Cc 8 504 64" edTextCol="ff000000"
-         edBkgCol="0" labelText="" editableSingleClick="0" editableDoubleClick="0"
-         focusDiscardsChanges="0" fontname="Default font" fontsize="15"
+         virtualName="" explicitFocusOrder="0" pos="0Cc 8 504 64" textCol="ff000000"
+         edTextCol="ff000000" edBkgCol="0" labelText="" editableSingleClick="0"
+         editableDoubleClick="0" focusDiscardsChanges="0" fontname="Default font"
+         fontsize="15.00000000000000000000" kerning="0.00000000000000000000"
          bold="0" italic="0" justification="36"/>
   <TEXTBUTTON name="quit button" id="a4c883b94a027e24" memberName="quitButton_"
               virtualName="" explicitFocusOrder="0" pos="0Cc 80 80 40" bgColOff="ffd0d0d0"

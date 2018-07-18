@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Scheme
-   LastUpgradeVersion = "0800"
+   LastUpgradeVersion = "0830"
    version = "1.3">
    <BuildAction
       parallelizeBuildables = "YES"
@@ -16,7 +16,7 @@
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "C74383895BA02947723BEB8F"
                BuildableName = "LinnStrument Updater.app"
-               BlueprintName = "LinnStrument Updater (App)"
+               BlueprintName = "LinnStrument Updater - App"
                ReferencedContainer = "container:LinnStrument Updater.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
@@ -34,7 +34,7 @@
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "C74383895BA02947723BEB8F"
             BuildableName = "LinnStrument Updater.app"
-            BlueprintName = "LinnStrument Updater (App)"
+            BlueprintName = "LinnStrument Updater - App"
             ReferencedContainer = "container:LinnStrument Updater.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
@@ -57,7 +57,7 @@
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "C74383895BA02947723BEB8F"
             BuildableName = "LinnStrument Updater.app"
-            BlueprintName = "LinnStrument Updater (App)"
+            BlueprintName = "LinnStrument Updater - App"
             ReferencedContainer = "container:LinnStrument Updater.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
@@ -76,7 +76,7 @@
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "C74383895BA02947723BEB8F"
             BuildableName = "LinnStrument Updater.app"
-            BlueprintName = "LinnStrument Updater (App)"
+            BlueprintName = "LinnStrument Updater - App"
             ReferencedContainer = "container:LinnStrument Updater.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>

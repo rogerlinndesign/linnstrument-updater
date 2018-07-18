@@ -38,7 +38,7 @@ LinnStrumentSerialMac::~LinnStrumentSerialMac()
 
 String LinnStrumentSerialMac::getFullLinnStrumentDevice()
 {
-    if (!isDetected()) return String::empty;
+    if (!isDetected()) return String();
     
     return "/dev/"+linnstrumentDevice;
 }
@@ -56,7 +56,6 @@ typedef struct DeviceListItem {
 } stDeviceListItem;
 
 static kern_return_t FindModems(io_iterator_t *matchingServices);
-static io_registry_entry_t GetUsbDevice(char *pathName);
 static stDeviceListItem* GetSerialDevices();
 
 static kern_return_t FindModems(io_iterator_t *matchingServices)
@@ -130,7 +129,7 @@ static void MatchUsbDevice(char* pathName, stSerialDevice *serialDevice)
         UInt32 locationID;
         (*deviceInterface)->GetLocationID(deviceInterface, &locationID);
         char locationIdHex[255];
-        snprintf(locationIdHex, 254, "%X", locationID);
+        snprintf(locationIdHex, 254, "%X", (unsigned int)locationID);
         
         String locationIdString(locationIdHex);
         locationIdString = locationIdString.trimCharactersAtStart("0");

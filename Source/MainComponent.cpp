@@ -7,12 +7,12 @@
   the "//[xyz]" and "//[/xyz]" sections will be retained when the file is loaded
   and re-saved.
 
-  Created with Projucer version: 4.2.4
+  Created with Projucer version: 5.3.2
 
   ------------------------------------------------------------------------------
 
-  The Projucer is part of the JUCE library - "Jules' Utility Class Extensions"
-  Copyright (c) 2015 - ROLI Ltd.
+  The Projucer is part of the JUCE library.
+  Copyright (c) 2017 - ROLI Ltd.
 
   ==============================================================================
 */
@@ -33,30 +33,35 @@ MainComponent::MainComponent ()
     //[Constructor_pre] You can add your own custom stuff here..
     //[/Constructor_pre]
 
-    addAndMakeVisible (upgrade_ = new UpgradeComponent());
+    upgrade_.reset (new UpgradeComponent());
+    addAndMakeVisible (upgrade_.get());
     upgrade_->setName ("upgrade component");
 
-    addAndMakeVisible (introLabel_ = new Label ("intro label",
-                                                String()));
-    introLabel_->setFont (Font (15.00f, Font::plain));
+    introLabel_.reset (new Label ("intro label",
+                                  String()));
+    addAndMakeVisible (introLabel_.get());
+    introLabel_->setFont (Font (15.00f, Font::plain).withTypefaceStyle ("Regular"));
     introLabel_->setJustificationType (Justification::centred);
     introLabel_->setEditable (false, false, false);
     introLabel_->setColour (TextEditor::textColourId, Colours::black);
     introLabel_->setColour (TextEditor::backgroundColourId, Colour (0x00000000));
 
-    addAndMakeVisible (sequencerProjectsButton_ = new TextButton ("sequencer projects button"));
+    sequencerProjectsButton_.reset (new TextButton ("sequencer projects button"));
+    addAndMakeVisible (sequencerProjectsButton_.get());
     sequencerProjectsButton_->setButtonText (TRANS("Sequencer Projects"));
     sequencerProjectsButton_->addListener (this);
     sequencerProjectsButton_->setColour (TextButton::buttonColourId, Colour (0xffd0d0d0));
     sequencerProjectsButton_->setColour (TextButton::buttonOnColourId, Colour (0xff868686));
 
-    addAndMakeVisible (updateFirmwareButton_ = new TextButton ("update firmware button"));
+    updateFirmwareButton_.reset (new TextButton ("update firmware button"));
+    addAndMakeVisible (updateFirmwareButton_.get());
     updateFirmwareButton_->setButtonText (TRANS("Update Firmware"));
     updateFirmwareButton_->addListener (this);
     updateFirmwareButton_->setColour (TextButton::buttonColourId, Colour (0xffd0d0d0));
     updateFirmwareButton_->setColour (TextButton::buttonOnColourId, Colour (0xff868686));
 
-    addAndMakeVisible (projects_ = new ProjectsComponent());
+    projects_.reset (new ProjectsComponent());
+    addAndMakeVisible (projects_.get());
     projects_->setName ("Projects component");
 
     cachedImage_rogerlinndesign_png_1 = ImageCache::getFromMemory (rogerlinndesign_png, rogerlinndesign_pngSize);
@@ -100,11 +105,16 @@ void MainComponent::paint (Graphics& g)
 
     g.fillAll (Colours::white);
 
-    g.setColour (Colours::black);
-    g.drawImageWithin (cachedImage_rogerlinndesign_png_1,
-                       (getWidth() / 2) - (175 / 2), 20, 175, 68,
-                       RectanglePlacement::centred,
-                       false);
+    {
+        int x = (getWidth() / 2) - (175 / 2), y = 20, width = 175, height = 68;
+        //[UserPaintCustomArguments] Customize the painting arguments here..
+        //[/UserPaintCustomArguments]
+        g.setColour (Colours::black);
+        g.drawImageWithin (cachedImage_rogerlinndesign_png_1,
+                           x, y, width, height,
+                           RectanglePlacement::centred,
+                           false);
+    }
 
     //[UserPaint] Add your own custom painting code here..
     //[/UserPaint]
@@ -132,13 +142,13 @@ void MainComponent::buttonClicked (Button* buttonThatWasClicked)
     updateFirmwareButton_->setVisible(false);
     //[/UserbuttonClicked_Pre]
 
-    if (buttonThatWasClicked == sequencerProjectsButton_)
+    if (buttonThatWasClicked == sequencerProjectsButton_.get())
     {
         //[UserButtonCode_sequencerProjectsButton_] -- add your button handler code here..
         projects_->setVisible(true);
         //[/UserButtonCode_sequencerProjectsButton_]
     }
-    else if (buttonThatWasClicked == updateFirmwareButton_)
+    else if (buttonThatWasClicked == updateFirmwareButton_.get())
     {
         //[UserButtonCode_updateFirmwareButton_] -- add your button handler code here..
         upgrade_->setVisible(true);
@@ -167,12 +177,12 @@ void MainComponent::setIntroText(const String& text)
 
 ProjectsComponent* MainComponent::getProjectsComponent()
 {
-    return projects_;
+    return projects_.get();
 }
 
 UpgradeComponent* MainComponent::getUpgradeComponent()
 {
-    return upgrade_;
+    return upgrade_.get();
 }
 
 void MainComponent::setButtonsEnabled(bool enabled)
@@ -198,7 +208,7 @@ BEGIN_JUCER_METADATA
                  snapPixels="8" snapActive="1" snapShown="1" overlayOpacity="0.330"
                  fixedSize="1" initialWidth="600" initialHeight="260">
   <BACKGROUND backgroundColour="ffffffff">
-    <IMAGE pos="0Cc 20 175 68" resource="rogerlinndesign_png" opacity="1"
+    <IMAGE pos="0Cc 20 175 68" resource="rogerlinndesign_png" opacity="1.00000000000000000000"
            mode="1"/>
   </BACKGROUND>
   <GENERICCOMPONENT name="upgrade component" id="4ccd819bce1b4a8" memberName="upgrade_"
@@ -207,8 +217,8 @@ BEGIN_JUCER_METADATA
   <LABEL name="intro label" id="62da816b2e6b995a" memberName="introLabel_"
          virtualName="" explicitFocusOrder="0" pos="0Cc 112 504 48" edTextCol="ff000000"
          edBkgCol="0" labelText="" editableSingleClick="0" editableDoubleClick="0"
-         focusDiscardsChanges="0" fontname="Default font" fontsize="15"
-         bold="0" italic="0" justification="36"/>
+         focusDiscardsChanges="0" fontname="Default font" fontsize="15.00000000000000000000"
+         kerning="0.00000000000000000000" bold="0" italic="0" justification="36"/>
   <TEXTBUTTON name="sequencer projects button" id="b42e54770a3a5b10" memberName="sequencerProjectsButton_"
               virtualName="" explicitFocusOrder="0" pos="176c 184 192 48" bgColOff="ffd0d0d0"
               bgColOn="ff868686" buttonText="Sequencer Projects" connectedEdges="0"

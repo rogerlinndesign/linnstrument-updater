@@ -15,10 +15,13 @@
 #include "MainWindow.h"
 #include "LinnStrumentSerial.h"
 
+extern ApplicationCommandManager *commandManager;
+
 class MainComponent;
 class UpgradeComponent;
 
 class UpdaterApplication : public JUCEApplication,
+                           public ApplicationCommandManagerListener,
                            public MessageListener,
                            public Timer
 {
@@ -44,6 +47,13 @@ public:
     MainComponent* getMainComponent();
     UpgradeComponent* getUpgradeComponent();
     
+    ApplicationCommandTarget* getNextCommandTarget() override;
+    void getAllCommands(Array <CommandID> &) override;
+    void getCommandInfo(CommandID, ApplicationCommandInfo &) override;
+    bool perform(const InvocationInfo &) override;
+    void applicationCommandInvoked(const ApplicationCommandTarget::InvocationInfo &) override;
+    void applicationCommandListChanged() override;
+
     void handleMessage(const juce::Message &message) override;
     void timerCallback() override;
     
@@ -55,7 +65,7 @@ public:
     void connectionWarning();
     void detectLinnStrument();
     void prepareDevice();
-    void upgradeLinnStrument();
+    void readSettings();
     void restoreSettings();
     void retry();
     
@@ -70,6 +80,7 @@ public:
 
 private:
 
+    LookAndFeel_V3 lookAndFeel_;
     ScopedPointer<MainWindow> mainWindow;
     ScopedPointer<LinnStrumentSerial> linnStrumentSerial;
 };

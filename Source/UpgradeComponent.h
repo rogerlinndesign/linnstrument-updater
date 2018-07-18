@@ -7,18 +7,17 @@
   the "//[xyz]" and "//[/xyz]" sections will be retained when the file is loaded
   and re-saved.
 
-  Created with Projucer version: 4.2.4
+  Created with Projucer version: 5.3.2
 
   ------------------------------------------------------------------------------
 
-  The Projucer is part of the JUCE library - "Jules' Utility Class Extensions"
-  Copyright (c) 2015 - ROLI Ltd.
+  The Projucer is part of the JUCE library.
+  Copyright (c) 2017 - ROLI Ltd.
 
   ==============================================================================
 */
 
-#ifndef __JUCE_HEADER_98D955BBF337B26__
-#define __JUCE_HEADER_98D955BBF337B26__
+#pragma once
 
 //[Headers]     -- You can add your own extra header files here --
 /*
@@ -44,7 +43,7 @@
                                                                     //[/Comments]
 */
 class UpgradeComponent  : public Component,
-                          public ButtonListener
+                          public Button::Listener
 {
 public:
     //==============================================================================
@@ -77,14 +76,14 @@ private:
     //[/UserVariables]
 
     //==============================================================================
-    ScopedPointer<Label> progressLabel_;
-    ScopedPointer<TextButton> goAheadButton_;
-    ScopedPointer<TextButton> selectFirmwareButton_;
-    ScopedPointer<TextButton> updateButton_;
-    ScopedPointer<TextButton> retryButton_;
-    ScopedPointer<TextButton> goAheadDefaultSettingsButton_;
-    ScopedPointer<Label> linnstrumentLabel_;
-    ScopedPointer<TextButton> quitButton_;
+    std::unique_ptr<Label> progressLabel_;
+    std::unique_ptr<TextButton> goAheadButton_;
+    std::unique_ptr<TextButton> selectFirmwareButton_;
+    std::unique_ptr<TextButton> updateButton_;
+    std::unique_ptr<TextButton> retryButton_;
+    std::unique_ptr<TextButton> goAheadDefaultSettingsButton_;
+    std::unique_ptr<Label> linnstrumentLabel_;
+    std::unique_ptr<TextButton> quitButton_;
 
 
     //==============================================================================
@@ -93,5 +92,3 @@ private:
 
 //[EndFile] You can add extra defines here...
 //[/EndFile]
-
-#endif   // __JUCE_HEADER_98D955BBF337B26__
