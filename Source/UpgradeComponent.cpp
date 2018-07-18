@@ -184,8 +184,11 @@ void UpgradeComponent::buttonClicked (Button* buttonThatWasClicked)
     {
         //[UserButtonCode_updateButton_] -- add your button handler code here..
         updateButton_->setVisible(false);
+#ifdef LINNSTRUMENT_LOADER
+        UpdaterApplication::getApp().prepareDevice();
+#else
         UpdaterApplication::getApp().readSettings();
-//        UpdaterApplication::getApp().prepareDevice();
+#endif
         //[/UserButtonCode_updateButton_]
     }
     else if (buttonThatWasClicked == retryButton_.get())

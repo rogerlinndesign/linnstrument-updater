@@ -13,7 +13,13 @@
 #include "MainComponent.h"
 #include "UpdaterApplication.h"
 
-MainWindow::MainWindow() : DocumentWindow(String(ProjectInfo::projectName), Colours::white, DocumentWindow::closeButton)
+MainWindow::MainWindow() :
+#ifdef LINNSTRUMENT_LOADER
+DocumentWindow(String("LinnStrument Loader"),
+#else
+    DocumentWindow(String(ProjectInfo::projectName),
+#endif
+    Colours::white, DocumentWindow::closeButton)
 {
 #if JUCE_MAC
     extraMenu_.addCommandItem(commandManager, CommandIDs::version);

@@ -69,6 +69,8 @@
       <CONFIGURATIONS>
         <CONFIGURATION name="Debug" isDebug="1" optimisation="1" targetName="LinnStrument Updater"/>
         <CONFIGURATION name="Release" isDebug="0" optimisation="2" targetName="LinnStrument Updater"/>
+        <CONFIGURATION name="Release Loader" isDebug="0" optimisation="2" targetName="LinnStrument Loader"
+                       defines="LINNSTRUMENT_LOADER=1"/>
       </CONFIGURATIONS>
       <MODULEPATHS>
         <MODULEPATH id="juce_core" path="../juce/modules"/>

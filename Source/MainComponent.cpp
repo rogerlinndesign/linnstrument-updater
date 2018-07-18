@@ -131,6 +131,9 @@ void MainComponent::resized()
     updateFirmwareButton_->setBounds (getWidth() - 176 - (192 / 2), 184, 192, 48);
     projects_->setBounds ((getWidth() / 2) - (504 / 2), 104, 504, 150);
     //[UserResized] Add your own custom resize handling here..
+#ifdef LINNSTRUMENT_LOADER
+    updateFirmwareButton_->setBounds((getWidth() - updateFirmwareButton_->getWidth()) / 2, updateFirmwareButton_->getY(), updateFirmwareButton_->getWidth(), updateFirmwareButton_->getHeight());
+#endif
     //[/UserResized]
 }
 
@@ -169,8 +172,14 @@ void MainComponent::setIntroText(const String& text)
     upgrade_->setVisible(false);
 
     introLabel_->setVisible(true);
+#ifdef LINNSTRUMENT_LOADER
+    sequencerProjectsButton_->setVisible(false);
+    updateFirmwareButton_->setVisible(true);
+    resized();
+#else
     sequencerProjectsButton_->setVisible(true);
     updateFirmwareButton_->setVisible(true);
+#endif
 
     introLabel_->setText(text, NotificationType::sendNotificationAsync);
 }

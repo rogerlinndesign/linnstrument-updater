@@ -52,7 +52,11 @@ UpdaterApplication::UpdaterApplication() :
     
 const String UpdaterApplication::getApplicationName()
 {
+#ifdef LINNSTRUMENT_LOADER
+    return "LinnStrument Loader";
+#else
     return ProjectInfo::projectName;
+#endif
 }
 
 const String UpdaterApplication::getApplicationVersion()
@@ -126,15 +130,15 @@ void UpdaterApplication::getCommandInfo(const CommandID commandID, ApplicationCo
     switch (commandID)
     {
         case CommandIDs::version:
-            result.setInfo("LinnStrument Updater v" + String(ProjectInfo::versionString),
-                           "The version of the LinnStrument Updater.",
+            result.setInfo(getApplicationName() + " v" + String(ProjectInfo::versionString),
+                           "The version of the " + getApplicationName() + ".",
                            CommandCategories::help, 0);
             result.setActive(true);
             break;
             
         case CommandIDs::quit:
             result.setInfo("Exit",
-                           "Exit LinnStrument Updater.",
+                           "Exit " + getApplicationName() + ".",
                            CommandCategories::help, 0);
             result.setActive(true);
             result.defaultKeypresses.add(KeyPress('q', cmd, 0));
@@ -199,8 +203,11 @@ void UpdaterApplication::handleMessage(const juce::Message &message)
         {
             if (linnStrumentSerial->findFirmwareFile())
             {
+#ifdef LINNSTRUMENT_LOADER
+                prepareDevice();
+#else
                 readSettings();
-//                prepareDevice();
+#endif
             }
             else
             {
