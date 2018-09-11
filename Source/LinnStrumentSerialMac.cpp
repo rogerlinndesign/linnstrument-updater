@@ -73,83 +73,6 @@ static kern_return_t FindModems(io_iterator_t *matchingServices)
     return kernResult;
 }
 
-static void ExtractUsbInformation(stSerialDevice *serialDevice, IOUSBDeviceInterface197 **deviceInterface)
-{
-    kern_return_t kernResult;
-    
-    UInt16 vendorID;
-    kernResult = (*deviceInterface)->GetDeviceVendor(deviceInterface, &vendorID);
-    if (KERN_SUCCESS == kernResult)
-    {
-        serialDevice->vendorId = vendorID;
-    }
-    
-    UInt16 productID;
-    kernResult = (*deviceInterface)->GetDeviceProduct(deviceInterface, &productID);
-    if (KERN_SUCCESS == kernResult)
-    {
-        serialDevice->productId = productID;
-    }
-}
-
-static void MatchUsbDevice(char* pathName, stSerialDevice *serialDevice)
-{
-    kern_return_t e;
-    
-    CFMutableDictionaryRef d = IOServiceMatching(kIOUSBDeviceClassName);
-    if (d == NULL)
-    {
-        return;
-    }
-    
-    io_iterator_t matchingServices;
-    if ((e = IOServiceGetMatchingServices(kIOMasterPortDefault, d, &matchingServices)))
-    {
-        return;
-    }
-    
-    io_service_t service;
-    Boolean deviceFound = false;
-    
-    SInt32 score;
-    IOCFPlugInInterface **plug;
-    IOUSBDeviceInterface197 **deviceInterface;
-    while ((service = IOIteratorNext(matchingServices)) && !deviceFound)
-    {
-        e = IOCreatePlugInInterfaceForService(service, kIOUSBDeviceUserClientTypeID, kIOCFPlugInInterfaceID, &plug, &score);
-        IOObjectRelease(service);
-        if (e || !plug) continue;
-        
-        (*plug)->QueryInterface(plug, CFUUIDGetUUIDBytes(kIOUSBDeviceInterfaceID197), (void **)&deviceInterface);
-        (*plug)->Stop(plug);
-        
-        IODestroyPlugInInterface(plug);
-        if (!deviceInterface) continue;
-        
-        UInt32 locationID;
-        (*deviceInterface)->GetLocationID(deviceInterface, &locationID);
-        char locationIdHex[255];
-        snprintf(locationIdHex, 254, "%X", (unsigned int)locationID);
-        
-        String locationIdString(locationIdHex);
-        locationIdString = locationIdString.trimCharactersAtStart("0");
-        locationIdString = locationIdString.trimCharactersAtEnd("0");
-        String deviceName = "cu.usbmodem"+locationIdString+"1";
-        String devicePath = "/dev/"+deviceName;
-        File deviceFile(pathName);
-        if (devicePath.equalsIgnoreCase(pathName) && deviceFile.exists())
-        {
-            ExtractUsbInformation(serialDevice, deviceInterface);
-            (*deviceInterface)->Release(deviceInterface);
-            
-            deviceFound = true;
-        }
-    }
-
-    IOObjectRelease(matchingServices);
-}
-
-
 static stDeviceListItem* GetSerialDevices()
 {
     io_iterator_t serialPortIterator;
@@ -158,9 +81,6 @@ static stDeviceListItem* GetSerialDevices()
     FindModems(&serialPortIterator);
     
     io_service_t modemService;
-    
-    // Initialize the returned path
-    *bsdPath = '\0';
     
     stDeviceListItem* devices = NULL;
     stDeviceListItem* lastDevice = NULL;
@@ -176,33 +96,72 @@ static stDeviceListItem* GetSerialDevices()
         {
             Boolean result;
             
+            // Initialize the returned path
+            *bsdPath = '\0';
+            
             // Convert the path from a CFString to a C (NUL-terminated)
             result = CFStringGetCString((CFStringRef) bsdPathAsCFString, bsdPath, sizeof(bsdPath), kCFStringEncodingUTF8);
             CFRelease(bsdPathAsCFString);
             
             if (result)
             {
-                stDeviceListItem *deviceListItem = (stDeviceListItem*) malloc(sizeof(stDeviceListItem));
-                stSerialDevice *serialDevice = &(deviceListItem->value);
-                strcpy(serialDevice->port, bsdPath);
-                serialDevice->vendorId = 0;
-                serialDevice->productId = 0;
-                deviceListItem->next = NULL;
-                deviceListItem->length = &length;
-                
-                if (devices == NULL)
+                io_object_t parent = 0;
+                io_object_t parents = modemService;
+                while (KERN_SUCCESS == IORegistryEntryGetParentEntry(parents, kIOServicePlane, &parent))
                 {
-                    devices = deviceListItem;
+                    CFMutableDictionaryRef dict = NULL;
+                    result = IORegistryEntryCreateCFProperties(parent, &dict, kCFAllocatorDefault, 0);
+                    if (!result)
+                    {
+                        if (CFDictionaryContainsKey(dict,CFSTR("USB Vendor Name")) &&
+                            CFDictionaryContainsKey(dict,CFSTR("USB Product Name")) &&
+                            CFDictionaryContainsKey(dict,CFSTR("idVendor")) &&
+                            CFDictionaryContainsKey(dict,CFSTR("idProduct")))
+                        {
+                            CFStringRef vendorName = (CFStringRef)CFDictionaryGetValue(dict, CFSTR("USB Vendor Name"));
+                            CFStringRef productName = (CFStringRef)CFDictionaryGetValue(dict, CFSTR("USB Product Name"));
+                            CFNumberRef idVendor = (CFNumberRef)CFDictionaryGetValue(dict, CFSTR("idVendor"));
+                            CFNumberRef idProduct = (CFNumberRef)CFDictionaryGetValue(dict, CFSTR("idProduct"));
+                            int64_t id_vendor = 0;
+                            int64_t id_product = 0;
+                            CFNumberGetValue(idVendor, kCFNumberSInt64Type, &id_vendor);
+                            CFNumberGetValue(idProduct, kCFNumberSInt64Type, &id_product);
+                            
+                            if (kCFCompareEqualTo == CFStringCompare(vendorName, CFSTR("Roger Linn Design"), 0) &&
+                                kCFCompareEqualTo == CFStringCompare(productName, CFSTR("LinnStrument SERIAL"), 0) &&
+                                id_vendor == 0xf055 &&
+                                id_product == 0x0070)
+                            {
+                                stDeviceListItem *deviceListItem = (stDeviceListItem*) malloc(sizeof(stDeviceListItem));
+                                stSerialDevice *serialDevice = &(deviceListItem->value);
+                                strcpy(serialDevice->port, bsdPath);
+                                serialDevice->vendorId = id_vendor;
+                                serialDevice->productId = id_product;
+                                deviceListItem->next = NULL;
+                                deviceListItem->length = &length;
+                                
+                                if (devices == NULL)
+                                {
+                                    devices = deviceListItem;
+                                }
+                                else
+                                {
+                                    lastDevice->next = deviceListItem;
+                                }
+                                
+                                lastDevice = deviceListItem;
+                                length++;
+                            }
+                        }
+                    }
+                    
+                    if (parents != modemService)
+                    {
+                        IOObjectRelease(parents);
+                    }
+                    
+                    parents = parent;
                 }
-                else
-                {
-                    lastDevice->next = deviceListItem;
-                }
-                
-                lastDevice = deviceListItem;
-                length++;
-                
-                MatchUsbDevice(bsdPath, serialDevice);
             }
         }
         
