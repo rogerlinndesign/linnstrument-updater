@@ -43,80 +43,57 @@ String LinnStrumentSerialMac::getFullLinnStrumentDevice()
     return "/dev/"+linnstrumentDevice;
 }
 
-typedef struct SerialDevice {
-    char port[MAXPATHLEN];
-    UInt16 vendorId;
-    UInt16 productId;
-} stSerialDevice;
-
-typedef struct DeviceListItem {
-    struct SerialDevice value;
-    struct DeviceListItem *next;
-    int* length;
-} stDeviceListItem;
-
-static kern_return_t FindModems(io_iterator_t *matchingServices);
-static stDeviceListItem* GetSerialDevices();
-
-static kern_return_t FindModems(io_iterator_t *matchingServices)
+bool LinnStrumentSerialMac::detect()
 {
-    kern_return_t kernResult;
-    CFMutableDictionaryRef classesToMatch;
-    classesToMatch = IOServiceMatching(kIOSerialBSDServiceValue);
-    if (classesToMatch != NULL)
-    {
-        CFDictionarySetValue(classesToMatch, CFSTR(kIOSerialBSDTypeKey), CFSTR(kIOSerialBSDAllTypes));
-    }
+    resetDetection();
     
-    kernResult = IOServiceGetMatchingServices(kIOMasterPortDefault, classesToMatch, matchingServices);
-    
-    return kernResult;
-}
-
-static stDeviceListItem* GetSerialDevices()
-{
     io_iterator_t serialPortIterator;
     char bsdPath[MAXPATHLEN];
     
-    FindModems(&serialPortIterator);
+    CFMutableDictionaryRef classesToMatch = IOServiceMatching(kIOSerialBSDServiceValue);
+    if (classesToMatch == NULL)
+    {
+        return false;
+    }
+    CFDictionarySetValue(classesToMatch, CFSTR(kIOSerialBSDTypeKey), CFSTR(kIOSerialBSDAllTypes));
+    
+    kern_return_t success = IOServiceGetMatchingServices(kIOMasterPortDefault, classesToMatch, &serialPortIterator);
+    if (KERN_SUCCESS != success)
+    {
+        return false;
+    }
     
     io_service_t modemService;
     
-    stDeviceListItem* devices = NULL;
-    stDeviceListItem* lastDevice = NULL;
-    int length = 0;
-    
-    while ((modemService = IOIteratorNext(serialPortIterator)))
+    while ((modemService = IOIteratorNext(serialPortIterator)) &&
+           !isDetected())
     {
-        CFTypeRef bsdPathAsCFString;
-        
-        bsdPathAsCFString = IORegistryEntrySearchCFProperty(modemService, kIOServicePlane, CFSTR(kIOCalloutDeviceKey), kCFAllocatorDefault, kIORegistryIterateRecursively);
+        CFTypeRef bsdPathAsCFString = IORegistryEntrySearchCFProperty(modemService, kIOServicePlane, CFSTR(kIOCalloutDeviceKey), kCFAllocatorDefault, kIORegistryIterateRecursively);
         
         if (bsdPathAsCFString)
         {
-            Boolean result;
-            
             // Initialize the returned path
             *bsdPath = '\0';
             
             // Convert the path from a CFString to a C (NUL-terminated)
-            result = CFStringGetCString((CFStringRef) bsdPathAsCFString, bsdPath, sizeof(bsdPath), kCFStringEncodingUTF8);
+            Boolean result = CFStringGetCString((CFStringRef) bsdPathAsCFString, bsdPath, sizeof(bsdPath), kCFStringEncodingUTF8);
             CFRelease(bsdPathAsCFString);
             
             if (result)
             {
                 io_object_t parent = 0;
                 io_object_t parents = modemService;
-                while (KERN_SUCCESS == IORegistryEntryGetParentEntry(parents, kIOServicePlane, &parent))
+                while (KERN_SUCCESS == IORegistryEntryGetParentEntry(parents, kIOServicePlane, &parent) &&
+                       !isDetected())
                 {
                     CFMutableDictionaryRef dict = NULL;
                     result = IORegistryEntryCreateCFProperties(parent, &dict, kCFAllocatorDefault, 0);
                     if (!result)
                     {
-                        if (CFDictionaryContainsKey(dict,CFSTR("USB Vendor Name")) &&
-                            CFDictionaryContainsKey(dict,CFSTR("USB Product Name")) &&
-                            CFDictionaryContainsKey(dict,CFSTR("idVendor")) &&
-                            CFDictionaryContainsKey(dict,CFSTR("idProduct")))
+                        if (CFDictionaryContainsKey(dict, CFSTR("USB Vendor Name")) &&
+                            CFDictionaryContainsKey(dict, CFSTR("USB Product Name")) &&
+                            CFDictionaryContainsKey(dict, CFSTR("idVendor")) &&
+                            CFDictionaryContainsKey(dict, CFSTR("idProduct")))
                         {
                             CFStringRef vendorName = (CFStringRef)CFDictionaryGetValue(dict, CFSTR("USB Vendor Name"));
                             CFStringRef productName = (CFStringRef)CFDictionaryGetValue(dict, CFSTR("USB Product Name"));
@@ -127,34 +104,24 @@ static stDeviceListItem* GetSerialDevices()
                             CFNumberGetValue(idVendor, kCFNumberSInt64Type, &id_vendor);
                             CFNumberGetValue(idProduct, kCFNumberSInt64Type, &id_product);
                             
-                            if (kCFCompareEqualTo == CFStringCompare(vendorName, CFSTR("Roger Linn Design"), 0) &&
+                            if (linnstrumentDevice.isEmpty() &&
+                                kCFCompareEqualTo == CFStringCompare(vendorName, CFSTR("Roger Linn Design"), 0) &&
                                 kCFCompareEqualTo == CFStringCompare(productName, CFSTR("LinnStrument SERIAL"), 0) &&
                                 id_vendor == 0xf055 &&
                                 id_product == 0x0070)
                             {
-                                stDeviceListItem *deviceListItem = (stDeviceListItem*) malloc(sizeof(stDeviceListItem));
-                                stSerialDevice *serialDevice = &(deviceListItem->value);
-                                strcpy(serialDevice->port, bsdPath);
-                                serialDevice->vendorId = id_vendor;
-                                serialDevice->productId = id_product;
-                                deviceListItem->next = NULL;
-                                deviceListItem->length = &length;
-                                
-                                if (devices == NULL)
+                                String device = String(bsdPath);
+                                if (device.startsWith("/dev/"))
                                 {
-                                    devices = deviceListItem;
+                                    linnstrumentDevice = device.substring(5);
+                                    std::cout << "Using LinnStrument device " << linnstrumentDevice << std::endl;
                                 }
-                                else
-                                {
-                                    lastDevice->next = deviceListItem;
-                                }
-                                
-                                lastDevice = deviceListItem;
-                                length++;
                             }
                         }
+                        
+                        CFRelease(dict);
                     }
-                    
+
                     if (parents != modemService)
                     {
                         IOObjectRelease(parents);
@@ -171,44 +138,6 @@ static stDeviceListItem* GetSerialDevices()
     
     IOObjectRelease(serialPortIterator);  // Release the iterator.
     
-    return devices;
-}
-
-bool LinnStrumentSerialMac::detect()
-{
-    resetDetection();
-    
-    stDeviceListItem* devices = GetSerialDevices();
-    
-    if (*(devices->length) > 0)
-    {
-        stDeviceListItem* next = devices;
-        
-        for (int i = 0, len = *(devices->length); i < len && !isDetected(); i++) {
-            stSerialDevice device = (* next).value;
-
-            // only use serial devices with the vendor and product ID of LinnStrument
-            if (linnstrumentDevice.isEmpty() &&
-                device.vendorId == 0xf055 &&
-                device.productId == 0x0070 &&
-                strstr(device.port, "/dev/") == device.port) {
-                linnstrumentDevice = String(device.port);
-                linnstrumentDevice = linnstrumentDevice.substring(5);
-                std::cout << "Using LinnStrument device " << linnstrumentDevice << std::endl;
-            }
-            
-            stDeviceListItem* current = next;
-            
-            if (next->next != NULL)
-            {
-                next = next->next;
-            }
-            
-            free(current);
-        }
-        
-    }
-        
     return isDetected();
 }
 
