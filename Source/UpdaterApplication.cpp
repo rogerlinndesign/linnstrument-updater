@@ -201,7 +201,7 @@ void UpdaterApplication::handleMessage(const juce::Message &message)
             
         case ApplicationMessageType::findFirmware:
         {
-            if (linnStrumentSerial->findFirmwareFile())
+            if (linnStrumentSerial->hasFirmwareFile())
             {
 #ifdef LINNSTRUMENT_LOADER
                 prepareDevice();
@@ -299,7 +299,7 @@ void UpdaterApplication::timerCallback()
     stopTimer();
 }
 
-LinnStrumentSerial &UpdaterApplication::getLinnStrumentSerial()
+LinnStrumentSerial& UpdaterApplication::getLinnStrumentSerial()
 {
     return *linnStrumentSerial;
 }

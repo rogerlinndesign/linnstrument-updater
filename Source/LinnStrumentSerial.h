@@ -29,6 +29,7 @@ public:
     bool findFirmwareFile();
     void setFirmwareFile(const File& file);
     bool hasFirmwareFile();
+    String getFirmwareFile();
     void resetDetection();
     bool readSettings();
     bool restoreSettings();

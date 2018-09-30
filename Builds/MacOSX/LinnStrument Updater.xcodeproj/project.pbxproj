@@ -13,6 +13,7 @@
 		130590A62699346E5A3A5B34 /* include_juce_events.mm in Sources */ = {isa = PBXBuildFile; fileRef = FA0265DED228596994D1DA86 /* include_juce_events.mm */; };
 		159BC7EEC80463CFDE443A8E /* Main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9FFEDCB2F5367D47801E4BC8 /* Main.cpp */; };
 		1C2165ACCAE018513BB0BDA9 /* MainWindow.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 36758C2C69A69DBADD158FED /* MainWindow.cpp */; };
+		26B5032821615853005A42AB /* linnstrument-firmware-2.2.1.bin in Resources */ = {isa = PBXBuildFile; fileRef = 26B5032721615853005A42AB /* linnstrument-firmware-2.2.1.bin */; };
 		26EFA06920FF080200612F27 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 26EFA06820FF080200612F27 /* Images.xcassets */; };
 		2DF771D942DA9214AC58F46E /* IOKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F5A9A539B66F547DB60A93A6 /* IOKit.framework */; };
 		2FF2264371F9F1A218223750 /* WebKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9F3372F8BFC9389E939B3843 /* WebKit.framework */; };
@@ -53,6 +54,7 @@
 		1C8AF0962146DC5331E4FE0D /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		2018582D51EB534FF3A3B5EF /* LinnStrumentSerialMac.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = LinnStrumentSerialMac.h; path = ../../Source/LinnStrumentSerialMac.h; sourceTree = SOURCE_ROOT; };
 		261339744A8C5E4E2ABE00CE /* LinnStrumentSerialMac.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = LinnStrumentSerialMac.cpp; path = ../../Source/LinnStrumentSerialMac.cpp; sourceTree = SOURCE_ROOT; };
+		26B5032721615853005A42AB /* linnstrument-firmware-2.2.1.bin */ = {isa = PBXFileReference; lastKnownFileType = archive.macbinary; name = "linnstrument-firmware-2.2.1.bin"; path = "../../Firmware/linnstrument-firmware-2.2.1.bin"; sourceTree = "<group>"; };
 		26EFA06820FF080200612F27 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = "LinnStrument Updater - App/Images.xcassets"; sourceTree = "<group>"; };
 		277233689DDC09BC9BC0E738 /* LinnStrumentSerialWindows.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = LinnStrumentSerialWindows.cpp; path = ../../Source/LinnStrumentSerialWindows.cpp; sourceTree = SOURCE_ROOT; };
 		2809B9A9FF7F07EC8D9DFAE6 /* MainComponent.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = MainComponent.cpp; path = ../../Source/MainComponent.cpp; sourceTree = SOURCE_ROOT; };
@@ -137,6 +139,7 @@
 		3B60420F754EF26FC87BCE22 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				26B5032721615853005A42AB /* linnstrument-firmware-2.2.1.bin */,
 				26EFA06820FF080200612F27 /* Images.xcassets */,
 				747AA5F25432EB95D9CCFA36 /* bossac */,
 				7069155E4409EEF388C8F1CB /* Info-App.plist */,
@@ -340,6 +343,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				26EFA06920FF080200612F27 /* Images.xcassets in Resources */,
+				26B5032821615853005A42AB /* linnstrument-firmware-2.2.1.bin in Resources */,
 				9C65BFFCD6389FDA4B55DA9D /* bossac in Resources */,
 				E7659FC31793C54F98B60EFD /* RecentFilesMenuTemplate.nib in Resources */,
 			);

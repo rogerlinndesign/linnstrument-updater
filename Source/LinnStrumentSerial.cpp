@@ -231,10 +231,35 @@ bool LinnStrumentSerial::findFirmwareFile()
     File current_app = File::getSpecialLocation(File::SpecialLocationType::currentApplicationFile);
     File parent_dir = current_app.getParentDirectory();
     Array<File> firmware_files;
-    parent_dir.findChildFiles(firmware_files, File::TypesOfFileToFind::findFiles, false, "*.bin");
-    if (firmware_files.size() > 0)
+    firmware_files = parent_dir.findChildFiles(File::TypesOfFileToFind::findFiles, false, "*.bin");
+    if (firmware_files.isEmpty())
     {
-        firmwareFile = firmware_files[0].getFullPathName();
+        File resources = current_app.getChildFile("Contents/Resources/");
+        if (resources.exists())
+        {
+            firmware_files = resources.findChildFiles(File::TypesOfFileToFind::findFiles, false, "*.bin");
+        }
+    }
+
+    if (!firmware_files.isEmpty())
+    {
+        File firmware_file = firmware_files[0];
+        firmware_files.remove(0);
+        while (!firmware_files.isEmpty())
+        {
+            if (firmware_files[0].getCreationTime() > firmware_file.getCreationTime())
+            {
+                firmware_file = firmware_files[0];
+            }
+            firmware_files.remove(0);
+        }
+
+        firmwareFile = firmware_file.getFullPathName();
+        std::cout << "Found firmware file " << firmwareFile << std::endl;
+    }
+    else
+    {
+        std::cout << "Couldn't find firmware file" << std::endl;
     }
     
     return hasFirmwareFile();
@@ -251,6 +276,11 @@ void LinnStrumentSerial::setFirmwareFile(const File& file)
 bool LinnStrumentSerial::hasFirmwareFile()
 {
     return firmwareFile.isNotEmpty();
+}
+
+String LinnStrumentSerial::getFirmwareFile()
+{
+    return firmwareFile;
 }
 
 void LinnStrumentSerial::resetDetection()

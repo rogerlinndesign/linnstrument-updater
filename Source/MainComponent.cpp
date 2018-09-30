@@ -155,7 +155,22 @@ void MainComponent::buttonClicked (Button* buttonThatWasClicked)
     {
         //[UserButtonCode_updateFirmwareButton_] -- add your button handler code here..
         upgrade_->setVisible(true);
-        UpdaterApplication::getApp().setLabelText("You're about to upgrade the firmware of LinnStrument!\nDO NOT use a USB hub, DISCONNECT all other USB devices and\nQUIT all other applications!");
+        if (UpdaterApplication::getApp().getLinnStrumentSerial().findFirmwareFile())
+        {
+            File file(UpdaterApplication::getApp().getLinnStrumentSerial().getFirmwareFile());
+            String file_name = file.getFileNameWithoutExtension();
+            String firmware_name = file_name;
+            String prefix = "linnstrument-firmware-";
+            if (file_name.startsWith(prefix))
+            {
+                firmware_name = file_name.substring(prefix.length());
+            }
+            UpdaterApplication::getApp().setLabelText("You're about to upgrade LinnStrument using firmware " + firmware_name + "!\n\nDO NOT use a USB hub, DISCONNECT all other USB devices and\nQUIT all other applications!");
+        }
+        else
+        {
+            UpdaterApplication::getApp().setLabelText("You're about to upgrade the firmware of LinnStrument!\nDO NOT use a USB hub, DISCONNECT all other USB devices and\nQUIT all other applications!");
+        }
         //[/UserButtonCode_updateFirmwareButton_]
     }
 

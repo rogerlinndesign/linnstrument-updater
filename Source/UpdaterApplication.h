@@ -57,7 +57,7 @@ public:
     void handleMessage(const juce::Message &message) override;
     void timerCallback() override;
     
-    LinnStrumentSerial &getLinnStrumentSerial();
+    LinnStrumentSerial& getLinnStrumentSerial();
     
     void home();
     void findFirmware();
