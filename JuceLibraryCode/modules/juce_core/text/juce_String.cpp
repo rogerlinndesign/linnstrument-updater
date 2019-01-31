@@ -235,7 +235,7 @@ private:
     }
 };
 
-JUCE_DECLARE_DEPRECATED_STATIC (const String String::empty);
+JUCE_DECLARE_DEPRECATED_STATIC (const String String::empty;)
 
 //==============================================================================
 String::String() noexcept  : text (&(emptyString.text))
@@ -351,19 +351,19 @@ String::String (const CharPointer_UTF16 t)   : text (StringHolder::createFromCha
 String::String (const CharPointer_UTF32 t)   : text (StringHolder::createFromCharPointer (t)) {}
 String::String (const CharPointer_ASCII t)   : text (StringHolder::createFromCharPointer (t)) {}
 
-String::String (const CharPointer_UTF8  t, const size_t maxChars)   : text (StringHolder::createFromCharPointer (t, maxChars)) {}
-String::String (const CharPointer_UTF16 t, const size_t maxChars)   : text (StringHolder::createFromCharPointer (t, maxChars)) {}
-String::String (const CharPointer_UTF32 t, const size_t maxChars)   : text (StringHolder::createFromCharPointer (t, maxChars)) {}
-String::String (const wchar_t* const t, size_t maxChars)            : text (StringHolder::createFromCharPointer (castToCharPointer_wchar_t (t), maxChars)) {}
+String::String (CharPointer_UTF8  t, size_t maxChars)   : text (StringHolder::createFromCharPointer (t, maxChars)) {}
+String::String (CharPointer_UTF16 t, size_t maxChars)   : text (StringHolder::createFromCharPointer (t, maxChars)) {}
+String::String (CharPointer_UTF32 t, size_t maxChars)   : text (StringHolder::createFromCharPointer (t, maxChars)) {}
+String::String (const wchar_t* t, size_t maxChars)      : text (StringHolder::createFromCharPointer (castToCharPointer_wchar_t (t), maxChars)) {}
 
-String::String (const CharPointer_UTF8  start, const CharPointer_UTF8  end)  : text (StringHolder::createFromCharPointer (start, end)) {}
-String::String (const CharPointer_UTF16 start, const CharPointer_UTF16 end)  : text (StringHolder::createFromCharPointer (start, end)) {}
-String::String (const CharPointer_UTF32 start, const CharPointer_UTF32 end)  : text (StringHolder::createFromCharPointer (start, end)) {}
+String::String (CharPointer_UTF8  start, CharPointer_UTF8  end)  : text (StringHolder::createFromCharPointer (start, end)) {}
+String::String (CharPointer_UTF16 start, CharPointer_UTF16 end)  : text (StringHolder::createFromCharPointer (start, end)) {}
+String::String (CharPointer_UTF32 start, CharPointer_UTF32 end)  : text (StringHolder::createFromCharPointer (start, end)) {}
 
 String::String (const std::string& s) : text (StringHolder::createFromFixedLength (s.data(), s.size())) {}
 String::String (StringRef s)          : text (StringHolder::createFromCharPointer (s.text)) {}
 
-String String::charToString (const juce_wchar character)
+String String::charToString (juce_wchar character)
 {
     String result (PreallocationBytes (CharPointerType::getBytesRequiredFor (character)));
     CharPointerType t (result.text);
@@ -397,7 +397,7 @@ namespace NumberToStringConverters
     }
 
     // pass in a pointer to the END of a buffer..
-    static char* numberToString (char* t, const int64 n) noexcept
+    static char* numberToString (char* t, int64 n) noexcept
     {
         if (n >= 0)
             return printDigits (t, static_cast<uint64> (n));
@@ -414,7 +414,7 @@ namespace NumberToStringConverters
         return printDigits (t, v);
     }
 
-    static char* numberToString (char* t, const int n) noexcept
+    static char* numberToString (char* t, int n) noexcept
     {
         if (n >= 0)
             return printDigits (t, static_cast<unsigned int> (n));
@@ -426,12 +426,12 @@ namespace NumberToStringConverters
         return t;
     }
 
-    static char* numberToString (char* t, const unsigned int v) noexcept
+    static char* numberToString (char* t, unsigned int v) noexcept
     {
         return printDigits (t, v);
     }
 
-    static char* numberToString (char* t, const long n) noexcept
+    static char* numberToString (char* t, long n) noexcept
     {
         if (n >= 0)
             return printDigits (t, static_cast<unsigned long> (n));
@@ -441,7 +441,7 @@ namespace NumberToStringConverters
         return t;
     }
 
-    static char* numberToString (char* t, const unsigned long v) noexcept
+    static char* numberToString (char* t, unsigned long v) noexcept
     {
         return printDigits (t, v);
     }
@@ -473,7 +473,7 @@ namespace NumberToStringConverters
         }
     };
 
-    static char* doubleToString (char* buffer, const int numChars, double n, int numDecPlaces, size_t& len) noexcept
+    static char* doubleToString (char* buffer, int numChars, double n, int numDecPlaces, size_t& len) noexcept
     {
         if (numDecPlaces > 0 && numDecPlaces < 7 && n > -1.0e20 && n < 1.0e20)
         {
@@ -507,7 +507,7 @@ namespace NumberToStringConverters
     }
 
     template <typename IntegerType>
-    static String::CharPointerType createFromInteger (const IntegerType number)
+    static String::CharPointerType createFromInteger (IntegerType number)
     {
         char buffer [charsNeededForInt];
         auto* end = buffer + numElementsInArray (buffer);
@@ -515,7 +515,7 @@ namespace NumberToStringConverters
         return StringHolder::createFromFixedLength (start, (size_t) (end - start - 1));
     }
 
-    static String::CharPointerType createFromDouble (const double number, const int numberOfDecimalPlaces)
+    static String::CharPointerType createFromDouble (double number, int numberOfDecimalPlaces)
     {
         char buffer [charsNeededForDouble];
         size_t len;
@@ -1392,7 +1392,7 @@ String String::replaceCharacter (const juce_wchar charToReplace, const juce_wcha
             break;
     }
 
-    return static_cast<String&&> (builder.result);
+    return std::move (builder.result);
 }
 
 String String::replaceCharacters (StringRef charactersToReplace, StringRef charactersToInsertInstead) const
@@ -1417,7 +1417,7 @@ String String::replaceCharacters (StringRef charactersToReplace, StringRef chara
             break;
     }
 
-    return static_cast<String&&> (builder.result);
+    return std::move (builder.result);
 }
 
 //==============================================================================
@@ -1499,7 +1499,7 @@ String String::toUpperCase() const
         ++(builder.source);
     }
 
-    return static_cast<String&&> (builder.result);
+    return std::move (builder.result);
 }
 
 String String::toLowerCase() const
@@ -1517,7 +1517,7 @@ String String::toLowerCase() const
         ++(builder.source);
     }
 
-    return static_cast<String&&> (builder.result);
+    return std::move (builder.result);
 }
 
 //==============================================================================
@@ -1782,7 +1782,7 @@ String String::retainCharacters (StringRef charactersToRetain) const
     }
 
     builder.write (0);
-    return static_cast<String&&> (builder.result);
+    return std::move (builder.result);
 }
 
 String String::removeCharacters (StringRef charactersToRemove) const
@@ -1803,7 +1803,7 @@ String String::removeCharacters (StringRef charactersToRemove) const
             break;
     }
 
-    return static_cast<String&&> (builder.result);
+    return std::move (builder.result);
 }
 
 String String::initialSectionContainingOnly (StringRef permittedCharacters) const
@@ -2019,7 +2019,7 @@ String String::createStringFromData (const void* const unknownData, int size)
         }
 
         builder.write (0);
-        return static_cast<String&&> (builder.result);
+        return std::move (builder.result);
     }
 
     auto* start = (const char*) data;
@@ -2047,7 +2047,7 @@ struct StringEncodingConverter
     {
         auto& source = const_cast<String&> (s);
 
-        typedef typename CharPointerType_Dest::CharType DestChar;
+        using DestChar = typename CharPointerType_Dest::CharType;
 
         if (source.isEmpty())
             return CharPointerType_Dest (reinterpret_cast<const DestChar*> (&emptyChar));
@@ -2214,8 +2214,10 @@ StringRef::StringRef (const std::string& string)       : StringRef (string.c_str
 //==============================================================================
 //==============================================================================
 #if JUCE_UNIT_TESTS
- #define STRINGIFY2(X) #X
- #define STRINGIFY(X) STRINGIFY2(X)
+
+#define STRINGIFY2(X) #X
+#define STRINGIFY(X) STRINGIFY2(X)
+
 class StringTests  : public UnitTest
 {
 public:
@@ -2680,6 +2682,49 @@ public:
             expect (v4.equals (v5));
             expect (! v2.equals (v4));
             expect (! v4.equals (v2));
+        }
+
+        {
+            beginTest ("Significant figures");
+
+            // Integers
+
+            expectEquals (String::toDecimalStringWithSignificantFigures (13, 1), String ("10"));
+            expectEquals (String::toDecimalStringWithSignificantFigures (13, 2), String ("13"));
+            expectEquals (String::toDecimalStringWithSignificantFigures (13, 3), String ("13.0"));
+            expectEquals (String::toDecimalStringWithSignificantFigures (13, 4), String ("13.00"));
+
+            expectEquals (String::toDecimalStringWithSignificantFigures (19368, 1), String ("20000"));
+            expectEquals (String::toDecimalStringWithSignificantFigures (19348, 3), String ("19300"));
+
+            expectEquals (String::toDecimalStringWithSignificantFigures (-5, 1), String ("-5"));
+            expectEquals (String::toDecimalStringWithSignificantFigures (-5, 3), String ("-5.00"));
+
+            // Zero
+
+            expectEquals (String::toDecimalStringWithSignificantFigures (0, 1), String ("0"));
+            expectEquals (String::toDecimalStringWithSignificantFigures (0, 2), String ("0.0"));
+            expectEquals (String::toDecimalStringWithSignificantFigures (0, 3), String ("0.00"));
+
+            // Floating point
+
+            expectEquals (String::toDecimalStringWithSignificantFigures (19.0, 1), String ("20"));
+            expectEquals (String::toDecimalStringWithSignificantFigures (19.0, 2), String ("19"));
+            expectEquals (String::toDecimalStringWithSignificantFigures (19.0, 3), String ("19.0"));
+            expectEquals (String::toDecimalStringWithSignificantFigures (19.0, 4), String ("19.00"));
+
+            expectEquals (String::toDecimalStringWithSignificantFigures (-5.45, 1), String ("-5"));
+            expectEquals (String::toDecimalStringWithSignificantFigures (-5.45, 3), String ("-5.45"));
+
+            expectEquals (String::toDecimalStringWithSignificantFigures (12345.6789, 9), String ("12345.6789"));
+            expectEquals (String::toDecimalStringWithSignificantFigures (12345.6789, 8), String ("12345.679"));
+            expectEquals (String::toDecimalStringWithSignificantFigures (12345.6789, 5), String ("12346"));
+
+            expectEquals (String::toDecimalStringWithSignificantFigures (0.00028647, 6), String ("0.000286470"));
+            expectEquals (String::toDecimalStringWithSignificantFigures (0.0028647,  6), String ("0.00286470"));
+            expectEquals (String::toDecimalStringWithSignificantFigures (2.8647,     6), String ("2.86470"));
+
+            expectEquals (String::toDecimalStringWithSignificantFigures (-0.0000000000019, 1), String ("-0.000000000002"));
         }
     }
 };

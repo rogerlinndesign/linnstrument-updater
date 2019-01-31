@@ -7,7 +7,7 @@
   the "//[xyz]" and "//[/xyz]" sections will be retained when the file is loaded
   and re-saved.
 
-  Created with Projucer version: 5.3.2
+  Created with Projucer version: 5.4.1
 
   ------------------------------------------------------------------------------
 
@@ -285,8 +285,8 @@ BEGIN_JUCER_METADATA
   <LABEL name="progress label" id="25076abe0a4bd824" memberName="progressLabel_"
          virtualName="" explicitFocusOrder="0" pos="0Cc 88 328 24" edTextCol="ff000000"
          edBkgCol="0" labelText="" editableSingleClick="0" editableDoubleClick="0"
-         focusDiscardsChanges="0" fontname="Default font" fontsize="15.00000000000000000000"
-         kerning="0.00000000000000000000" bold="0" italic="0" justification="36"/>
+         focusDiscardsChanges="0" fontname="Default font" fontsize="15.0"
+         kerning="0.0" bold="0" italic="0" justification="36"/>
   <TEXTBUTTON name="go ahead button" id="2925c0dd21a74d6b" memberName="goAheadButton_"
               virtualName="" explicitFocusOrder="0" pos="0Cc 88 136 24" bgColOff="ffd0d0d0"
               bgColOn="ff868686" buttonText="Go Ahead" connectedEdges="0" needsCallback="1"
@@ -311,8 +311,7 @@ BEGIN_JUCER_METADATA
          virtualName="" explicitFocusOrder="0" pos="0Cc 8 504 64" textCol="ff000000"
          edTextCol="ff000000" edBkgCol="0" labelText="" editableSingleClick="0"
          editableDoubleClick="0" focusDiscardsChanges="0" fontname="Default font"
-         fontsize="15.00000000000000000000" kerning="0.00000000000000000000"
-         bold="0" italic="0" justification="36"/>
+         fontsize="15.0" kerning="0.0" bold="0" italic="0" justification="36"/>
   <TEXTBUTTON name="quit button" id="a4c883b94a027e24" memberName="quitButton_"
               virtualName="" explicitFocusOrder="0" pos="0Cc 80 80 40" bgColOff="ffd0d0d0"
               bgColOn="ff868686" buttonText="Quit" connectedEdges="0" needsCallback="1"
@@ -869,3 +868,4 @@ const int UpgradeComponent::rogerlinndesign_pngSize = 30451;
 
 //[EndFile] You can add extra defines here...
 //[/EndFile]
+

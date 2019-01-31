@@ -43,7 +43,7 @@ template <typename ValueType>
 class RectangleList  final
 {
 public:
-    typedef Rectangle<ValueType> RectangleType;
+    using RectangleType = Rectangle<ValueType>;
 
     //==============================================================================
     /** Creates an empty RectangleList */
@@ -69,14 +69,14 @@ public:
 
     /** Move constructor */
     RectangleList (RectangleList&& other) noexcept
-        : rects (static_cast<Array<RectangleType>&&> (other.rects))
+        : rects (std::move (other.rects))
     {
     }
 
     /** Move assignment operator */
     RectangleList& operator= (RectangleList&& other) noexcept
     {
-        rects = static_cast<Array<RectangleType>&&> (other.rects);
+        rects = std::move (other.rects);
         return *this;
     }
 
@@ -194,7 +194,7 @@ public:
     void add (const RectangleList& other)
     {
         for (auto& r : other)
-            add (*r);
+            add (r);
     }
 
     /** Removes a rectangular region from the list.
