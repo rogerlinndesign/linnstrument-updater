@@ -76,7 +76,7 @@ void UpdaterApplication::initialise(const String&)
     commandManager->registerAllCommandsForTarget(this);
 
     LookAndFeel::setDefaultLookAndFeel(&lookAndFeel_);
-    mainWindow = new MainWindow();
+    mainWindow.reset(new MainWindow());
     detectLinnStrument();
 }
 

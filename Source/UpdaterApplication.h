@@ -81,8 +81,8 @@ public:
 private:
 
     LookAndFeel_V3 lookAndFeel_;
-    ScopedPointer<MainWindow> mainWindow;
-    ScopedPointer<LinnStrumentSerial> linnStrumentSerial;
+    std::unique_ptr<MainWindow> mainWindow;
+    std::unique_ptr<LinnStrumentSerial> linnStrumentSerial;
 };
 
 #endif  // UPDATERAPPLICATION_H_INCLUDED

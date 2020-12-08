@@ -9,16 +9,13 @@
  To view a copy of this license, visit http://creativecommons.org/licenses/by-sa/3.0/
  or send a letter to Creative Commons, PO Box 1866, Mountain View, CA 94042, USA.
 */
-#include "LinnStrumentSerialMac.h"
-
-#include "UpdaterApplication.h"
-
 #include <unistd.h>
 #include <fcntl.h>
 #include <errno.h>
 #include <termios.h>
 
 #include <AvailabilityMacros.h>
+#include <CoreFoundation/CFNumber.h>
 #include <sys/param.h>
 #include <IOKit/IOKitLib.h>
 #include <IOKit/IOCFPlugIn.h>
@@ -27,6 +24,10 @@
 #include <sys/ioctl.h>
 #include <IOKit/serial/ioss.h>
 #include <errno.h>
+
+#include "LinnStrumentSerialMac.h"
+
+#include "UpdaterApplication.h"
 
 LinnStrumentSerialMac::LinnStrumentSerialMac() : upgradeVerificationPhase(false), upgradeSuccessful(false)
 {

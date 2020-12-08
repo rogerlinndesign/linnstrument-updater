@@ -1,0 +1,1 @@
+codesign -f -s "Developer ID Application: Uwyn (AGZT8GVS7G)" --entitlements bossac.entitlements --options runtime  bossac

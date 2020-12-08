@@ -5,387 +5,884 @@
 	};
 	objectVersion = 46;
 	objects = {
-
-/* Begin PBXBuildFile section */
-		06AC046B6CA4AEECF3A2170A /* include_juce_graphics.mm in Sources */ = {isa = PBXBuildFile; fileRef = 172A456F6B8185E5B1259A16 /* include_juce_graphics.mm */; };
-		087B7D7BF817DC7835FF706E /* disphelper.c in Sources */ = {isa = PBXBuildFile; fileRef = C2A77E101BF337D7B4BA6F43 /* disphelper.c */; };
-		12FDAE07021867A5A3AB37B2 /* unix.cc in Sources */ = {isa = PBXBuildFile; fileRef = 0AAED0AA615521FDBDBE3C5B /* unix.cc */; };
-		130590A62699346E5A3A5B34 /* include_juce_events.mm in Sources */ = {isa = PBXBuildFile; fileRef = FA0265DED228596994D1DA86 /* include_juce_events.mm */; };
-		159BC7EEC80463CFDE443A8E /* Main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9FFEDCB2F5367D47801E4BC8 /* Main.cpp */; };
-		1C2165ACCAE018513BB0BDA9 /* MainWindow.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 36758C2C69A69DBADD158FED /* MainWindow.cpp */; };
-		264F83C7220289560094FBFA /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 264F83C6220289560094FBFA /* Images.xcassets */; };
-		264F83C922028AC10094FBFA /* linnstrument-firmware-2.2.1.bin in Resources */ = {isa = PBXBuildFile; fileRef = 264F83C822028AC10094FBFA /* linnstrument-firmware-2.2.1.bin */; };
-		2DF771D942DA9214AC58F46E /* IOKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F5A9A539B66F547DB60A93A6 /* IOKit.framework */; };
-		2FF2264371F9F1A218223750 /* WebKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9F3372F8BFC9389E939B3843 /* WebKit.framework */; };
-		380202CC3D0F06037C86450C /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B8C47B97A3007B5B2FCC49F7 /* Cocoa.framework */; };
-		47683F61FE27DE9AEED5366A /* include_juce_data_structures.mm in Sources */ = {isa = PBXBuildFile; fileRef = 832F5E5A83A9CED2228B445E /* include_juce_data_structures.mm */; };
-		4F4ED8A6176438DC691FE052 /* Carbon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 843794BE77F94314420C9900 /* Carbon.framework */; };
-		5E470991B149338F925314C4 /* LinnStrumentSerialMac.h in Sources */ = {isa = PBXBuildFile; fileRef = 2018582D51EB534FF3A3B5EF /* LinnStrumentSerialMac.h */; };
-		5F353A6A2D7F99950ECBF656 /* LinnStrumentSerial.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A3831767E4F37F45E1351FB5 /* LinnStrumentSerial.cpp */; };
-		615229CC0DAB6046DD41E865 /* UpdaterApplication.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 86D068B2B3BF26781A4B3B8A /* UpdaterApplication.cpp */; };
-		741CA433C5A7921CF0CC5B0C /* LinnStrumentSerialWindows.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 277233689DDC09BC9BC0E738 /* LinnStrumentSerialWindows.cpp */; };
-		8117481A1252B7E39C3F1C34 /* include_juce_gui_basics.mm in Sources */ = {isa = PBXBuildFile; fileRef = AFD8A7C44DA92AC68326C5E8 /* include_juce_gui_basics.mm */; };
-		8F9DE3D4648C0253F1F08841 /* list_ports_win.cc in Sources */ = {isa = PBXBuildFile; fileRef = 79065F353E2D8EC23A8322CF /* list_ports_win.cc */; };
-		93B639C3087A4DE642381CE3 /* win.cc in Sources */ = {isa = PBXBuildFile; fileRef = E9D38C9101121661B8684612 /* win.cc */; };
-		99C0DDF8EBA7449FDAE190B8 /* LinnStrumentSerialMac.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 261339744A8C5E4E2ABE00CE /* LinnStrumentSerialMac.cpp */; };
-		9C65BFFCD6389FDA4B55DA9D /* bossac in Resources */ = {isa = PBXBuildFile; fileRef = 747AA5F25432EB95D9CCFA36 /* bossac */; };
-		A0296E065BAA8A5F4516A38E /* include_juce_core.mm in Sources */ = {isa = PBXBuildFile; fileRef = 3DF3884E5E77739A0E2782E8 /* include_juce_core.mm */; };
-		A91E46CB58F6ED61BFAB87E5 /* include_juce_gui_extra.mm in Sources */ = {isa = PBXBuildFile; fileRef = EF0FE79100B3378E52188FF4 /* include_juce_gui_extra.mm */; };
-		AE30067252114DA77BDF86A7 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1C8AF0962146DC5331E4FE0D /* QuartzCore.framework */; };
-		B242AC415463CC143F304914 /* ProjectsComponent.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B8A93D9D23E90D473159732E /* ProjectsComponent.cpp */; };
-		C97580FDB79F9A94473EEB5B /* list_ports_osx.cc in Sources */ = {isa = PBXBuildFile; fileRef = 16F22E9257101CE53EF2F8B0 /* list_ports_osx.cc */; };
-		E741F59129F88C4B393ECCA5 /* list_ports_linux.cc in Sources */ = {isa = PBXBuildFile; fileRef = 9CAFDD42B16D6DD1A908D073 /* list_ports_linux.cc */; };
-		E7659FC31793C54F98B60EFD /* RecentFilesMenuTemplate.nib in Resources */ = {isa = PBXBuildFile; fileRef = 5906F960DBF9FEFF45DC8ACF /* RecentFilesMenuTemplate.nib */; };
-		F0A76C02A81FBE747F3527AC /* serial.cc in Sources */ = {isa = PBXBuildFile; fileRef = E872661D65A73907F124387A /* serial.cc */; };
-		F9D6661BF8E05E14085A1C37 /* MainComponent.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2809B9A9FF7F07EC8D9DFAE6 /* MainComponent.cpp */; };
-		FC94546BB393F90B5B21EBC5 /* UpgradeComponent.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1BA48FF9F3394C68639A78EA /* UpgradeComponent.cpp */; };
-/* End PBXBuildFile section */
-
-/* Begin PBXFileReference section */
-		01FEE0B2A38711F0D7B32458 /* juce_gui_extra */ = {isa = PBXFileReference; lastKnownFileType = folder; name = juce_gui_extra; path = ../../JuceLibraryCode/modules/juce_gui_extra; sourceTree = SOURCE_ROOT; };
-		04257A2AE8A28E9DFA6E2374 /* LinnStrument Updater.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "LinnStrument Updater.app"; sourceTree = BUILT_PRODUCTS_DIR; };
-		070E588B18AE2C301F90ED01 /* juce_events */ = {isa = PBXFileReference; lastKnownFileType = folder; name = juce_events; path = ../../JuceLibraryCode/modules/juce_events; sourceTree = SOURCE_ROOT; };
-		0AAED0AA615521FDBDBE3C5B /* unix.cc */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = unix.cc; path = ../../Source/Serial/impl/unix.cc; sourceTree = SOURCE_ROOT; };
-		0E9F1B24C7C5E964266DDAA0 /* MainWindow.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = MainWindow.h; path = ../../Source/MainWindow.h; sourceTree = SOURCE_ROOT; };
-		16C1ADC606E226D0FE0971AC /* win.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = win.h; path = ../../Source/Serial/serial/impl/win.h; sourceTree = SOURCE_ROOT; };
-		16F22E9257101CE53EF2F8B0 /* list_ports_osx.cc */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = list_ports_osx.cc; path = ../../Source/Serial/impl/list_ports/list_ports_osx.cc; sourceTree = SOURCE_ROOT; };
-		172A456F6B8185E5B1259A16 /* include_juce_graphics.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; name = include_juce_graphics.mm; path = ../../JuceLibraryCode/include_juce_graphics.mm; sourceTree = SOURCE_ROOT; };
-		1BA48FF9F3394C68639A78EA /* UpgradeComponent.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = UpgradeComponent.cpp; path = ../../Source/UpgradeComponent.cpp; sourceTree = SOURCE_ROOT; };
-		1C8AF0962146DC5331E4FE0D /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
-		2018582D51EB534FF3A3B5EF /* LinnStrumentSerialMac.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = LinnStrumentSerialMac.h; path = ../../Source/LinnStrumentSerialMac.h; sourceTree = SOURCE_ROOT; };
-		261339744A8C5E4E2ABE00CE /* LinnStrumentSerialMac.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = LinnStrumentSerialMac.cpp; path = ../../Source/LinnStrumentSerialMac.cpp; sourceTree = SOURCE_ROOT; };
-		264F83C6220289560094FBFA /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = "LinnStrument Updater - App/Images.xcassets"; sourceTree = "<group>"; };
-		264F83C822028AC10094FBFA /* linnstrument-firmware-2.2.1.bin */ = {isa = PBXFileReference; lastKnownFileType = archive.macbinary; name = "linnstrument-firmware-2.2.1.bin"; path = "../../Firmware/linnstrument-firmware-2.2.1.bin"; sourceTree = "<group>"; };
-		277233689DDC09BC9BC0E738 /* LinnStrumentSerialWindows.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = LinnStrumentSerialWindows.cpp; path = ../../Source/LinnStrumentSerialWindows.cpp; sourceTree = SOURCE_ROOT; };
-		2809B9A9FF7F07EC8D9DFAE6 /* MainComponent.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = MainComponent.cpp; path = ../../Source/MainComponent.cpp; sourceTree = SOURCE_ROOT; };
-		29FBFF7D0FF2F151F0E3CF9D /* serial.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = serial.h; path = ../../Source/Serial/serial/serial.h; sourceTree = SOURCE_ROOT; };
-		36758C2C69A69DBADD158FED /* MainWindow.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = MainWindow.cpp; path = ../../Source/MainWindow.cpp; sourceTree = SOURCE_ROOT; };
-		3DF3884E5E77739A0E2782E8 /* include_juce_core.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; name = include_juce_core.mm; path = ../../JuceLibraryCode/include_juce_core.mm; sourceTree = SOURCE_ROOT; };
-		4034AF045C14B102890D71E9 /* JuceHeader.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = JuceHeader.h; path = ../../JuceLibraryCode/JuceHeader.h; sourceTree = SOURCE_ROOT; };
-		4C4EBD75D35E0D8C6C9B1FDE /* v8stdint.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = v8stdint.h; path = ../../Source/Serial/serial/v8stdint.h; sourceTree = SOURCE_ROOT; };
-		5906F960DBF9FEFF45DC8ACF /* RecentFilesMenuTemplate.nib */ = {isa = PBXFileReference; lastKnownFileType = file.nib; path = RecentFilesMenuTemplate.nib; sourceTree = SOURCE_ROOT; };
-		5C351DCD7E35C9F140A4DBBF /* unix.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = unix.h; path = ../../Source/Serial/serial/impl/unix.h; sourceTree = SOURCE_ROOT; };
-		7069155E4409EEF388C8F1CB /* Info-App.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Info-App.plist"; sourceTree = SOURCE_ROOT; };
-		747AA5F25432EB95D9CCFA36 /* bossac */ = {isa = PBXFileReference; lastKnownFileType = folder; name = bossac; path = ../../Binaries/macosx/bossac; sourceTree = "<group>"; };
-		79065F353E2D8EC23A8322CF /* list_ports_win.cc */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = list_ports_win.cc; path = ../../Source/Serial/impl/list_ports/list_ports_win.cc; sourceTree = SOURCE_ROOT; };
-		8234EC83C80A36C9870A1003 /* disphelper.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = disphelper.h; path = ../../Source/disphelper.h; sourceTree = SOURCE_ROOT; };
-		832F5E5A83A9CED2228B445E /* include_juce_data_structures.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; name = include_juce_data_structures.mm; path = ../../JuceLibraryCode/include_juce_data_structures.mm; sourceTree = SOURCE_ROOT; };
-		843794BE77F94314420C9900 /* Carbon.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Carbon.framework; path = System/Library/Frameworks/Carbon.framework; sourceTree = SDKROOT; };
-		86D068B2B3BF26781A4B3B8A /* UpdaterApplication.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = UpdaterApplication.cpp; path = ../../Source/UpdaterApplication.cpp; sourceTree = SOURCE_ROOT; };
-		957908654C3A12FEC307EFDD /* LinnStrumentSerialWindows.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = LinnStrumentSerialWindows.h; path = ../../Source/LinnStrumentSerialWindows.h; sourceTree = SOURCE_ROOT; };
-		9A753E57DB9EA3EE0F9ABBBE /* juce_core */ = {isa = PBXFileReference; lastKnownFileType = folder; name = juce_core; path = ../../JuceLibraryCode/modules/juce_core; sourceTree = SOURCE_ROOT; };
-		9CAFDD42B16D6DD1A908D073 /* list_ports_linux.cc */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = list_ports_linux.cc; path = ../../Source/Serial/impl/list_ports/list_ports_linux.cc; sourceTree = SOURCE_ROOT; };
-		9F3372F8BFC9389E939B3843 /* WebKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WebKit.framework; path = System/Library/Frameworks/WebKit.framework; sourceTree = SDKROOT; };
-		9FFEDCB2F5367D47801E4BC8 /* Main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = Main.cpp; path = ../../Source/Main.cpp; sourceTree = SOURCE_ROOT; };
-		A203AF0AEDE8C7331F61F1AF /* juce_graphics */ = {isa = PBXFileReference; lastKnownFileType = folder; name = juce_graphics; path = ../../JuceLibraryCode/modules/juce_graphics; sourceTree = SOURCE_ROOT; };
-		A3831767E4F37F45E1351FB5 /* LinnStrumentSerial.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = LinnStrumentSerial.cpp; path = ../../Source/LinnStrumentSerial.cpp; sourceTree = SOURCE_ROOT; };
-		ABB8DCB4128352C9DEB749E0 /* UpdaterApplication.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = UpdaterApplication.h; path = ../../Source/UpdaterApplication.h; sourceTree = SOURCE_ROOT; };
-		AFD8A7C44DA92AC68326C5E8 /* include_juce_gui_basics.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; name = include_juce_gui_basics.mm; path = ../../JuceLibraryCode/include_juce_gui_basics.mm; sourceTree = SOURCE_ROOT; };
-		B8A93D9D23E90D473159732E /* ProjectsComponent.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = ProjectsComponent.cpp; path = ../../Source/ProjectsComponent.cpp; sourceTree = SOURCE_ROOT; };
-		B8C47B97A3007B5B2FCC49F7 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
-		C2A77E101BF337D7B4BA6F43 /* disphelper.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; name = disphelper.c; path = ../../Source/disphelper.c; sourceTree = SOURCE_ROOT; };
-		D1692E79F149460BE623FE6C /* juce_data_structures */ = {isa = PBXFileReference; lastKnownFileType = folder; name = juce_data_structures; path = ../../JuceLibraryCode/modules/juce_data_structures; sourceTree = SOURCE_ROOT; };
-		D779135632491F28D5CB47C9 /* MainComponent.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = MainComponent.h; path = ../../Source/MainComponent.h; sourceTree = SOURCE_ROOT; };
-		DE2DC58073DD1798D3EA93C9 /* AppConfig.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = AppConfig.h; path = ../../JuceLibraryCode/AppConfig.h; sourceTree = SOURCE_ROOT; };
-		E011E27BCF3B69940EFAA30F /* juce_gui_basics */ = {isa = PBXFileReference; lastKnownFileType = folder; name = juce_gui_basics; path = ../../JuceLibraryCode/modules/juce_gui_basics; sourceTree = SOURCE_ROOT; };
-		E415EAE4812F6FE94F519C8B /* ProjectsComponent.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = ProjectsComponent.h; path = ../../Source/ProjectsComponent.h; sourceTree = SOURCE_ROOT; };
-		E872661D65A73907F124387A /* serial.cc */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = serial.cc; path = ../../Source/Serial/serial.cc; sourceTree = SOURCE_ROOT; };
-		E9D38C9101121661B8684612 /* win.cc */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = win.cc; path = ../../Source/Serial/impl/win.cc; sourceTree = SOURCE_ROOT; };
-		EE2872EC265E4805BEA0378E /* LinnStrumentSerial.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = LinnStrumentSerial.h; path = ../../Source/LinnStrumentSerial.h; sourceTree = SOURCE_ROOT; };
-		EF0FE79100B3378E52188FF4 /* include_juce_gui_extra.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; name = include_juce_gui_extra.mm; path = ../../JuceLibraryCode/include_juce_gui_extra.mm; sourceTree = SOURCE_ROOT; };
-		F5A9A539B66F547DB60A93A6 /* IOKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = IOKit.framework; path = System/Library/Frameworks/IOKit.framework; sourceTree = SDKROOT; };
-		F92829F1A5E1B9B37014FFCD /* UpgradeComponent.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = UpgradeComponent.h; path = ../../Source/UpgradeComponent.h; sourceTree = SOURCE_ROOT; };
-		FA0265DED228596994D1DA86 /* include_juce_events.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; name = include_juce_events.mm; path = ../../JuceLibraryCode/include_juce_events.mm; sourceTree = SOURCE_ROOT; };
-/* End PBXFileReference section */
-
-/* Begin PBXFrameworksBuildPhase section */
-		1C323C4F51E1F2041DDD56D7 /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				4F4ED8A6176438DC691FE052 /* Carbon.framework in Frameworks */,
-				380202CC3D0F06037C86450C /* Cocoa.framework in Frameworks */,
-				2DF771D942DA9214AC58F46E /* IOKit.framework in Frameworks */,
-				AE30067252114DA77BDF86A7 /* QuartzCore.framework in Frameworks */,
-				2FF2264371F9F1A218223750 /* WebKit.framework in Frameworks */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
+		6C624154CF0B0454C358C9FE = {
+			isa = PBXBuildFile;
+			fileRef = 04257A2AE8A28E9DFA6E2374;
 		};
-/* End PBXFrameworksBuildPhase section */
-
-/* Begin PBXGroup section */
-		09AF26A394D0236924362F72 /* impl */ = {
+		4F4ED8A6176438DC691FE052 = {
+			isa = PBXBuildFile;
+			fileRef = 843794BE77F94314420C9900;
+		};
+		380202CC3D0F06037C86450C = {
+			isa = PBXBuildFile;
+			fileRef = B8C47B97A3007B5B2FCC49F7;
+		};
+		7879CFCBF1AC920E7F1981DB = {
+			isa = PBXBuildFile;
+			fileRef = 69A8AF4EDC1BCDA4BF30FCEA;
+		};
+		2DF771D942DA9214AC58F46E = {
+			isa = PBXBuildFile;
+			fileRef = F5A9A539B66F547DB60A93A6;
+		};
+		AE30067252114DA77BDF86A7 = {
+			isa = PBXBuildFile;
+			fileRef = 1C8AF0962146DC5331E4FE0D;
+		};
+		2FF2264371F9F1A218223750 = {
+			isa = PBXBuildFile;
+			fileRef = 9F3372F8BFC9389E939B3843;
+		};
+		9C65BFFCD6389FDA4B55DA9D = {
+			isa = PBXBuildFile;
+			fileRef = 747AA5F25432EB95D9CCFA36;
+		};
+		636CB3415A35479FEB159274 = {
+			isa = PBXBuildFile;
+			fileRef = F625ED3FFEE9D0A5B25A0ECD;
+		};
+		E7659FC31793C54F98B60EFD = {
+			isa = PBXBuildFile;
+			fileRef = 5906F960DBF9FEFF45DC8ACF;
+		};
+		7FEF2B0C23CA44468D4CAAFD = {
+			isa = PBXBuildFile;
+			fileRef = A8C95E3FFB4E7AB18E46C53F;
+		};
+		E741F59129F88C4B393ECCA5 = {
+			isa = PBXBuildFile;
+			fileRef = 9CAFDD42B16D6DD1A908D073;
+		};
+		C97580FDB79F9A94473EEB5B = {
+			isa = PBXBuildFile;
+			fileRef = 16F22E9257101CE53EF2F8B0;
+		};
+		8F9DE3D4648C0253F1F08841 = {
+			isa = PBXBuildFile;
+			fileRef = 79065F353E2D8EC23A8322CF;
+		};
+		12FDAE07021867A5A3AB37B2 = {
+			isa = PBXBuildFile;
+			fileRef = 0AAED0AA615521FDBDBE3C5B;
+		};
+		93B639C3087A4DE642381CE3 = {
+			isa = PBXBuildFile;
+			fileRef = E9D38C9101121661B8684612;
+		};
+		F0A76C02A81FBE747F3527AC = {
+			isa = PBXBuildFile;
+			fileRef = E872661D65A73907F124387A;
+		};
+		087B7D7BF817DC7835FF706E = {
+			isa = PBXBuildFile;
+			fileRef = C2A77E101BF337D7B4BA6F43;
+		};
+		5F353A6A2D7F99950ECBF656 = {
+			isa = PBXBuildFile;
+			fileRef = A3831767E4F37F45E1351FB5;
+		};
+		99C0DDF8EBA7449FDAE190B8 = {
+			isa = PBXBuildFile;
+			fileRef = 261339744A8C5E4E2ABE00CE;
+		};
+		741CA433C5A7921CF0CC5B0C = {
+			isa = PBXBuildFile;
+			fileRef = 277233689DDC09BC9BC0E738;
+		};
+		159BC7EEC80463CFDE443A8E = {
+			isa = PBXBuildFile;
+			fileRef = 9FFEDCB2F5367D47801E4BC8;
+		};
+		F9D6661BF8E05E14085A1C37 = {
+			isa = PBXBuildFile;
+			fileRef = 2809B9A9FF7F07EC8D9DFAE6;
+		};
+		1C2165ACCAE018513BB0BDA9 = {
+			isa = PBXBuildFile;
+			fileRef = 36758C2C69A69DBADD158FED;
+		};
+		B242AC415463CC143F304914 = {
+			isa = PBXBuildFile;
+			fileRef = B8A93D9D23E90D473159732E;
+		};
+		615229CC0DAB6046DD41E865 = {
+			isa = PBXBuildFile;
+			fileRef = 86D068B2B3BF26781A4B3B8A;
+		};
+		FC94546BB393F90B5B21EBC5 = {
+			isa = PBXBuildFile;
+			fileRef = 1BA48FF9F3394C68639A78EA;
+		};
+		C160FF81422AFEF48EDE1FDC = {
+			isa = PBXBuildFile;
+			fileRef = 170ADDF8B988DCE23BE6AEED;
+		};
+		A0296E065BAA8A5F4516A38E = {
+			isa = PBXBuildFile;
+			fileRef = 3DF3884E5E77739A0E2782E8;
+		};
+		47683F61FE27DE9AEED5366A = {
+			isa = PBXBuildFile;
+			fileRef = 832F5E5A83A9CED2228B445E;
+		};
+		130590A62699346E5A3A5B34 = {
+			isa = PBXBuildFile;
+			fileRef = FA0265DED228596994D1DA86;
+		};
+		06AC046B6CA4AEECF3A2170A = {
+			isa = PBXBuildFile;
+			fileRef = 172A456F6B8185E5B1259A16;
+		};
+		8117481A1252B7E39C3F1C34 = {
+			isa = PBXBuildFile;
+			fileRef = AFD8A7C44DA92AC68326C5E8;
+		};
+		A91E46CB58F6ED61BFAB87E5 = {
+			isa = PBXBuildFile;
+			fileRef = EF0FE79100B3378E52188FF4;
+		};
+		01FEE0B2A38711F0D7B32458 = {
+			isa = PBXFileReference;
+			lastKnownFileType = file;
+			name = "juce_gui_extra";
+			path = "../../JuceLibraryCode/modules/juce_gui_extra";
+			sourceTree = "SOURCE_ROOT";
+		};
+		04257A2AE8A28E9DFA6E2374 = {
+			isa = PBXFileReference;
+			explicitFileType = wrapper.application;
+			includeInIndex = 0;
+			path = "LinnStrument Updater.app";
+			sourceTree = "BUILT_PRODUCTS_DIR";
+		};
+		070E588B18AE2C301F90ED01 = {
+			isa = PBXFileReference;
+			lastKnownFileType = file;
+			name = "juce_events";
+			path = "../../JuceLibraryCode/modules/juce_events";
+			sourceTree = "SOURCE_ROOT";
+		};
+		0AAED0AA615521FDBDBE3C5B = {
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.cpp.cpp;
+			name = unix.cc;
+			path = ../../Source/Serial/impl/unix.cc;
+			sourceTree = "SOURCE_ROOT";
+		};
+		0E9F1B24C7C5E964266DDAA0 = {
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			name = MainWindow.h;
+			path = ../../Source/MainWindow.h;
+			sourceTree = "SOURCE_ROOT";
+		};
+		16C1ADC606E226D0FE0971AC = {
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			name = win.h;
+			path = ../../Source/Serial/serial/impl/win.h;
+			sourceTree = "SOURCE_ROOT";
+		};
+		16F22E9257101CE53EF2F8B0 = {
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.cpp.cpp;
+			name = "list_ports_osx.cc";
+			path = "../../Source/Serial/impl/list_ports/list_ports_osx.cc";
+			sourceTree = "SOURCE_ROOT";
+		};
+		170ADDF8B988DCE23BE6AEED = {
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.cpp.cpp;
+			name = BinaryData.cpp;
+			path = ../../JuceLibraryCode/BinaryData.cpp;
+			sourceTree = "SOURCE_ROOT";
+		};
+		172A456F6B8185E5B1259A16 = {
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.cpp.objcpp;
+			name = "include_juce_graphics.mm";
+			path = "../../JuceLibraryCode/include_juce_graphics.mm";
+			sourceTree = "SOURCE_ROOT";
+		};
+		17BC4F8494104D555DECEA3C = {
+			isa = PBXFileReference;
+			lastKnownFileType = text.plist.xml;
+			name = App.entitlements;
+			path = App.entitlements;
+			sourceTree = "SOURCE_ROOT";
+		};
+		1BA48FF9F3394C68639A78EA = {
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.cpp.cpp;
+			name = UpgradeComponent.cpp;
+			path = ../../Source/UpgradeComponent.cpp;
+			sourceTree = "SOURCE_ROOT";
+		};
+		1C8AF0962146DC5331E4FE0D = {
+			isa = PBXFileReference;
+			lastKnownFileType = wrapper.framework;
+			name = QuartzCore.framework;
+			path = System/Library/Frameworks/QuartzCore.framework;
+			sourceTree = SDKROOT;
+		};
+		2018582D51EB534FF3A3B5EF = {
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			name = LinnStrumentSerialMac.h;
+			path = ../../Source/LinnStrumentSerialMac.h;
+			sourceTree = "SOURCE_ROOT";
+		};
+		261339744A8C5E4E2ABE00CE = {
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.cpp.cpp;
+			name = LinnStrumentSerialMac.cpp;
+			path = ../../Source/LinnStrumentSerialMac.cpp;
+			sourceTree = "SOURCE_ROOT";
+		};
+		277233689DDC09BC9BC0E738 = {
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.cpp.cpp;
+			name = LinnStrumentSerialWindows.cpp;
+			path = ../../Source/LinnStrumentSerialWindows.cpp;
+			sourceTree = "SOURCE_ROOT";
+		};
+		2809B9A9FF7F07EC8D9DFAE6 = {
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.cpp.cpp;
+			name = MainComponent.cpp;
+			path = ../../Source/MainComponent.cpp;
+			sourceTree = "SOURCE_ROOT";
+		};
+		29FBFF7D0FF2F151F0E3CF9D = {
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			name = serial.h;
+			path = ../../Source/Serial/serial/serial.h;
+			sourceTree = "SOURCE_ROOT";
+		};
+		36758C2C69A69DBADD158FED = {
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.cpp.cpp;
+			name = MainWindow.cpp;
+			path = ../../Source/MainWindow.cpp;
+			sourceTree = "SOURCE_ROOT";
+		};
+		3DF3884E5E77739A0E2782E8 = {
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.cpp.objcpp;
+			name = "include_juce_core.mm";
+			path = "../../JuceLibraryCode/include_juce_core.mm";
+			sourceTree = "SOURCE_ROOT";
+		};
+		4034AF045C14B102890D71E9 = {
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			name = JuceHeader.h;
+			path = ../../JuceLibraryCode/JuceHeader.h;
+			sourceTree = "SOURCE_ROOT";
+		};
+		4C4EBD75D35E0D8C6C9B1FDE = {
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			name = v8stdint.h;
+			path = ../../Source/Serial/serial/v8stdint.h;
+			sourceTree = "SOURCE_ROOT";
+		};
+		5906F960DBF9FEFF45DC8ACF = {
+			isa = PBXFileReference;
+			lastKnownFileType = file.nib;
+			name = RecentFilesMenuTemplate.nib;
+			path = RecentFilesMenuTemplate.nib;
+			sourceTree = "SOURCE_ROOT";
+		};
+		59A070C4070C580EC80939B1 = {
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			name = BinaryData.h;
+			path = ../../JuceLibraryCode/BinaryData.h;
+			sourceTree = "SOURCE_ROOT";
+		};
+		5C351DCD7E35C9F140A4DBBF = {
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			name = unix.h;
+			path = ../../Source/Serial/serial/impl/unix.h;
+			sourceTree = "SOURCE_ROOT";
+		};
+		69A8AF4EDC1BCDA4BF30FCEA = {
+			isa = PBXFileReference;
+			lastKnownFileType = wrapper.framework;
+			name = Foundation.framework;
+			path = System/Library/Frameworks/Foundation.framework;
+			sourceTree = SDKROOT;
+		};
+		7069155E4409EEF388C8F1CB = {
+			isa = PBXFileReference;
+			lastKnownFileType = text.plist.xml;
+			name = "Info-App.plist";
+			path = "Info-App.plist";
+			sourceTree = "SOURCE_ROOT";
+		};
+		747AA5F25432EB95D9CCFA36 = {
+			isa = PBXFileReference;
+			lastKnownFileType = folder;
+			name = bossac;
+			path = ../../Binaries/macosx/bossac;
+			sourceTree = "<group>";
+		};
+		79065F353E2D8EC23A8322CF = {
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.cpp.cpp;
+			name = "list_ports_win.cc";
+			path = "../../Source/Serial/impl/list_ports/list_ports_win.cc";
+			sourceTree = "SOURCE_ROOT";
+		};
+		8234EC83C80A36C9870A1003 = {
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			name = disphelper.h;
+			path = ../../Source/disphelper.h;
+			sourceTree = "SOURCE_ROOT";
+		};
+		832F5E5A83A9CED2228B445E = {
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.cpp.objcpp;
+			name = "include_juce_data_structures.mm";
+			path = "../../JuceLibraryCode/include_juce_data_structures.mm";
+			sourceTree = "SOURCE_ROOT";
+		};
+		843794BE77F94314420C9900 = {
+			isa = PBXFileReference;
+			lastKnownFileType = wrapper.framework;
+			name = Carbon.framework;
+			path = System/Library/Frameworks/Carbon.framework;
+			sourceTree = SDKROOT;
+		};
+		86D068B2B3BF26781A4B3B8A = {
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.cpp.cpp;
+			name = UpdaterApplication.cpp;
+			path = ../../Source/UpdaterApplication.cpp;
+			sourceTree = "SOURCE_ROOT";
+		};
+		957908654C3A12FEC307EFDD = {
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			name = LinnStrumentSerialWindows.h;
+			path = ../../Source/LinnStrumentSerialWindows.h;
+			sourceTree = "SOURCE_ROOT";
+		};
+		9A753E57DB9EA3EE0F9ABBBE = {
+			isa = PBXFileReference;
+			lastKnownFileType = file;
+			name = "juce_core";
+			path = "../../JuceLibraryCode/modules/juce_core";
+			sourceTree = "SOURCE_ROOT";
+		};
+		9CAFDD42B16D6DD1A908D073 = {
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.cpp.cpp;
+			name = "list_ports_linux.cc";
+			path = "../../Source/Serial/impl/list_ports/list_ports_linux.cc";
+			sourceTree = "SOURCE_ROOT";
+		};
+		9F3372F8BFC9389E939B3843 = {
+			isa = PBXFileReference;
+			lastKnownFileType = wrapper.framework;
+			name = WebKit.framework;
+			path = System/Library/Frameworks/WebKit.framework;
+			sourceTree = SDKROOT;
+		};
+		9FFEDCB2F5367D47801E4BC8 = {
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.cpp.cpp;
+			name = Main.cpp;
+			path = ../../Source/Main.cpp;
+			sourceTree = "SOURCE_ROOT";
+		};
+		A203AF0AEDE8C7331F61F1AF = {
+			isa = PBXFileReference;
+			lastKnownFileType = file;
+			name = "juce_graphics";
+			path = "../../JuceLibraryCode/modules/juce_graphics";
+			sourceTree = "SOURCE_ROOT";
+		};
+		A3831767E4F37F45E1351FB5 = {
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.cpp.cpp;
+			name = LinnStrumentSerial.cpp;
+			path = ../../Source/LinnStrumentSerial.cpp;
+			sourceTree = "SOURCE_ROOT";
+		};
+		A8C95E3FFB4E7AB18E46C53F = {
+			isa = PBXFileReference;
+			lastKnownFileType = file.icns;
+			name = Icon.icns;
+			path = Icon.icns;
+			sourceTree = "SOURCE_ROOT";
+		};
+		ABB8DCB4128352C9DEB749E0 = {
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			name = UpdaterApplication.h;
+			path = ../../Source/UpdaterApplication.h;
+			sourceTree = "SOURCE_ROOT";
+		};
+		AFD8A7C44DA92AC68326C5E8 = {
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.cpp.objcpp;
+			name = "include_juce_gui_basics.mm";
+			path = "../../JuceLibraryCode/include_juce_gui_basics.mm";
+			sourceTree = "SOURCE_ROOT";
+		};
+		B8A93D9D23E90D473159732E = {
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.cpp.cpp;
+			name = ProjectsComponent.cpp;
+			path = ../../Source/ProjectsComponent.cpp;
+			sourceTree = "SOURCE_ROOT";
+		};
+		B8C47B97A3007B5B2FCC49F7 = {
+			isa = PBXFileReference;
+			lastKnownFileType = wrapper.framework;
+			name = Cocoa.framework;
+			path = System/Library/Frameworks/Cocoa.framework;
+			sourceTree = SDKROOT;
+		};
+		C2A77E101BF337D7B4BA6F43 = {
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.c;
+			name = disphelper.c;
+			path = ../../Source/disphelper.c;
+			sourceTree = "SOURCE_ROOT";
+		};
+		D1692E79F149460BE623FE6C = {
+			isa = PBXFileReference;
+			lastKnownFileType = file;
+			name = "juce_data_structures";
+			path = "../../JuceLibraryCode/modules/juce_data_structures";
+			sourceTree = "SOURCE_ROOT";
+		};
+		D779135632491F28D5CB47C9 = {
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			name = MainComponent.h;
+			path = ../../Source/MainComponent.h;
+			sourceTree = "SOURCE_ROOT";
+		};
+		DE2DC58073DD1798D3EA93C9 = {
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			name = AppConfig.h;
+			path = ../../JuceLibraryCode/AppConfig.h;
+			sourceTree = "SOURCE_ROOT";
+		};
+		E011E27BCF3B69940EFAA30F = {
+			isa = PBXFileReference;
+			lastKnownFileType = file;
+			name = "juce_gui_basics";
+			path = "../../JuceLibraryCode/modules/juce_gui_basics";
+			sourceTree = "SOURCE_ROOT";
+		};
+		E415EAE4812F6FE94F519C8B = {
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			name = ProjectsComponent.h;
+			path = ../../Source/ProjectsComponent.h;
+			sourceTree = "SOURCE_ROOT";
+		};
+		E872661D65A73907F124387A = {
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.cpp.cpp;
+			name = serial.cc;
+			path = ../../Source/Serial/serial.cc;
+			sourceTree = "SOURCE_ROOT";
+		};
+		E9D38C9101121661B8684612 = {
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.cpp.cpp;
+			name = win.cc;
+			path = ../../Source/Serial/impl/win.cc;
+			sourceTree = "SOURCE_ROOT";
+		};
+		EE2872EC265E4805BEA0378E = {
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			name = LinnStrumentSerial.h;
+			path = ../../Source/LinnStrumentSerial.h;
+			sourceTree = "SOURCE_ROOT";
+		};
+		EF0FE79100B3378E52188FF4 = {
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.cpp.objcpp;
+			name = "include_juce_gui_extra.mm";
+			path = "../../JuceLibraryCode/include_juce_gui_extra.mm";
+			sourceTree = "SOURCE_ROOT";
+		};
+		F5A9A539B66F547DB60A93A6 = {
+			isa = PBXFileReference;
+			lastKnownFileType = wrapper.framework;
+			name = IOKit.framework;
+			path = System/Library/Frameworks/IOKit.framework;
+			sourceTree = SDKROOT;
+		};
+		F625ED3FFEE9D0A5B25A0ECD = {
+			isa = PBXFileReference;
+			lastKnownFileType = folder;
+			name = "linnstrument-firmware-2.2.2-beta1.bin";
+			path = "../../Firmware/linnstrument-firmware-2.2.2-beta1.bin";
+			sourceTree = "<group>";
+		};
+		F6ED665C8A6CAA07AB6ED06C = {
+			isa = PBXFileReference;
+			lastKnownFileType = image.png;
+			name = "linnstrument-lights-angle.png";
+			path = "../../Design/linnstrument-lights-angle.png";
+			sourceTree = "SOURCE_ROOT";
+		};
+		F92829F1A5E1B9B37014FFCD = {
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			name = UpgradeComponent.h;
+			path = ../../Source/UpgradeComponent.h;
+			sourceTree = "SOURCE_ROOT";
+		};
+		FA0265DED228596994D1DA86 = {
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.cpp.objcpp;
+			name = "include_juce_events.mm";
+			path = "../../JuceLibraryCode/include_juce_events.mm";
+			sourceTree = "SOURCE_ROOT";
+		};
+		FDC2291313EAC42AFF1D43C3 = {
 			isa = PBXGroup;
 			children = (
-				FDC2291313EAC42AFF1D43C3 /* list_ports */,
-				0AAED0AA615521FDBDBE3C5B /* unix.cc */,
-				E9D38C9101121661B8684612 /* win.cc */,
+				9CAFDD42B16D6DD1A908D073,
+				16F22E9257101CE53EF2F8B0,
+				79065F353E2D8EC23A8322CF,
+			);
+			name = "list_ports";
+			sourceTree = "<group>";
+		};
+		09AF26A394D0236924362F72 = {
+			isa = PBXGroup;
+			children = (
+				FDC2291313EAC42AFF1D43C3,
+				0AAED0AA615521FDBDBE3C5B,
+				E9D38C9101121661B8684612,
 			);
 			name = impl;
 			sourceTree = "<group>";
 		};
-		362EAD9D3EFFF2EEF9BCEF2C /* Frameworks */ = {
+		D48B86373389B97BC871EFB3 = {
 			isa = PBXGroup;
 			children = (
-				843794BE77F94314420C9900 /* Carbon.framework */,
-				B8C47B97A3007B5B2FCC49F7 /* Cocoa.framework */,
-				F5A9A539B66F547DB60A93A6 /* IOKit.framework */,
-				1C8AF0962146DC5331E4FE0D /* QuartzCore.framework */,
-				9F3372F8BFC9389E939B3843 /* WebKit.framework */,
-			);
-			name = Frameworks;
-			sourceTree = "<group>";
-		};
-		3B60420F754EF26FC87BCE22 /* Resources */ = {
-			isa = PBXGroup;
-			children = (
-				264F83C822028AC10094FBFA /* linnstrument-firmware-2.2.1.bin */,
-				264F83C6220289560094FBFA /* Images.xcassets */,
-				747AA5F25432EB95D9CCFA36 /* bossac */,
-				7069155E4409EEF388C8F1CB /* Info-App.plist */,
-				5906F960DBF9FEFF45DC8ACF /* RecentFilesMenuTemplate.nib */,
-			);
-			name = Resources;
-			sourceTree = "<group>";
-		};
-		41D2AB5D0EE61DE10324DE94 /* JUCE Modules */ = {
-			isa = PBXGroup;
-			children = (
-				9A753E57DB9EA3EE0F9ABBBE /* juce_core */,
-				D1692E79F149460BE623FE6C /* juce_data_structures */,
-				070E588B18AE2C301F90ED01 /* juce_events */,
-				A203AF0AEDE8C7331F61F1AF /* juce_graphics */,
-				E011E27BCF3B69940EFAA30F /* juce_gui_basics */,
-				01FEE0B2A38711F0D7B32458 /* juce_gui_extra */,
-			);
-			name = "JUCE Modules";
-			sourceTree = "<group>";
-		};
-		5410A27AD79A0312D126EE95 /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				04257A2AE8A28E9DFA6E2374 /* LinnStrument Updater.app */,
-			);
-			name = Products;
-			sourceTree = "<group>";
-		};
-		6171EB105DFAA728AFD35402 /* LinnStrument Updater */ = {
-			isa = PBXGroup;
-			children = (
-				6DDE64B7521204C040527D80 /* Source */,
-			);
-			name = "LinnStrument Updater";
-			sourceTree = "<group>";
-		};
-		6DDE64B7521204C040527D80 /* Source */ = {
-			isa = PBXGroup;
-			children = (
-				BC7F9A57D822A57E93B2D684 /* Serial */,
-				C2A77E101BF337D7B4BA6F43 /* disphelper.c */,
-				8234EC83C80A36C9870A1003 /* disphelper.h */,
-				A3831767E4F37F45E1351FB5 /* LinnStrumentSerial.cpp */,
-				EE2872EC265E4805BEA0378E /* LinnStrumentSerial.h */,
-				261339744A8C5E4E2ABE00CE /* LinnStrumentSerialMac.cpp */,
-				2018582D51EB534FF3A3B5EF /* LinnStrumentSerialMac.h */,
-				277233689DDC09BC9BC0E738 /* LinnStrumentSerialWindows.cpp */,
-				957908654C3A12FEC307EFDD /* LinnStrumentSerialWindows.h */,
-				9FFEDCB2F5367D47801E4BC8 /* Main.cpp */,
-				2809B9A9FF7F07EC8D9DFAE6 /* MainComponent.cpp */,
-				D779135632491F28D5CB47C9 /* MainComponent.h */,
-				36758C2C69A69DBADD158FED /* MainWindow.cpp */,
-				0E9F1B24C7C5E964266DDAA0 /* MainWindow.h */,
-				B8A93D9D23E90D473159732E /* ProjectsComponent.cpp */,
-				E415EAE4812F6FE94F519C8B /* ProjectsComponent.h */,
-				86D068B2B3BF26781A4B3B8A /* UpdaterApplication.cpp */,
-				ABB8DCB4128352C9DEB749E0 /* UpdaterApplication.h */,
-				1BA48FF9F3394C68639A78EA /* UpgradeComponent.cpp */,
-				F92829F1A5E1B9B37014FFCD /* UpgradeComponent.h */,
-			);
-			name = Source;
-			sourceTree = "<group>";
-		};
-		87ACD2797D578A9578228ED1 /* JUCE Library Code */ = {
-			isa = PBXGroup;
-			children = (
-				DE2DC58073DD1798D3EA93C9 /* AppConfig.h */,
-				3DF3884E5E77739A0E2782E8 /* include_juce_core.mm */,
-				832F5E5A83A9CED2228B445E /* include_juce_data_structures.mm */,
-				FA0265DED228596994D1DA86 /* include_juce_events.mm */,
-				172A456F6B8185E5B1259A16 /* include_juce_graphics.mm */,
-				AFD8A7C44DA92AC68326C5E8 /* include_juce_gui_basics.mm */,
-				EF0FE79100B3378E52188FF4 /* include_juce_gui_extra.mm */,
-				4034AF045C14B102890D71E9 /* JuceHeader.h */,
-			);
-			name = "JUCE Library Code";
-			sourceTree = "<group>";
-		};
-		A485E417C52AB0B31B07F8AF /* Source */ = {
-			isa = PBXGroup;
-			children = (
-				6171EB105DFAA728AFD35402 /* LinnStrument Updater */,
-				41D2AB5D0EE61DE10324DE94 /* JUCE Modules */,
-				87ACD2797D578A9578228ED1 /* JUCE Library Code */,
-				3B60420F754EF26FC87BCE22 /* Resources */,
-				362EAD9D3EFFF2EEF9BCEF2C /* Frameworks */,
-				5410A27AD79A0312D126EE95 /* Products */,
-			);
-			name = Source;
-			sourceTree = "<group>";
-		};
-		BC7F9A57D822A57E93B2D684 /* Serial */ = {
-			isa = PBXGroup;
-			children = (
-				09AF26A394D0236924362F72 /* impl */,
-				DF2FA2B64D49189164834652 /* serial */,
-				E872661D65A73907F124387A /* serial.cc */,
-			);
-			name = Serial;
-			sourceTree = "<group>";
-		};
-		D48B86373389B97BC871EFB3 /* impl */ = {
-			isa = PBXGroup;
-			children = (
-				5C351DCD7E35C9F140A4DBBF /* unix.h */,
-				16C1ADC606E226D0FE0971AC /* win.h */,
+				5C351DCD7E35C9F140A4DBBF,
+				16C1ADC606E226D0FE0971AC,
 			);
 			name = impl;
 			sourceTree = "<group>";
 		};
-		DF2FA2B64D49189164834652 /* serial */ = {
+		DF2FA2B64D49189164834652 = {
 			isa = PBXGroup;
 			children = (
-				D48B86373389B97BC871EFB3 /* impl */,
-				29FBFF7D0FF2F151F0E3CF9D /* serial.h */,
-				4C4EBD75D35E0D8C6C9B1FDE /* v8stdint.h */,
+				D48B86373389B97BC871EFB3,
+				29FBFF7D0FF2F151F0E3CF9D,
+				4C4EBD75D35E0D8C6C9B1FDE,
 			);
 			name = serial;
 			sourceTree = "<group>";
 		};
-		FDC2291313EAC42AFF1D43C3 /* list_ports */ = {
+		BC7F9A57D822A57E93B2D684 = {
 			isa = PBXGroup;
 			children = (
-				9CAFDD42B16D6DD1A908D073 /* list_ports_linux.cc */,
-				16F22E9257101CE53EF2F8B0 /* list_ports_osx.cc */,
-				79065F353E2D8EC23A8322CF /* list_ports_win.cc */,
+				09AF26A394D0236924362F72,
+				DF2FA2B64D49189164834652,
+				E872661D65A73907F124387A,
 			);
-			name = list_ports;
+			name = Serial;
 			sourceTree = "<group>";
 		};
-/* End PBXGroup section */
-
-/* Begin PBXNativeTarget section */
-		C74383895BA02947723BEB8F /* LinnStrument Updater - App */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = D6D29AAB82FB699D1A94513F /* Build configuration list for PBXNativeTarget "LinnStrument Updater - App" */;
-			buildPhases = (
-				E8E8E98EBE19D18F3C3B6376 /* Resources */,
-				60C62AA061A039E5967092C9 /* Sources */,
-				1C323C4F51E1F2041DDD56D7 /* Frameworks */,
+		6DDE64B7521204C040527D80 = {
+			isa = PBXGroup;
+			children = (
+				BC7F9A57D822A57E93B2D684,
+				C2A77E101BF337D7B4BA6F43,
+				8234EC83C80A36C9870A1003,
+				A3831767E4F37F45E1351FB5,
+				EE2872EC265E4805BEA0378E,
+				261339744A8C5E4E2ABE00CE,
+				2018582D51EB534FF3A3B5EF,
+				277233689DDC09BC9BC0E738,
+				957908654C3A12FEC307EFDD,
+				9FFEDCB2F5367D47801E4BC8,
+				2809B9A9FF7F07EC8D9DFAE6,
+				D779135632491F28D5CB47C9,
+				36758C2C69A69DBADD158FED,
+				0E9F1B24C7C5E964266DDAA0,
+				B8A93D9D23E90D473159732E,
+				E415EAE4812F6FE94F519C8B,
+				86D068B2B3BF26781A4B3B8A,
+				ABB8DCB4128352C9DEB749E0,
+				1BA48FF9F3394C68639A78EA,
+				F92829F1A5E1B9B37014FFCD,
 			);
-			buildRules = (
-			);
-			dependencies = (
-			);
-			name = "LinnStrument Updater - App";
-			productName = "LinnStrument Updater";
-			productReference = 04257A2AE8A28E9DFA6E2374 /* LinnStrument Updater.app */;
-			productType = "com.apple.product-type.application";
+			name = Source;
+			sourceTree = "<group>";
 		};
-/* End PBXNativeTarget section */
-
-/* Begin PBXProject section */
-		0A4C278C97A750535B90F14D /* Project object */ = {
-			isa = PBXProject;
-			attributes = {
-				LastUpgradeCheck = 0930;
-				ORGANIZATIONNAME = "Roger Linn Design";
-				TargetAttributes = {
-					C74383895BA02947723BEB8F = {
-						SystemCapabilities = {
-							com.apple.ApplicationGroups.iOS = {
-								enabled = 0;
-							};
-							com.apple.InAppPurchase = {
-								enabled = 0;
-							};
-							com.apple.InterAppAudio = {
-								enabled = 0;
-							};
-							com.apple.Push = {
-								enabled = 0;
-							};
-							com.apple.Sandbox = {
-								enabled = 0;
-							};
-						};
-					};
-				};
+		43B46ECA6A25275F51EBEDA3 = {
+			isa = PBXGroup;
+			children = (
+				F6ED665C8A6CAA07AB6ED06C,
+			);
+			name = Icons;
+			sourceTree = "<group>";
+		};
+		6171EB105DFAA728AFD35402 = {
+			isa = PBXGroup;
+			children = (
+				6DDE64B7521204C040527D80,
+				43B46ECA6A25275F51EBEDA3,
+			);
+			name = "LinnStrument Updater";
+			sourceTree = "<group>";
+		};
+		41D2AB5D0EE61DE10324DE94 = {
+			isa = PBXGroup;
+			children = (
+				9A753E57DB9EA3EE0F9ABBBE,
+				D1692E79F149460BE623FE6C,
+				070E588B18AE2C301F90ED01,
+				A203AF0AEDE8C7331F61F1AF,
+				E011E27BCF3B69940EFAA30F,
+				01FEE0B2A38711F0D7B32458,
+			);
+			name = "JUCE Modules";
+			sourceTree = "<group>";
+		};
+		87ACD2797D578A9578228ED1 = {
+			isa = PBXGroup;
+			children = (
+				DE2DC58073DD1798D3EA93C9,
+				170ADDF8B988DCE23BE6AEED,
+				59A070C4070C580EC80939B1,
+				3DF3884E5E77739A0E2782E8,
+				832F5E5A83A9CED2228B445E,
+				FA0265DED228596994D1DA86,
+				172A456F6B8185E5B1259A16,
+				AFD8A7C44DA92AC68326C5E8,
+				EF0FE79100B3378E52188FF4,
+				4034AF045C14B102890D71E9,
+			);
+			name = "JUCE Library Code";
+			sourceTree = "<group>";
+		};
+		3B60420F754EF26FC87BCE22 = {
+			isa = PBXGroup;
+			children = (
+				747AA5F25432EB95D9CCFA36,
+				F625ED3FFEE9D0A5B25A0ECD,
+				7069155E4409EEF388C8F1CB,
+				5906F960DBF9FEFF45DC8ACF,
+				A8C95E3FFB4E7AB18E46C53F,
+			);
+			name = Resources;
+			sourceTree = "<group>";
+		};
+		362EAD9D3EFFF2EEF9BCEF2C = {
+			isa = PBXGroup;
+			children = (
+				843794BE77F94314420C9900,
+				B8C47B97A3007B5B2FCC49F7,
+				69A8AF4EDC1BCDA4BF30FCEA,
+				F5A9A539B66F547DB60A93A6,
+				1C8AF0962146DC5331E4FE0D,
+				9F3372F8BFC9389E939B3843,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		5410A27AD79A0312D126EE95 = {
+			isa = PBXGroup;
+			children = (
+				04257A2AE8A28E9DFA6E2374,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		A485E417C52AB0B31B07F8AF = {
+			isa = PBXGroup;
+			children = (
+				6171EB105DFAA728AFD35402,
+				41D2AB5D0EE61DE10324DE94,
+				87ACD2797D578A9578228ED1,
+				3B60420F754EF26FC87BCE22,
+				362EAD9D3EFFF2EEF9BCEF2C,
+				5410A27AD79A0312D126EE95,
+			);
+			name = Source;
+			sourceTree = "<group>";
+		};
+		A208946594571B3C02922CD4 = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_CXX_LANGUAGE_STANDARD = "c++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_LINK_OBJC_RUNTIME = NO;
+				CODE_SIGN_ENTITLEMENTS = "App.entitlements";
+				CODE_SIGN_IDENTITY = "Mac Developer";
+				COMBINE_HIDPI_IMAGES = YES;
+				CONFIGURATION_BUILD_DIR = "$(PROJECT_DIR)/build/$(CONFIGURATION)";
+				COPY_PHASE_STRIP = NO;
+				DEVELOPMENT_TEAM = AGZT8GVS7G;
+				ENABLE_HARDENED_RUNTIME = YES;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"_DEBUG=1",
+					"DEBUG=1",
+					"JUCER_XCODE_MAC_F6D2F4CF=1",
+					"JUCE_APP_VERSION=2.0.4",
+					"JUCE_APP_VERSION_HEX=0x20004",
+					"JucePlugin_Build_VST=0",
+					"JucePlugin_Build_VST3=0",
+					"JucePlugin_Build_AU=0",
+					"JucePlugin_Build_AUv3=0",
+					"JucePlugin_Build_RTAS=0",
+					"JucePlugin_Build_AAX=0",
+					"JucePlugin_Build_Standalone=0",
+					"JucePlugin_Build_Unity=0",
+				);
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				HEADER_SEARCH_PATHS = (
+					"../../JuceLibraryCode",
+					"../../JuceLibraryCode/modules",
+					"$(inherited)",
+				);
+				INFOPLIST_FILE = Info-App.plist;
+				INFOPLIST_PREPROCESS = NO;
+				INSTALL_PATH = "$(HOME)/Applications";
+				MACOSX_DEPLOYMENT_TARGET = 10.11;
+				MTL_HEADER_SEARCH_PATHS = (
+					"../../JuceLibraryCode",
+					"../../JuceLibraryCode/modules",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.rogerlinndesign.linnstrument.Updater;
+				PRODUCT_NAME = "LinnStrument Updater";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				USE_HEADERMAP = NO;
+				VALID_ARCHS = "i386 x86_64 arm64 arm64e";
 			};
-			buildConfigurationList = 9BA9157A05694DA6164DEE4E /* Build configuration list for PBXProject "LinnStrument Updater" */;
-			compatibilityVersion = "Xcode 3.2";
-			developmentRegion = en;
-			hasScannedForEncodings = 0;
-			knownRegions = (
-				en,
-			);
-			mainGroup = A485E417C52AB0B31B07F8AF /* Source */;
-			projectDirPath = "";
-			projectRoot = "";
-			targets = (
-				C74383895BA02947723BEB8F /* LinnStrument Updater - App */,
-			);
+			name = Debug;
 		};
-/* End PBXProject section */
-
-/* Begin PBXResourcesBuildPhase section */
-		E8E8E98EBE19D18F3C3B6376 /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				264F83C7220289560094FBFA /* Images.xcassets in Resources */,
-				264F83C922028AC10094FBFA /* linnstrument-firmware-2.2.1.bin in Resources */,
-				9C65BFFCD6389FDA4B55DA9D /* bossac in Resources */,
-				E7659FC31793C54F98B60EFD /* RecentFilesMenuTemplate.nib in Resources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
+		BACC560A8E8822177A8D9177 = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_CXX_LANGUAGE_STANDARD = "c++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_LINK_OBJC_RUNTIME = NO;
+				CODE_SIGN_ENTITLEMENTS = "App.entitlements";
+				CODE_SIGN_IDENTITY = "Mac Developer";
+				COMBINE_HIDPI_IMAGES = YES;
+				CONFIGURATION_BUILD_DIR = "$(PROJECT_DIR)/build/$(CONFIGURATION)";
+				DEAD_CODE_STRIPPING = YES;
+				DEVELOPMENT_TEAM = AGZT8GVS7G;
+				ENABLE_HARDENED_RUNTIME = YES;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
+				GCC_OPTIMIZATION_LEVEL = s;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"_NDEBUG=1",
+					"NDEBUG=1",
+					"JUCER_XCODE_MAC_F6D2F4CF=1",
+					"JUCE_APP_VERSION=2.0.4",
+					"JUCE_APP_VERSION_HEX=0x20004",
+					"JucePlugin_Build_VST=0",
+					"JucePlugin_Build_VST3=0",
+					"JucePlugin_Build_AU=0",
+					"JucePlugin_Build_AUv3=0",
+					"JucePlugin_Build_RTAS=0",
+					"JucePlugin_Build_AAX=0",
+					"JucePlugin_Build_Standalone=0",
+					"JucePlugin_Build_Unity=0",
+				);
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				HEADER_SEARCH_PATHS = (
+					"../../JuceLibraryCode",
+					"../../JuceLibraryCode/modules",
+					"$(inherited)",
+				);
+				INFOPLIST_FILE = Info-App.plist;
+				INFOPLIST_PREPROCESS = NO;
+				INSTALL_PATH = "$(HOME)/Applications";
+				LLVM_LTO = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.11;
+				MTL_HEADER_SEARCH_PATHS = (
+					"../../JuceLibraryCode",
+					"../../JuceLibraryCode/modules",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.rogerlinndesign.linnstrument.Updater;
+				PRODUCT_NAME = "LinnStrument Updater";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				USE_HEADERMAP = NO;
+				VALID_ARCHS = "i386 x86_64 arm64 arm64e";
+			};
+			name = Release;
 		};
-/* End PBXResourcesBuildPhase section */
-
-/* Begin PBXSourcesBuildPhase section */
-		60C62AA061A039E5967092C9 /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				E741F59129F88C4B393ECCA5 /* list_ports_linux.cc in Sources */,
-				C97580FDB79F9A94473EEB5B /* list_ports_osx.cc in Sources */,
-				8F9DE3D4648C0253F1F08841 /* list_ports_win.cc in Sources */,
-				12FDAE07021867A5A3AB37B2 /* unix.cc in Sources */,
-				93B639C3087A4DE642381CE3 /* win.cc in Sources */,
-				F0A76C02A81FBE747F3527AC /* serial.cc in Sources */,
-				087B7D7BF817DC7835FF706E /* disphelper.c in Sources */,
-				5F353A6A2D7F99950ECBF656 /* LinnStrumentSerial.cpp in Sources */,
-				99C0DDF8EBA7449FDAE190B8 /* LinnStrumentSerialMac.cpp in Sources */,
-				5E470991B149338F925314C4 /* LinnStrumentSerialMac.h in Sources */,
-				741CA433C5A7921CF0CC5B0C /* LinnStrumentSerialWindows.cpp in Sources */,
-				159BC7EEC80463CFDE443A8E /* Main.cpp in Sources */,
-				F9D6661BF8E05E14085A1C37 /* MainComponent.cpp in Sources */,
-				1C2165ACCAE018513BB0BDA9 /* MainWindow.cpp in Sources */,
-				B242AC415463CC143F304914 /* ProjectsComponent.cpp in Sources */,
-				615229CC0DAB6046DD41E865 /* UpdaterApplication.cpp in Sources */,
-				FC94546BB393F90B5B21EBC5 /* UpgradeComponent.cpp in Sources */,
-				A0296E065BAA8A5F4516A38E /* include_juce_core.mm in Sources */,
-				47683F61FE27DE9AEED5366A /* include_juce_data_structures.mm in Sources */,
-				130590A62699346E5A3A5B34 /* include_juce_events.mm in Sources */,
-				06AC046B6CA4AEECF3A2170A /* include_juce_graphics.mm in Sources */,
-				8117481A1252B7E39C3F1C34 /* include_juce_gui_basics.mm in Sources */,
-				A91E46CB58F6ED61BFAB87E5 /* include_juce_gui_extra.mm in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
+		6B1119AF0BB7C7E946A85DFC = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_CXX_LANGUAGE_STANDARD = "c++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_LINK_OBJC_RUNTIME = NO;
+				CODE_SIGN_ENTITLEMENTS = "App.entitlements";
+				CODE_SIGN_IDENTITY = "Mac Developer";
+				COMBINE_HIDPI_IMAGES = YES;
+				CONFIGURATION_BUILD_DIR = "$(PROJECT_DIR)/build/$(CONFIGURATION)";
+				DEAD_CODE_STRIPPING = YES;
+				DEVELOPMENT_TEAM = AGZT8GVS7G;
+				ENABLE_HARDENED_RUNTIME = YES;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
+				GCC_OPTIMIZATION_LEVEL = s;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"_NDEBUG=1",
+					"NDEBUG=1",
+					"LINNSTRUMENT_LOADER=1",
+					"JUCER_XCODE_MAC_F6D2F4CF=1",
+					"JUCE_APP_VERSION=2.0.4",
+					"JUCE_APP_VERSION_HEX=0x20004",
+					"JucePlugin_Build_VST=0",
+					"JucePlugin_Build_VST3=0",
+					"JucePlugin_Build_AU=0",
+					"JucePlugin_Build_AUv3=0",
+					"JucePlugin_Build_RTAS=0",
+					"JucePlugin_Build_AAX=0",
+					"JucePlugin_Build_Standalone=0",
+					"JucePlugin_Build_Unity=0",
+				);
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				HEADER_SEARCH_PATHS = (
+					"../../JuceLibraryCode",
+					"../../JuceLibraryCode/modules",
+					"$(inherited)",
+				);
+				INFOPLIST_FILE = Info-App.plist;
+				INFOPLIST_PREPROCESS = NO;
+				INSTALL_PATH = "$(HOME)/Applications";
+				LLVM_LTO = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.11;
+				MTL_HEADER_SEARCH_PATHS = (
+					"../../JuceLibraryCode",
+					"../../JuceLibraryCode/modules",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.rogerlinndesign.linnstrument.Updater;
+				PRODUCT_NAME = "LinnStrument Loader";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				USE_HEADERMAP = NO;
+				VALID_ARCHS = "i386 x86_64 arm64 arm64e";
+			};
+			name = "Release Loader";
 		};
-/* End PBXSourcesBuildPhase section */
-
-/* Begin XCBuildConfiguration section */
-		240E28434E4271734B092AE5 /* Debug */ = {
+		240E28434E4271734B092AE5 = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
@@ -407,13 +904,15 @@
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "Mac Developer";
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
-				ENABLE_TESTABILITY = YES;
+				ENABLE_TESTABILITY = NO;
 				GCC_C_LANGUAGE_STANDARD = c11;
 				GCC_INLINES_ARE_PRIVATE_EXTERN = YES;
 				GCC_MODEL_TUNING = G5;
 				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_SYMBOLS_PRIVATE_EXTERN = YES;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_CHECK_SWITCH_STATEMENTS = YES;
@@ -426,12 +925,13 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_NAME = "LinnStrument Updater";
+				SDKROOT = macosx;
 				WARNING_CFLAGS = "-Wreorder";
 				ZERO_LINK = NO;
 			};
 			name = Debug;
 		};
-		5DEE334E9576B90192B4659D /* Release Loader */ = {
+		93300EF59A8550262F7838AC = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
@@ -453,12 +953,15 @@
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "Mac Developer";
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = NO;
 				GCC_C_LANGUAGE_STANDARD = c11;
 				GCC_INLINES_ARE_PRIVATE_EXTERN = YES;
 				GCC_MODEL_TUNING = G5;
 				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_SYMBOLS_PRIVATE_EXTERN = YES;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_CHECK_SWITCH_STATEMENTS = YES;
@@ -469,59 +972,14 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				PRODUCT_NAME = "LinnStrument Loader";
+				PRODUCT_NAME = "LinnStrument Updater";
+				SDKROOT = macosx;
 				WARNING_CFLAGS = "-Wreorder";
 				ZERO_LINK = NO;
 			};
-			name = "Release Loader";
+			name = Release;
 		};
-		6B1119AF0BB7C7E946A85DFC /* Release Loader */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CLANG_CXX_LANGUAGE_STANDARD = "c++14";
-				CLANG_CXX_LIBRARY = "libc++";
-				CLANG_LINK_OBJC_RUNTIME = NO;
-				COMBINE_HIDPI_IMAGES = YES;
-				CONFIGURATION_BUILD_DIR = "$(PROJECT_DIR)/build/$(CONFIGURATION)";
-				DEAD_CODE_STRIPPING = YES;
-				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
-				GCC_OPTIMIZATION_LEVEL = s;
-				GCC_PREPROCESSOR_DEFINITIONS = (
-					"_NDEBUG=1",
-					"NDEBUG=1",
-					"LINNSTRUMENT_LOADER=1",
-					"JUCER_XCODE_MAC_F6D2F4CF=1",
-					"JUCE_APP_VERSION=2.0.3",
-					"JUCE_APP_VERSION_HEX=0x20003",
-					"JucePlugin_Build_VST=0",
-					"JucePlugin_Build_VST3=0",
-					"JucePlugin_Build_AU=0",
-					"JucePlugin_Build_AUv3=0",
-					"JucePlugin_Build_RTAS=0",
-					"JucePlugin_Build_AAX=0",
-					"JucePlugin_Build_Standalone=0",
-					"JucePlugin_Build_Unity=0",
-				);
-				GCC_SYMBOLS_PRIVATE_EXTERN = YES;
-				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
-				HEADER_SEARCH_PATHS = (
-					../../JuceLibraryCode,
-					../../JuceLibraryCode/modules,
-					"$(inherited)",
-				);
-				INFOPLIST_FILE = "Info-App.plist";
-				INFOPLIST_PREPROCESS = NO;
-				INSTALL_PATH = "$(HOME)/Applications";
-				LLVM_LTO = YES;
-				MACOSX_DEPLOYMENT_TARGET = 10.11;
-				PRODUCT_BUNDLE_IDENTIFIER = com.rogerlinndesign.linnstrument.Updater;
-				PRODUCT_NAME = "LinnStrument Loader";
-				USE_HEADERMAP = NO;
-			};
-			name = "Release Loader";
-		};
-		93300EF59A8550262F7838AC /* Release */ = {
+		5DEE334E9576B90192B4659D = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
@@ -543,12 +1001,15 @@
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "Mac Developer";
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = NO;
 				GCC_C_LANGUAGE_STANDARD = c11;
 				GCC_INLINES_ARE_PRIVATE_EXTERN = YES;
 				GCC_MODEL_TUNING = G5;
 				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_SYMBOLS_PRIVATE_EXTERN = YES;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_CHECK_SWITCH_STATEMENTS = YES;
@@ -559,124 +1020,114 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				PRODUCT_NAME = "LinnStrument Updater";
+				PRODUCT_NAME = "LinnStrument Loader";
+				SDKROOT = macosx;
 				WARNING_CFLAGS = "-Wreorder";
 				ZERO_LINK = NO;
 			};
-			name = Release;
+			name = "Release Loader";
 		};
-		A208946594571B3C02922CD4 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CLANG_CXX_LANGUAGE_STANDARD = "c++14";
-				CLANG_CXX_LIBRARY = "libc++";
-				CLANG_LINK_OBJC_RUNTIME = NO;
-				COMBINE_HIDPI_IMAGES = YES;
-				CONFIGURATION_BUILD_DIR = "$(PROJECT_DIR)/build/$(CONFIGURATION)";
-				COPY_PHASE_STRIP = NO;
-				GCC_DYNAMIC_NO_PIC = NO;
-				GCC_OPTIMIZATION_LEVEL = 0;
-				GCC_PREPROCESSOR_DEFINITIONS = (
-					"_DEBUG=1",
-					"DEBUG=1",
-					"JUCER_XCODE_MAC_F6D2F4CF=1",
-					"JUCE_APP_VERSION=2.0.3",
-					"JUCE_APP_VERSION_HEX=0x20003",
-					"JucePlugin_Build_VST=0",
-					"JucePlugin_Build_VST3=0",
-					"JucePlugin_Build_AU=0",
-					"JucePlugin_Build_AUv3=0",
-					"JucePlugin_Build_RTAS=0",
-					"JucePlugin_Build_AAX=0",
-					"JucePlugin_Build_Standalone=0",
-					"JucePlugin_Build_Unity=0",
-				);
-				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
-				HEADER_SEARCH_PATHS = (
-					../../JuceLibraryCode,
-					../../JuceLibraryCode/modules,
-					"$(inherited)",
-				);
-				INFOPLIST_FILE = "Info-App.plist";
-				INFOPLIST_PREPROCESS = NO;
-				INSTALL_PATH = "$(HOME)/Applications";
-				MACOSX_DEPLOYMENT_TARGET = 10.11;
-				PRODUCT_BUNDLE_IDENTIFIER = com.rogerlinndesign.linnstrument.Updater;
-				PRODUCT_NAME = "LinnStrument Updater";
-				USE_HEADERMAP = NO;
-			};
-			name = Debug;
-		};
-		BACC560A8E8822177A8D9177 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CLANG_CXX_LANGUAGE_STANDARD = "c++14";
-				CLANG_CXX_LIBRARY = "libc++";
-				CLANG_LINK_OBJC_RUNTIME = NO;
-				COMBINE_HIDPI_IMAGES = YES;
-				CONFIGURATION_BUILD_DIR = "$(PROJECT_DIR)/build/$(CONFIGURATION)";
-				DEAD_CODE_STRIPPING = YES;
-				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
-				GCC_OPTIMIZATION_LEVEL = s;
-				GCC_PREPROCESSOR_DEFINITIONS = (
-					"_NDEBUG=1",
-					"NDEBUG=1",
-					"JUCER_XCODE_MAC_F6D2F4CF=1",
-					"JUCE_APP_VERSION=2.0.3",
-					"JUCE_APP_VERSION_HEX=0x20003",
-					"JucePlugin_Build_VST=0",
-					"JucePlugin_Build_VST3=0",
-					"JucePlugin_Build_AU=0",
-					"JucePlugin_Build_AUv3=0",
-					"JucePlugin_Build_RTAS=0",
-					"JucePlugin_Build_AAX=0",
-					"JucePlugin_Build_Standalone=0",
-					"JucePlugin_Build_Unity=0",
-				);
-				GCC_SYMBOLS_PRIVATE_EXTERN = YES;
-				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
-				HEADER_SEARCH_PATHS = (
-					../../JuceLibraryCode,
-					../../JuceLibraryCode/modules,
-					"$(inherited)",
-				);
-				INFOPLIST_FILE = "Info-App.plist";
-				INFOPLIST_PREPROCESS = NO;
-				INSTALL_PATH = "$(HOME)/Applications";
-				LLVM_LTO = YES;
-				MACOSX_DEPLOYMENT_TARGET = 10.11;
-				PRODUCT_BUNDLE_IDENTIFIER = com.rogerlinndesign.linnstrument.Updater;
-				PRODUCT_NAME = "LinnStrument Updater";
-				USE_HEADERMAP = NO;
-			};
-			name = Release;
-		};
-/* End XCBuildConfiguration section */
-
-/* Begin XCConfigurationList section */
-		9BA9157A05694DA6164DEE4E /* Build configuration list for PBXProject "LinnStrument Updater" */ = {
+		9BA9157A05694DA6164DEE4E = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				240E28434E4271734B092AE5 /* Debug */,
-				93300EF59A8550262F7838AC /* Release */,
-				5DEE334E9576B90192B4659D /* Release Loader */,
+				240E28434E4271734B092AE5,
+				93300EF59A8550262F7838AC,
+				5DEE334E9576B90192B4659D,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Debug;
 		};
-		D6D29AAB82FB699D1A94513F /* Build configuration list for PBXNativeTarget "LinnStrument Updater - App" */ = {
+		D6D29AAB82FB699D1A94513F = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				A208946594571B3C02922CD4 /* Debug */,
-				BACC560A8E8822177A8D9177 /* Release */,
-				6B1119AF0BB7C7E946A85DFC /* Release Loader */,
+				A208946594571B3C02922CD4,
+				BACC560A8E8822177A8D9177,
+				6B1119AF0BB7C7E946A85DFC,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Debug;
 		};
-/* End XCConfigurationList section */
+		E8E8E98EBE19D18F3C3B6376 = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				9C65BFFCD6389FDA4B55DA9D,
+				636CB3415A35479FEB159274,
+				E7659FC31793C54F98B60EFD,
+				7FEF2B0C23CA44468D4CAAFD,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		60C62AA061A039E5967092C9 = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				E741F59129F88C4B393ECCA5,
+				C97580FDB79F9A94473EEB5B,
+				8F9DE3D4648C0253F1F08841,
+				12FDAE07021867A5A3AB37B2,
+				93B639C3087A4DE642381CE3,
+				F0A76C02A81FBE747F3527AC,
+				087B7D7BF817DC7835FF706E,
+				5F353A6A2D7F99950ECBF656,
+				99C0DDF8EBA7449FDAE190B8,
+				741CA433C5A7921CF0CC5B0C,
+				159BC7EEC80463CFDE443A8E,
+				F9D6661BF8E05E14085A1C37,
+				1C2165ACCAE018513BB0BDA9,
+				B242AC415463CC143F304914,
+				615229CC0DAB6046DD41E865,
+				FC94546BB393F90B5B21EBC5,
+				C160FF81422AFEF48EDE1FDC,
+				A0296E065BAA8A5F4516A38E,
+				47683F61FE27DE9AEED5366A,
+				130590A62699346E5A3A5B34,
+				06AC046B6CA4AEECF3A2170A,
+				8117481A1252B7E39C3F1C34,
+				A91E46CB58F6ED61BFAB87E5,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		1C323C4F51E1F2041DDD56D7 = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				4F4ED8A6176438DC691FE052,
+				380202CC3D0F06037C86450C,
+				7879CFCBF1AC920E7F1981DB,
+				2DF771D942DA9214AC58F46E,
+				AE30067252114DA77BDF86A7,
+				2FF2264371F9F1A218223750,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		C74383895BA02947723BEB8F = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = D6D29AAB82FB699D1A94513F;
+			buildPhases = (
+				E8E8E98EBE19D18F3C3B6376,
+				60C62AA061A039E5967092C9,
+				1C323C4F51E1F2041DDD56D7,
+			);
+			buildRules = ( );
+			dependencies = ( );
+			name = "LinnStrument Updater - App";
+			productName = "LinnStrument Updater";
+			productReference = 04257A2AE8A28E9DFA6E2374;
+			productType = "com.apple.product-type.application";
+		};
+		0A4C278C97A750535B90F14D = {
+			isa = PBXProject;
+			buildConfigurationList = 9BA9157A05694DA6164DEE4E;
+			attributes = { LastUpgradeCheck = 1220; ORGANIZATIONNAME = "Roger Linn Design"; TargetAttributes = { C74383895BA02947723BEB8F = { DevelopmentTeam = AGZT8GVS7G; ProvisioningStyle = Automatic; SystemCapabilities = {com.apple.ApplicationGroups.iOS = { enabled = 0; }; com.apple.InAppPurchase = { enabled = 0; }; com.apple.InterAppAudio = { enabled = 0; }; com.apple.Push = { enabled = 0; }; com.apple.Sandbox = { enabled = 0; }; com.apple.HardenedRuntime = { enabled = 1; }; }; }; }; };
+			compatibilityVersion = "Xcode 3.2";
+			hasScannedForEncodings = 0;
+			mainGroup = A485E417C52AB0B31B07F8AF;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (C74383895BA02947723BEB8F);
+			knownRegions = (en, Base);
+		};
 	};
-	rootObject = 0A4C278C97A750535B90F14D /* Project object */;
+	rootObject = 0A4C278C97A750535B90F14D;
 }

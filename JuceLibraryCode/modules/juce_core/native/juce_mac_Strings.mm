@@ -2,7 +2,7 @@
   ==============================================================================
 
    This file is part of the JUCE library.
-   Copyright (c) 2017 - ROLI Ltd.
+   Copyright (c) 2020 - Raw Material Software Limited
 
    JUCE is an open source library subject to commercial or open-source
    licensing.
@@ -92,7 +92,7 @@ String String::convertToPrecomposedUnicode() const
                                       bytesNeeded, &bytesRead,
                                       &outputBufferSize, tempOut) == noErr)
         {
-            result = String (CharPointer_UTF16 ((CharPointer_UTF16::CharType*) tempOut.get()));
+            result = String (CharPointer_UTF16 (reinterpret_cast<CharPointer_UTF16::CharType*> (tempOut.get())));
         }
 
         DisposeUnicodeToTextInfo (&conversionInfo);

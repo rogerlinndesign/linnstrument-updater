@@ -2,17 +2,16 @@
   ==============================================================================
 
    This file is part of the JUCE library.
-   Copyright (c) 2017 - ROLI Ltd.
+   Copyright (c) 2020 - Raw Material Software Limited
 
    JUCE is an open source library subject to commercial or open-source
    licensing.
 
-   By using JUCE, you agree to the terms of both the JUCE 5 End-User License
-   Agreement and JUCE 5 Privacy Policy (both updated and effective as of the
-   27th April 2017).
+   By using JUCE, you agree to the terms of both the JUCE 6 End-User License
+   Agreement and JUCE Privacy Policy (both effective as of the 16th June 2020).
 
-   End User License Agreement: www.juce.com/juce-5-licence
-   Privacy Policy: www.juce.com/juce-5-privacy-policy
+   End User License Agreement: www.juce.com/juce-6-licence
+   Privacy Policy: www.juce.com/juce-privacy-policy
 
    Or: You may also use this code under the terms of the GPL v3 (see
    www.gnu.org/licenses).
@@ -31,7 +30,7 @@ namespace juce
 /**
     This class acts as a wrapper around a property inside a ValueTree.
 
-    If the property inside the ValueTree is missing or empty the ValueWithDefault will automatically
+    If the property inside the ValueTree is missing the ValueWithDefault will automatically
     return a default value, which can be specified when initialising the ValueWithDefault.
 
     @tags{DataStructures}
@@ -41,7 +40,7 @@ class ValueWithDefault
 public:
     //==============================================================================
     /** Creates an unitialised ValueWithDefault. Initialise it using one of the referTo() methods. */
-    ValueWithDefault()    : undoManager (nullptr) {}
+    ValueWithDefault() = default;
 
     /** Creates an ValueWithDefault object. The default value will be an empty var. */
     ValueWithDefault (ValueTree& tree, const Identifier& propertyID, UndoManager* um)
@@ -89,7 +88,7 @@ public:
     }
 
     //==============================================================================
-    /** Returns the current value of the property. If the property does not exist or is empty,
+    /** Returns the current value of the property. If the property does not exist this
         returns the default value.
     */
     var get() const noexcept
@@ -121,13 +120,13 @@ public:
         }
     }
 
-    /** Returns true if the property does not exist or is empty. */
+    /** Returns true if the property does not exist in the referenced ValueTree. */
     bool isUsingDefault() const
     {
         return ! targetTree.hasProperty (targetProperty);
     }
 
-    /** Resets the property to an empty var. */
+    /** Removes the property from the referenced ValueTree. */
     void resetToDefault() noexcept
     {
         targetTree.removeProperty (targetProperty, nullptr);
@@ -181,6 +180,9 @@ public:
     /** Returns the property ID of the referenced property. */
     Identifier& getPropertyID() noexcept                    { return targetProperty; }
 
+    /** Returns the UndoManager that is being used. */
+    UndoManager* getUndoManager() noexcept                  { return undoManager; }
+
     //==============================================================================
     ValueWithDefault& operator= (const ValueWithDefault& other)
     {
@@ -194,7 +196,7 @@ private:
     //==============================================================================
     ValueTree targetTree;
     Identifier targetProperty;
-    UndoManager* undoManager;
+    UndoManager* undoManager = nullptr;
     var defaultValue;
 
     String delimiter;
