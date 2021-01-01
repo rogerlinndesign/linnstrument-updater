@@ -37,9 +37,9 @@
 			isa = PBXBuildFile;
 			fileRef = 747AA5F25432EB95D9CCFA36;
 		};
-		0981D83FAC8B82DD88E003C7 = {
+		07A28217245A8D013CDD4F7A = {
 			isa = PBXBuildFile;
-			fileRef = 6A790CCFF23BE307DBC26572;
+			fileRef = 5E16DFDF8F23B62E4840ABAF;
 		};
 		E7659FC31793C54F98B60EFD = {
 			isa = PBXBuildFile;
@@ -309,19 +309,19 @@
 			path = ../../Source/Serial/serial/impl/unix.h;
 			sourceTree = "SOURCE_ROOT";
 		};
+		5E16DFDF8F23B62E4840ABAF = {
+			isa = PBXFileReference;
+			lastKnownFileType = folder;
+			name = "linnstrument-firmware-2.2.2.bin";
+			path = "../../Firmware/linnstrument-firmware-2.2.2.bin";
+			sourceTree = "<group>";
+		};
 		69A8AF4EDC1BCDA4BF30FCEA = {
 			isa = PBXFileReference;
 			lastKnownFileType = wrapper.framework;
 			name = Foundation.framework;
 			path = System/Library/Frameworks/Foundation.framework;
 			sourceTree = SDKROOT;
-		};
-		6A790CCFF23BE307DBC26572 = {
-			isa = PBXFileReference;
-			lastKnownFileType = folder;
-			name = "linnstrument-firmware-2.2.2-beta2.bin";
-			path = "../../Firmware/linnstrument-firmware-2.2.2-beta2.bin";
-			sourceTree = "<group>";
 		};
 		7069155E4409EEF388C8F1CB = {
 			isa = PBXFileReference;
@@ -681,7 +681,7 @@
 			isa = PBXGroup;
 			children = (
 				747AA5F25432EB95D9CCFA36,
-				6A790CCFF23BE307DBC26572,
+				5E16DFDF8F23B62E4840ABAF,
 				7069155E4409EEF388C8F1CB,
 				5906F960DBF9FEFF45DC8ACF,
 				A8C95E3FFB4E7AB18E46C53F,
@@ -742,8 +742,8 @@
 					"_DEBUG=1",
 					"DEBUG=1",
 					"JUCER_XCODE_MAC_F6D2F4CF=1",
-					"JUCE_APP_VERSION=2.0.5",
-					"JUCE_APP_VERSION_HEX=0x20005",
+					"JUCE_APP_VERSION=2.0.6",
+					"JUCE_APP_VERSION_HEX=0x20006",
 					"JucePlugin_Build_VST=0",
 					"JucePlugin_Build_VST3=0",
 					"JucePlugin_Build_AU=0",
@@ -794,8 +794,8 @@
 					"_NDEBUG=1",
 					"NDEBUG=1",
 					"JUCER_XCODE_MAC_F6D2F4CF=1",
-					"JUCE_APP_VERSION=2.0.5",
-					"JUCE_APP_VERSION_HEX=0x20005",
+					"JUCE_APP_VERSION=2.0.6",
+					"JUCE_APP_VERSION_HEX=0x20006",
 					"JucePlugin_Build_VST=0",
 					"JucePlugin_Build_VST3=0",
 					"JucePlugin_Build_AU=0",
@@ -848,8 +848,8 @@
 					"NDEBUG=1",
 					"LINNSTRUMENT_LOADER=1",
 					"JUCER_XCODE_MAC_F6D2F4CF=1",
-					"JUCE_APP_VERSION=2.0.5",
-					"JUCE_APP_VERSION_HEX=0x20005",
+					"JUCE_APP_VERSION=2.0.6",
+					"JUCE_APP_VERSION_HEX=0x20006",
 					"JucePlugin_Build_VST=0",
 					"JucePlugin_Build_VST3=0",
 					"JucePlugin_Build_AU=0",
@@ -1052,7 +1052,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				9C65BFFCD6389FDA4B55DA9D,
-				0981D83FAC8B82DD88E003C7,
+				07A28217245A8D013CDD4F7A,
 				E7659FC31793C54F98B60EFD,
 				7FEF2B0C23CA44468D4CAAFD,
 			);
