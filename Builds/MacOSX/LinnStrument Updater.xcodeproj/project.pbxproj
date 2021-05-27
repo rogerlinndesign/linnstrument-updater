@@ -13,10 +13,10 @@
 		130590A62699346E5A3A5B34 /* include_juce_events.mm in Sources */ = {isa = PBXBuildFile; fileRef = FA0265DED228596994D1DA86 /* include_juce_events.mm */; };
 		159BC7EEC80463CFDE443A8E /* Main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9FFEDCB2F5367D47801E4BC8 /* Main.cpp */; };
 		1C2165ACCAE018513BB0BDA9 /* MainWindow.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 36758C2C69A69DBADD158FED /* MainWindow.cpp */; };
+		26ED77F5266023740061DE8B /* linnstrument-firmware-2.3.0.bin in Resources */ = {isa = PBXBuildFile; fileRef = 26ED77F4266023740061DE8B /* linnstrument-firmware-2.3.0.bin */; };
 		2DF771D942DA9214AC58F46E /* IOKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F5A9A539B66F547DB60A93A6 /* IOKit.framework */; };
 		2FF2264371F9F1A218223750 /* WebKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9F3372F8BFC9389E939B3843 /* WebKit.framework */; };
 		380202CC3D0F06037C86450C /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B8C47B97A3007B5B2FCC49F7 /* Cocoa.framework */; };
-		4280CC217EE7F200BE4165EC /* linnstrument-firmware-2.3.0-beta1.bin in Resources */ = {isa = PBXBuildFile; fileRef = C75D5B4A8AC36A8AA65E9A99 /* linnstrument-firmware-2.3.0-beta1.bin */; };
 		47683F61FE27DE9AEED5366A /* include_juce_data_structures.mm in Sources */ = {isa = PBXBuildFile; fileRef = 832F5E5A83A9CED2228B445E /* include_juce_data_structures.mm */; };
 		4F4ED8A6176438DC691FE052 /* Carbon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 843794BE77F94314420C9900 /* Carbon.framework */; };
 		5F353A6A2D7F99950ECBF656 /* LinnStrumentSerial.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A3831767E4F37F45E1351FB5 /* LinnStrumentSerial.cpp */; };
@@ -56,6 +56,7 @@
 		1C8AF0962146DC5331E4FE0D /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		2018582D51EB534FF3A3B5EF /* LinnStrumentSerialMac.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = LinnStrumentSerialMac.h; path = ../../Source/LinnStrumentSerialMac.h; sourceTree = SOURCE_ROOT; };
 		261339744A8C5E4E2ABE00CE /* LinnStrumentSerialMac.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = LinnStrumentSerialMac.cpp; path = ../../Source/LinnStrumentSerialMac.cpp; sourceTree = SOURCE_ROOT; };
+		26ED77F4266023740061DE8B /* linnstrument-firmware-2.3.0.bin */ = {isa = PBXFileReference; lastKnownFileType = archive.macbinary; name = "linnstrument-firmware-2.3.0.bin"; path = "../../Firmware/linnstrument-firmware-2.3.0.bin"; sourceTree = "<group>"; };
 		277233689DDC09BC9BC0E738 /* LinnStrumentSerialWindows.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = LinnStrumentSerialWindows.cpp; path = ../../Source/LinnStrumentSerialWindows.cpp; sourceTree = SOURCE_ROOT; };
 		2809B9A9FF7F07EC8D9DFAE6 /* MainComponent.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = MainComponent.cpp; path = ../../Source/MainComponent.cpp; sourceTree = SOURCE_ROOT; };
 		29FBFF7D0FF2F151F0E3CF9D /* serial.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = serial.h; path = ../../Source/Serial/serial/serial.h; sourceTree = SOURCE_ROOT; };
@@ -87,7 +88,6 @@
 		B8A93D9D23E90D473159732E /* ProjectsComponent.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = ProjectsComponent.cpp; path = ../../Source/ProjectsComponent.cpp; sourceTree = SOURCE_ROOT; };
 		B8C47B97A3007B5B2FCC49F7 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
 		C2A77E101BF337D7B4BA6F43 /* disphelper.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; name = disphelper.c; path = ../../Source/disphelper.c; sourceTree = SOURCE_ROOT; };
-		C75D5B4A8AC36A8AA65E9A99 /* linnstrument-firmware-2.3.0-beta1.bin */ = {isa = PBXFileReference; lastKnownFileType = folder; name = "linnstrument-firmware-2.3.0-beta1.bin"; path = "../../Firmware/linnstrument-firmware-2.3.0-beta1.bin"; sourceTree = "<group>"; };
 		D1692E79F149460BE623FE6C /* juce_data_structures */ = {isa = PBXFileReference; lastKnownFileType = folder; name = juce_data_structures; path = ../../JuceLibraryCode/modules/juce_data_structures; sourceTree = SOURCE_ROOT; };
 		D779135632491F28D5CB47C9 /* MainComponent.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = MainComponent.h; path = ../../Source/MainComponent.h; sourceTree = SOURCE_ROOT; };
 		DE2DC58073DD1798D3EA93C9 /* AppConfig.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = AppConfig.h; path = ../../JuceLibraryCode/AppConfig.h; sourceTree = SOURCE_ROOT; };
@@ -146,8 +146,8 @@
 		3B60420F754EF26FC87BCE22 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				26ED77F4266023740061DE8B /* linnstrument-firmware-2.3.0.bin */,
 				747AA5F25432EB95D9CCFA36 /* bossac */,
-				C75D5B4A8AC36A8AA65E9A99 /* linnstrument-firmware-2.3.0-beta1.bin */,
 				7069155E4409EEF388C8F1CB /* Info-App.plist */,
 				5906F960DBF9FEFF45DC8ACF /* RecentFilesMenuTemplate.nib */,
 				A8C95E3FFB4E7AB18E46C53F /* Icon.icns */,
@@ -367,7 +367,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				9C65BFFCD6389FDA4B55DA9D /* bossac in Resources */,
-				4280CC217EE7F200BE4165EC /* linnstrument-firmware-2.3.0-beta1.bin in Resources */,
+				26ED77F5266023740061DE8B /* linnstrument-firmware-2.3.0.bin in Resources */,
 				E7659FC31793C54F98B60EFD /* RecentFilesMenuTemplate.nib in Resources */,
 				7FEF2B0C23CA44468D4CAAFD /* Icon.icns in Resources */,
 			);
@@ -516,6 +516,7 @@
 				CODE_SIGN_IDENTITY = "Apple Development";
 				COMBINE_HIDPI_IMAGES = YES;
 				CONFIGURATION_BUILD_DIR = "$(PROJECT_DIR)/build/$(CONFIGURATION)";
+				CURRENT_PROJECT_VERSION = 2.0.8;
 				DEAD_CODE_STRIPPING = YES;
 				DEVELOPMENT_TEAM = AGZT8GVS7G;
 				ENABLE_HARDENED_RUNTIME = YES;
@@ -548,6 +549,7 @@
 				INSTALL_PATH = "$(HOME)/Applications";
 				LLVM_LTO = YES;
 				MACOSX_DEPLOYMENT_TARGET = 10.11;
+				MARKETING_VERSION = 2.0.8;
 				MTL_HEADER_SEARCH_PATHS = "$(SRCROOT)/../../JuceLibraryCode $(SRCROOT)/../../JuceLibraryCode/modules";
 				PRODUCT_BUNDLE_IDENTIFIER = com.rogerlinndesign.linnstrument.Updater;
 				PRODUCT_NAME = "LinnStrument Loader";
@@ -616,6 +618,7 @@
 				COMBINE_HIDPI_IMAGES = YES;
 				CONFIGURATION_BUILD_DIR = "$(PROJECT_DIR)/build/$(CONFIGURATION)";
 				COPY_PHASE_STRIP = NO;
+				CURRENT_PROJECT_VERSION = 2.0.8;
 				DEVELOPMENT_TEAM = AGZT8GVS7G;
 				ENABLE_HARDENED_RUNTIME = YES;
 				GCC_DYNAMIC_NO_PIC = NO;
@@ -645,6 +648,7 @@
 				INFOPLIST_PREPROCESS = NO;
 				INSTALL_PATH = "$(HOME)/Applications";
 				MACOSX_DEPLOYMENT_TARGET = 10.11;
+				MARKETING_VERSION = 2.0.8;
 				MTL_HEADER_SEARCH_PATHS = "$(SRCROOT)/../../JuceLibraryCode $(SRCROOT)/../../JuceLibraryCode/modules";
 				PRODUCT_BUNDLE_IDENTIFIER = com.rogerlinndesign.linnstrument.Updater;
 				PRODUCT_NAME = "LinnStrument Updater";
@@ -664,6 +668,7 @@
 				CODE_SIGN_IDENTITY = "Apple Development";
 				COMBINE_HIDPI_IMAGES = YES;
 				CONFIGURATION_BUILD_DIR = "$(PROJECT_DIR)/build/$(CONFIGURATION)";
+				CURRENT_PROJECT_VERSION = 2.0.8;
 				DEAD_CODE_STRIPPING = YES;
 				DEVELOPMENT_TEAM = AGZT8GVS7G;
 				ENABLE_HARDENED_RUNTIME = YES;
@@ -695,6 +700,7 @@
 				INSTALL_PATH = "$(HOME)/Applications";
 				LLVM_LTO = YES;
 				MACOSX_DEPLOYMENT_TARGET = 10.11;
+				MARKETING_VERSION = 2.0.8;
 				MTL_HEADER_SEARCH_PATHS = "$(SRCROOT)/../../JuceLibraryCode $(SRCROOT)/../../JuceLibraryCode/modules";
 				PRODUCT_BUNDLE_IDENTIFIER = com.rogerlinndesign.linnstrument.Updater;
 				PRODUCT_NAME = "LinnStrument Updater";
