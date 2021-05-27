@@ -43,7 +43,7 @@ namespace ProjectInfo
 {
     const char* const  projectName    = "LinnStrument Updater";
     const char* const  companyName    = "Roger Linn Design";
-    const char* const  versionString  = "2.0.7";
-    const int          versionNumber  = 0x20007;
+    const char* const  versionString  = "2.0.8";
+    const int          versionNumber  = 0x20008;
 }
 #endif

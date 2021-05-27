@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <JUCERPROJECT id="ibSWwr" name="LinnStrument Updater" projectType="guiapp"
-              version="2.0.7" bundleIdentifier="com.rogerlinndesign.linnstrument.Updater"
+              version="2.0.8" bundleIdentifier="com.rogerlinndesign.linnstrument.Updater"
               includeBinaryInAppConfig="1" companyName="Roger Linn Design"
               companyWebsite="http://www.rogerlinndesign.com" companyEmail="support@rogerlinndesign.com"
               displaySplashScreen="0" reportAppUsage="0" splashScreenColour="Dark"
