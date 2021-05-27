@@ -70,7 +70,7 @@
     </GROUP>
   </MAINGROUP>
   <EXPORTFORMATS>
-    <XCODE_MAC targetFolder="Builds/MacOSX" customXcodeResourceFolders="Binaries/macosx/bossac&#10;Firmware/linnstrument-firmware-2.3.0-beta1.bin"
+    <XCODE_MAC targetFolder="Builds/MacOSX" customXcodeResourceFolders="Binaries/macosx/bossac&#10;Firmware/linnstrument-firmware-2.3.0.bin"
                hardenedRuntime="1" iosDevelopmentTeamID="AGZT8GVS7G" bigIcon="K75dk6">
       <CONFIGURATIONS>
         <CONFIGURATION name="Debug" isDebug="1" optimisation="1" targetName="LinnStrument Updater"/>
