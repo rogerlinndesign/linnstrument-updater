@@ -47,7 +47,7 @@ namespace {
 
         for (int i = 1; i <= retries; ++i) {
             try {
-                std::cout << "Opening serial device " << linnSerial.getPort() << " for settings retrieval with baud rate 115200" << std::endl;
+                std::cout << "Opening serial device " << linnSerial.getPort().c_str() << " for settings retrieval with baud rate 115200" << std::endl;
                 linnSerial.open();
             
                 if (!linnSerial.isOpen()) {
@@ -58,7 +58,7 @@ namespace {
                 
                 MessageManager::getInstance()->runDispatchLoopUntil(1000);
                 
-                for (int i = 1; i <= retries; ++i) {
+                for (int j = 1; j <= retries; ++j) {
                     if (linnSerial.write("5, 4, 3, 2, 1 ...\n") != 18) {
                         std::cerr << "Couldn't write the complete handshake message to serial device " << fullDevice << std::endl;
                         return false;
@@ -296,8 +296,8 @@ bool LinnStrumentSerial::readSettings()
     
     try {
         juce::String fullDevice = getFullLinnStrumentDevice();
-        const char* devicePort = fullDevice.toRawUTF8();
-        const std::string devicePortString(devicePort);
+        const wchar_t* devicePort = fullDevice.toWideCharPointer();
+        const std::wstring devicePortString(devicePort);
         serial::Timeout timeout = serial::Timeout::simpleTimeout(3000);
         serial::Serial linnSerial(devicePortString, 115200, timeout);
         
@@ -337,7 +337,7 @@ bool LinnStrumentSerial::readSettings()
             while (remaining > 0) {
                 MessageManager::getInstance()->runDispatchLoopUntil(20);
 				uint8_t requested = (uint8_t)std::min(remaining, batchsize);
-                size_t actual = linnSerial.read(dest, requested);
+                int32_t actual = (int32_t)linnSerial.read(dest, requested);
                 if (actual != requested) {
                     std::cerr << "Couldn't retrieve the settings from device " << fullDevice << " (wrong batch length)" << std::endl;
                     return false;
@@ -408,7 +408,7 @@ bool LinnStrumentSerial::readSettings()
                 while (remaining > 0) {
                     MessageManager::getInstance()->runDispatchLoopUntil(20);
 					uint8_t requested = (uint8_t)std::min(remaining, batchsize);
-                    size_t actual = linnSerial.read(dest, requested);
+                    int32_t actual = (int32_t)linnSerial.read(dest, requested);
                     if (actual != requested) {
                         std::cerr << "Couldn't retrieve the project from device " << fullDevice << " (wrong batch length)" << std::endl;
                         return false;
@@ -464,8 +464,8 @@ bool LinnStrumentSerial::restoreSettings()
     
     try {
         juce::String fullDevice = getFullLinnStrumentDevice();
-        const char* devicePort = fullDevice.toRawUTF8();
-        const std::string devicePortString(devicePort);
+        const wchar_t* devicePort = fullDevice.toWideCharPointer();
+        const std::wstring devicePortString(devicePort);
         serial::Timeout timeout = serial::Timeout::simpleTimeout(1500);
         serial::Serial linnSerial(devicePortString, 115200, timeout);
         
@@ -560,8 +560,8 @@ bool LinnStrumentSerial::saveProject(uint8_t number, const File& file)
     
     try {
         juce::String fullDevice = getFullLinnStrumentDevice();
-        const char* devicePort = fullDevice.toRawUTF8();
-        const std::string devicePortString(devicePort);
+        const wchar_t* devicePort = fullDevice.toWideCharPointer();
+        const std::wstring devicePortString(devicePort);
         serial::Timeout timeout = serial::Timeout::simpleTimeout(3000);
         serial::Serial linnSerial(devicePortString, 115200, timeout);
         
@@ -619,7 +619,7 @@ bool LinnStrumentSerial::saveProject(uint8_t number, const File& file)
         while (remaining > 0) {
             MessageManager::getInstance()->runDispatchLoopUntil(20);
             uint8_t requested = (uint8_t)std::min(remaining, batchsize);
-            size_t actual = linnSerial.read(dest, requested);
+            int32_t actual = (int32_t)linnSerial.read(dest, requested);
             if (actual != requested) {
                 std::cerr << "Couldn't retrieve the project from device " << fullDevice << " (wrong batch length)" << std::endl;
                 return false;
@@ -672,8 +672,8 @@ bool LinnStrumentSerial::loadProject(uint8_t number, const File& file)
     
     try {
         juce::String fullDevice = getFullLinnStrumentDevice();
-        const char* devicePort = fullDevice.toRawUTF8();
-        const std::string devicePortString(devicePort);
+        const wchar_t* devicePort = fullDevice.toWideCharPointer();
+        const std::wstring devicePortString(devicePort);
         serial::Timeout timeout = serial::Timeout::simpleTimeout(3000);
         serial::Serial linnSerial(devicePortString, 115200, timeout);
         

@@ -21,7 +21,7 @@ using serial::PortNotOpenedException;
 using serial::IOException;
 
 
-Serial::SerialImpl::SerialImpl (const string &port, unsigned long baudrate,
+Serial::SerialImpl::SerialImpl (const wstring &port, unsigned long baudrate,
                                 bytesize_t bytesize,
                                 parity_t parity, stopbits_t stopbits,
                                 flowcontrol_t flowcontrol)
@@ -67,7 +67,7 @@ Serial::SerialImpl::open ()
     switch (errno_) {
     case ERROR_FILE_NOT_FOUND:
       // Use this->getPort to convert to a std::string
-      ss << "Specified port, " << this->getPort() << ", does not exist.";
+      ss << "Specified port, " << this->getPort().c_str() << ", does not exist.";
       THROW (IOException, ss.str().c_str());
     default:
       ss << "Unknown error opening the serial port: " << errno;
@@ -342,15 +342,15 @@ Serial::SerialImpl::write (const uint8_t *data, size_t length)
 }
 
 void
-Serial::SerialImpl::setPort (const string &port)
+Serial::SerialImpl::setPort (const wstring &port)
 {
   port_ = wstring(port.begin(), port.end());
 }
 
-string
+wstring
 Serial::SerialImpl::getPort () const
 {
-  return string(port_.begin(), port_.end());
+  return wstring(port_.begin(), port_.end());
 }
 
 void

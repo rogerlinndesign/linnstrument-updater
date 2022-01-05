@@ -33,7 +33,7 @@ LinnStrumentSerialWindows::~LinnStrumentSerialWindows()
 
 String LinnStrumentSerialWindows::getFullLinnStrumentDevice()
 {
-    if (!isDetected()) return String::empty;
+    if (!isDetected()) return String();
     
 	if (linnstrumentDevice.startsWith("COM")) {
 		return "\\\\.\\" + linnstrumentDevice;
@@ -90,7 +90,7 @@ bool LinnStrumentSerialWindows::prepareDevice()
 	BOOL fSuccess;
 
 	//  Open a handle to the specified com port.
-	hCom = CreateFile(getFullLinnStrumentDevice().toWideCharPointer(),
+	hCom = CreateFileW(getFullLinnStrumentDevice().toWideCharPointer(),
 		GENERIC_READ | GENERIC_WRITE,
 		0,                //  must be opened with exclusive-access
 		NULL,             //  default security attributes

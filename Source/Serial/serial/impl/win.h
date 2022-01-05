@@ -54,7 +54,7 @@ using serial::IOException;
 
 class serial::Serial::SerialImpl {
 public:
-  SerialImpl (const string &port,
+  SerialImpl (const wstring &port,
               unsigned long baudrate,
               bytesize_t bytesize,
               parity_t parity,
@@ -124,9 +124,9 @@ public:
   getCD ();
 
   void
-  setPort (const string &port);
+  setPort (const wstring &port);
 
-  string
+  wstring
   getPort () const;
 
   void

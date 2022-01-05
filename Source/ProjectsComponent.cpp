@@ -209,7 +209,7 @@ void ProjectsComponent::buttonClicked (Button* buttonThatWasClicked)
         if (fc.browseForFileToSave(true))
         {
             showBusy();
-            if (!UpdaterApplication::getApp().saveProject(projectNumberCombo_->getSelectedItemIndex(), fc.getResult())) {
+            if (!UpdaterApplication::getApp().saveProject((uint8_t)projectNumberCombo_->getSelectedItemIndex(), fc.getResult())) {
                 showError();
             }
             else {
@@ -228,7 +228,7 @@ void ProjectsComponent::buttonClicked (Button* buttonThatWasClicked)
         if (fc.browseForFileToOpen())
         {
             showBusy();
-            if (!UpdaterApplication::getApp().loadProject(projectNumberCombo_->getSelectedItemIndex(), fc.getResult())) {
+            if (!UpdaterApplication::getApp().loadProject((uint8_t)projectNumberCombo_->getSelectedItemIndex(), fc.getResult())) {
                 showError();
             }
             else {

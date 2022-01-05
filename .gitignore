@@ -4,3 +4,9 @@ Builds/VisualStudio2013/Debug/
 Builds/VisualStudio2013/Release/
 *.opensdf
 Builds/VisualStudio2013/LinnStrument Updater.sdf
+Builds/VisualStudio2019/x64/
+Builds/VisualStudio2019/.vs/
+Builds/VisualStudio2022/x64/Release/
+Builds/VisualStudio2022/x64/Debug/
+Builds/VisualStudio2022/.vs/
+.vs/

@@ -14,3 +14,6 @@ Thanks to Tod E. Kurt (http://todbot.com/blog/) and his usbSearch project for in
 Thanks to the node-serialport project for some of the USB serial device detection code on MacOSX: https://github.com/voodootikigod/node-serialport
 
 The bossac tool was copied from the Arduino IDE distribution and was created by ShumaTech http://www.shumatech.com/web/products/bossa
+
+In order to codesign on windows, we use the following command with the eToken dongle connected:
+signtool sign /n "Roger Linn Design" /tr http://timestamp.globalsign.com/tsa/r6advanced1 /td SHA256 /fd SHA256 "LinnStrument Updater.exe"

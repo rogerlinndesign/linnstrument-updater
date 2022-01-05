@@ -148,7 +148,7 @@ public:
    * Creates a Serial object and opens the port if a port is specified,
    * otherwise it remains closed until serial::Serial::open is called.
    *
-   * \param port A std::string containing the address of the serial port,
+   * \param port A std::wstring containing the address of the serial port,
    *        which would be something like 'COM1' on Windows and '/dev/ttyS0'
    *        on Linux.
    *
@@ -175,7 +175,7 @@ public:
    * \throw serial::IOException
    * \throw std::invalid_argument
    */
-  Serial (const std::string &port = "",
+  Serial (const std::wstring &port = L"",
           uint32_t baudrate = 9600,
           Timeout timeout = Timeout(),
           bytesize_t bytesize = eightbits,
@@ -375,7 +375,7 @@ public:
    * \throw InvalidConfigurationException
    */
   void
-  setPort (const std::string &port);
+  setPort (const std::wstring &port);
 
   /*! Gets the serial port identifier.
    *
@@ -383,7 +383,7 @@ public:
    *
    * \throw InvalidConfigurationException
    */
-  std::string
+  std::wstring
   getPort () const;
 
   /*! Sets the timeout for reads and writes using the Timeout struct.

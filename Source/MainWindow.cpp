@@ -86,6 +86,6 @@ PopupMenu MainWindow::getMenuForIndex(int topLevelMenuIndex, const String &)
     return menu;
 }
 
-void MainWindow::menuItemSelected(int menuItemID, int)
+void MainWindow::menuItemSelected(int, int)
 {
 }
