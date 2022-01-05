@@ -43,6 +43,8 @@ namespace {
 
     bool handshake(const juce::String& fullDevice, serial::Serial& linnSerial, int retries)
     {
+        std::cout << "Handshake " << fullDevice << std::endl;
+
         MessageManager::getInstance()->runDispatchLoopUntil(1000);
 
         for (int i = 1; i <= retries; ++i) {
@@ -228,6 +230,8 @@ namespace {
 
 bool LinnStrumentSerial::findFirmwareFile()
 {
+    std::cout << "Finding firmware file" << std::endl;
+
     File current_app = File::getSpecialLocation(File::SpecialLocationType::currentApplicationFile);
     File parent_dir = current_app.getParentDirectory();
     Array<File> firmware_files;
@@ -452,7 +456,11 @@ bool LinnStrumentSerial::readSettings()
         std::cerr << e.what() << std::endl;
         return false;
     }
-    
+    catch (std::exception e) {
+        std::cerr << e.what() << std::endl;
+        return false;
+    }
+
     return true;
 }
 
@@ -542,7 +550,11 @@ bool LinnStrumentSerial::restoreSettings()
         std::cerr << e.what() << std::endl;
         return false;
     }
-    
+    catch (std::exception e) {
+        std::cerr << e.what() << std::endl;
+        return false;
+    }
+
     return true;
 }
 
@@ -562,7 +574,9 @@ bool LinnStrumentSerial::saveProject(uint8_t number, const File& file)
         if (!handshake(fullDevice, linnSerial, 5)) {
             return false;
         }
-        
+
+        std::cout << "Saving project " << (number + 1) << std::endl;
+
         projects.reset();
         
         if (linnSerial.write("j") != 1) {
@@ -656,7 +670,11 @@ bool LinnStrumentSerial::saveProject(uint8_t number, const File& file)
         std::cerr << e.what() << std::endl;
         return false;
     }
-    
+    catch (std::exception e) {
+        std::cerr << e.what() << std::endl;
+        return false;
+    }
+
     return true;
 }
 
@@ -672,7 +690,9 @@ bool LinnStrumentSerial::loadProject(uint8_t number, const File& file)
         if (!handshake(fullDevice, linnSerial, 5)) {
             return false;
         }
-        
+
+        std::cout << "Loading project " << (number + 1) << std::endl;
+
         projects.reset();
         projects.ensureSize((int)file.getSize());
         
@@ -728,6 +748,10 @@ bool LinnStrumentSerial::loadProject(uint8_t number, const File& file)
         std::cerr << e.what() << std::endl;
         return false;
     }
-    
+    catch (std::exception e) {
+        std::cerr << e.what() << std::endl;
+        return false;
+    }
+
     return true;
 }

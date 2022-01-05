@@ -43,7 +43,9 @@ String LinnStrumentSerialWindows::getFullLinnStrumentDevice()
 
 bool LinnStrumentSerialWindows::detect()
 {
-    resetDetection();
+	std::cout << "Detecting device" << std::endl;
+
+	resetDetection();
     
     DISPATCH_OBJ(wmiSvc);
 	DISPATCH_OBJ(colDevices);
@@ -84,6 +86,8 @@ bool LinnStrumentSerialWindows::isDetected()
 bool LinnStrumentSerialWindows::prepareDevice()
 {
     if (!hasFirmwareFile() || !isDetected()) return false;
+
+	std::cout << "Preparing device" << std::endl;
 
 	DCB dcb;
 	HANDLE hCom;
@@ -139,6 +143,8 @@ bool LinnStrumentSerialWindows::prepareDevice()
 bool LinnStrumentSerialWindows::performUpgrade()
 {
     if (!hasFirmwareFile() || !isDetected()) return false;
+
+	std::cout << "Performing upgrade" << std::endl;
 
 	upgradeOutput.clear();
 	upgradeVerificationPhase = false;

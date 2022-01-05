@@ -46,6 +46,8 @@ String LinnStrumentSerialMac::getFullLinnStrumentDevice()
 
 bool LinnStrumentSerialMac::detect()
 {
+    std::cout << "Detecting device" << std::endl;
+
     resetDetection();
     
     io_iterator_t serialPortIterator;
@@ -151,6 +153,8 @@ bool LinnStrumentSerialMac::prepareDevice()
 {
     if (!hasFirmwareFile() || !isDetected()) return false;
 
+    std::cout << "Preparing device" << std::endl;
+
     int flags = (O_RDWR | O_NOCTTY | O_NONBLOCK | O_CLOEXEC | O_SYNC);
     int fd = open(getFullLinnStrumentDevice().toRawUTF8(), flags);
     
@@ -200,6 +204,8 @@ bool LinnStrumentSerialMac::performUpgrade()
 {
     if (!hasFirmwareFile() || !isDetected()) return false;
     
+    std::cout << "Performing upgrade" << std::endl;
+
     upgradeOutput.clear();
     upgradeVerificationPhase = false;
     upgradeSuccessful = false;

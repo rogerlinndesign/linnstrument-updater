@@ -76,10 +76,6 @@ PopupMenu MainWindow::getMenuForIndex(int topLevelMenuIndex, const String &)
         
 #ifndef JUCE_MAC
         menu.addCommandItem(commandManager, CommandIDs::version);
-        
-        menu.addSeparator();
-        
-        menu.addCommandItem(commandManager, CommandIDs::quit);
 #endif
     }
     
