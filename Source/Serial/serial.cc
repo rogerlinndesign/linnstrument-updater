@@ -63,7 +63,7 @@ private:
   SerialImpl *pimpl_;
 };
 
-Serial::Serial (const wstring &port, uint32_t baudrate, serial::Timeout timeout,
+Serial::Serial (juce::String port, uint32_t baudrate, serial::Timeout timeout,
                 bytesize_t bytesize, parity_t parity, stopbits_t stopbits,
                 flowcontrol_t flowcontrol)
  : pimpl_(new SerialImpl (port, baudrate, bytesize, parity,
@@ -262,7 +262,7 @@ Serial::write_ (const uint8_t *data, size_t length)
 }
 
 void
-Serial::setPort (const std::wstring &port)
+Serial::setPort (juce::String &port)
 {
   ScopedReadLock rlock(this->pimpl_);
   ScopedWriteLock wlock(this->pimpl_);
@@ -272,7 +272,7 @@ Serial::setPort (const std::wstring &port)
   if (was_open) open ();
 }
 
-std::wstring
+juce::String
 Serial::getPort () const
 {
   return pimpl_->getPort ();

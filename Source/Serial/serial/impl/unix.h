@@ -65,7 +65,7 @@ private:
 
 class serial::Serial::SerialImpl {
 public:
-  SerialImpl (const string &port,
+  SerialImpl (const juce::String port,
               unsigned long baudrate,
               bytesize_t bytesize,
               parity_t parity,
@@ -135,9 +135,9 @@ public:
   getCD ();
 
   void
-  setPort (const string &port);
+  setPort (juce::String &port);
 
-  string
+  juce::String
   getPort () const;
 
   void
@@ -192,7 +192,7 @@ protected:
   void reconfigurePort ();
 
 private:
-  string port_;               // Path to the file descriptor
+  juce::String port_;         // Path to the file descriptor
   int fd_;                    // The current file descriptor
 
   bool is_open_;

@@ -105,7 +105,7 @@ timespec_from_ms (const uint32_t millis)
   return time;
 }
 
-Serial::SerialImpl::SerialImpl (const string &port, unsigned long baudrate,
+Serial::SerialImpl::SerialImpl (const juce::String port, unsigned long baudrate,
                                 bytesize_t bytesize,
                                 parity_t parity, stopbits_t stopbits,
                                 flowcontrol_t flowcontrol)
@@ -127,14 +127,14 @@ Serial::SerialImpl::~SerialImpl ()
 void
 Serial::SerialImpl::open ()
 {
-  if (port_.empty ()) {
+  if (port_.length() == 0) {
     throw invalid_argument ("Empty port is invalid.");
   }
   if (is_open_ == true) {
     throw SerialException ("Serial port already open.");
   }
 
-  fd_ = ::open (port_.c_str(), O_RDWR | O_NOCTTY | O_NONBLOCK);
+  fd_ = ::open (port_.toRawUTF8(), O_RDWR | O_NOCTTY | O_NONBLOCK);
 
   if (fd_ == -1) {
     switch (errno) {
@@ -667,12 +667,12 @@ Serial::SerialImpl::write (const uint8_t *data, size_t length)
 }
 
 void
-Serial::SerialImpl::setPort (const string &port)
+Serial::SerialImpl::setPort (juce::String &port)
 {
   port_ = port;
 }
 
-string
+juce::String
 Serial::SerialImpl::getPort () const
 {
   return port_;

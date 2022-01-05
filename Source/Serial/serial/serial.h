@@ -45,6 +45,8 @@
 #include <stdexcept>
 #include "v8stdint.h"
 
+#include "JuceHeader.h"
+
 #define THROW(exceptionClass, message) throw exceptionClass(__FILE__, \
 __LINE__, (message) )
 
@@ -175,7 +177,7 @@ public:
    * \throw serial::IOException
    * \throw std::invalid_argument
    */
-  Serial (const std::wstring &port = L"",
+  Serial (const juce::String port,
           uint32_t baudrate = 9600,
           Timeout timeout = Timeout(),
           bytesize_t bytesize = eightbits,
@@ -375,7 +377,7 @@ public:
    * \throw InvalidConfigurationException
    */
   void
-  setPort (const std::wstring &port);
+  setPort (juce::String &port);
 
   /*! Gets the serial port identifier.
    *
@@ -383,7 +385,7 @@ public:
    *
    * \throw InvalidConfigurationException
    */
-  std::wstring
+  juce::String
   getPort () const;
 
   /*! Sets the timeout for reads and writes using the Timeout struct.

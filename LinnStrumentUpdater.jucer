@@ -79,7 +79,7 @@
                        defines="LINNSTRUMENT_LOADER=1"/>
       </CONFIGURATIONS>
       <MODULEPATHS>
-        <MODULEPATH id="juce_core" path="../juce/modules"/>
+        <MODULEPATH id="juce_core" path="../../JUCE"/>
         <MODULEPATH id="juce_events" path="../juce/modules"/>
         <MODULEPATH id="juce_graphics" path="../juce/modules"/>
         <MODULEPATH id="juce_data_structures" path="../juce/modules"/>

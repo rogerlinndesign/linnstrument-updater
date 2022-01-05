@@ -47,7 +47,7 @@ namespace {
 
         for (int i = 1; i <= retries; ++i) {
             try {
-                std::cout << "Opening serial device " << linnSerial.getPort().c_str() << " for settings retrieval with baud rate 115200" << std::endl;
+                std::cout << "Opening serial device " << linnSerial.getPort() << " for settings retrieval with baud rate 115200" << std::endl;
                 linnSerial.open();
             
                 if (!linnSerial.isOpen()) {
@@ -296,10 +296,8 @@ bool LinnStrumentSerial::readSettings()
     
     try {
         juce::String fullDevice = getFullLinnStrumentDevice();
-        const wchar_t* devicePort = fullDevice.toWideCharPointer();
-        const std::wstring devicePortString(devicePort);
         serial::Timeout timeout = serial::Timeout::simpleTimeout(3000);
-        serial::Serial linnSerial(devicePortString, 115200, timeout);
+        serial::Serial linnSerial(fullDevice, 115200, timeout);
         
         if (!handshake(fullDevice, linnSerial, 3)) {
             return false;
@@ -464,10 +462,8 @@ bool LinnStrumentSerial::restoreSettings()
     
     try {
         juce::String fullDevice = getFullLinnStrumentDevice();
-        const wchar_t* devicePort = fullDevice.toWideCharPointer();
-        const std::wstring devicePortString(devicePort);
         serial::Timeout timeout = serial::Timeout::simpleTimeout(1500);
-        serial::Serial linnSerial(devicePortString, 115200, timeout);
+        serial::Serial linnSerial(fullDevice, 115200, timeout);
         
         if (!handshake(fullDevice, linnSerial, 10)) {
             return false;
@@ -560,10 +556,8 @@ bool LinnStrumentSerial::saveProject(uint8_t number, const File& file)
     
     try {
         juce::String fullDevice = getFullLinnStrumentDevice();
-        const wchar_t* devicePort = fullDevice.toWideCharPointer();
-        const std::wstring devicePortString(devicePort);
         serial::Timeout timeout = serial::Timeout::simpleTimeout(3000);
-        serial::Serial linnSerial(devicePortString, 115200, timeout);
+        serial::Serial linnSerial(fullDevice, 115200, timeout);
         
         if (!handshake(fullDevice, linnSerial, 5)) {
             return false;
@@ -672,10 +666,8 @@ bool LinnStrumentSerial::loadProject(uint8_t number, const File& file)
     
     try {
         juce::String fullDevice = getFullLinnStrumentDevice();
-        const wchar_t* devicePort = fullDevice.toWideCharPointer();
-        const std::wstring devicePortString(devicePort);
         serial::Timeout timeout = serial::Timeout::simpleTimeout(3000);
-        serial::Serial linnSerial(devicePortString, 115200, timeout);
+        serial::Serial linnSerial(fullDevice, 115200, timeout);
         
         if (!handshake(fullDevice, linnSerial, 5)) {
             return false;
