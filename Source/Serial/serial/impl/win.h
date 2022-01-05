@@ -54,7 +54,7 @@ using serial::IOException;
 
 class serial::Serial::SerialImpl {
 public:
-  SerialImpl (const wstring &port,
+  SerialImpl (juce::String port,
               unsigned long baudrate,
               bytesize_t bytesize,
               parity_t parity,
@@ -124,9 +124,9 @@ public:
   getCD ();
 
   void
-  setPort (const wstring &port);
+  setPort (juce::String &port);
 
-  wstring
+  juce::String
   getPort () const;
 
   void
@@ -181,7 +181,7 @@ protected:
   void reconfigurePort ();
 
 private:
-  wstring port_;               // Path to the file descriptor
+  juce::String port_;               // Path to the file descriptor
   HANDLE fd_;
 
   bool is_open_;

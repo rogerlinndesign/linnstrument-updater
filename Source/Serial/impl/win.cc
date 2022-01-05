@@ -21,7 +21,7 @@ using serial::PortNotOpenedException;
 using serial::IOException;
 
 
-Serial::SerialImpl::SerialImpl (const wstring &port, unsigned long baudrate,
+Serial::SerialImpl::SerialImpl (juce::String port, unsigned long baudrate,
                                 bytesize_t bytesize,
                                 parity_t parity, stopbits_t stopbits,
                                 flowcontrol_t flowcontrol)
@@ -31,7 +31,7 @@ Serial::SerialImpl::SerialImpl (const wstring &port, unsigned long baudrate,
 {
   read_mutex = CreateMutex(NULL, false, NULL);
   write_mutex = CreateMutex(NULL, false, NULL);
-  if (port_.empty () == false)
+  if (port_.isEmpty())
     open ();
 }
 
@@ -45,14 +45,14 @@ Serial::SerialImpl::~SerialImpl ()
 void
 Serial::SerialImpl::open ()
 {
-  if (port_.empty ()) {
+  if (port_.isEmpty ()) {
     throw invalid_argument ("Empty port is invalid.");
   }
   if (is_open_ == true) {
     throw SerialException ("Serial port already open.");
   }
 
-  LPCWSTR lp_port = port_.c_str();
+  LPCWSTR lp_port = port_.toWideCharPointer();
   fd_ = CreateFileW(lp_port,
                     GENERIC_READ | GENERIC_WRITE,
                     0,
@@ -67,7 +67,7 @@ Serial::SerialImpl::open ()
     switch (errno_) {
     case ERROR_FILE_NOT_FOUND:
       // Use this->getPort to convert to a std::string
-      ss << "Specified port, " << this->getPort().c_str() << ", does not exist.";
+      ss << "Specified port, " << this->getPort() << ", does not exist.";
       THROW (IOException, ss.str().c_str());
     default:
       ss << "Unknown error opening the serial port: " << errno;
@@ -342,15 +342,15 @@ Serial::SerialImpl::write (const uint8_t *data, size_t length)
 }
 
 void
-Serial::SerialImpl::setPort (const wstring &port)
+Serial::SerialImpl::setPort (juce::String &port)
 {
-  port_ = wstring(port.begin(), port.end());
+  port_ = port;
 }
 
-wstring
+juce::String
 Serial::SerialImpl::getPort () const
 {
-  return wstring(port_.begin(), port_.end());
+  return port_;
 }
 
 void
