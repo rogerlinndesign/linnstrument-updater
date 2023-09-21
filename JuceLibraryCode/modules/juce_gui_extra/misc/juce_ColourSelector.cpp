@@ -2,15 +2,15 @@
   ==============================================================================
 
    This file is part of the JUCE library.
-   Copyright (c) 2020 - Raw Material Software Limited
+   Copyright (c) 2022 - Raw Material Software Limited
 
    JUCE is an open source library subject to commercial or open-source
    licensing.
 
-   By using JUCE, you agree to the terms of both the JUCE 6 End-User License
-   Agreement and JUCE Privacy Policy (both effective as of the 16th June 2020).
+   By using JUCE, you agree to the terms of both the JUCE 7 End-User License
+   Agreement and JUCE Privacy Policy.
 
-   End User License Agreement: www.juce.com/juce-6-licence
+   End User License Agreement: www.juce.com/juce-7-licence
    Privacy Policy: www.juce.com/juce-privacy-policy
 
    Or: You may also use this code under the terms of the GPL v3 (see
@@ -100,7 +100,7 @@ public:
 
     void updateIfNeeded()
     {
-        if (lastHue != h)
+        if (! approximatelyEqual (lastHue, h))
         {
             lastHue = h;
             colours = {};
@@ -411,12 +411,8 @@ ColourSelector::ColourSelector (int sectionsToShow, int edge, int gapAroundColou
 
         sliders[3]->setVisible ((flags & showAlphaChannel) != 0);
 
-        // VS2015 needs some scoping braces around this if statement to
-        // avoid a compiler bug.
         for (auto& slider : sliders)
-        {
             slider->onValueChange = [this] { changeColour(); };
-        }
     }
 
     if ((flags & showColourspace) != 0)
@@ -458,7 +454,7 @@ void ColourSelector::setHue (float newH)
 {
     newH = jlimit (0.0f, 1.0f, newH);
 
-    if (h != newH)
+    if (! approximatelyEqual (h, newH))
     {
         h = newH;
         colour = Colour (h, s, v, colour.getFloatAlpha());
@@ -471,7 +467,7 @@ void ColourSelector::setSV (float newS, float newV)
     newS = jlimit (0.0f, 1.0f, newS);
     newV = jlimit (0.0f, 1.0f, newV);
 
-    if (s != newS || v != newV)
+    if (! approximatelyEqual (s, newS) || ! approximatelyEqual (v, newV))
     {
         s = newS;
         v = newV;

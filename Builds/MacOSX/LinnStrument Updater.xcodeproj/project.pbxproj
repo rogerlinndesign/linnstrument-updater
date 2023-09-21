@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		06AC046B6CA4AEECF3A2170A /* include_juce_graphics.mm */ = {isa = PBXBuildFile; fileRef = 172A456F6B8185E5B1259A16; };
 		087B7D7BF817DC7835FF706E /* disphelper.c */ = {isa = PBXBuildFile; fileRef = C2A77E101BF337D7B4BA6F43; };
+		097BAD7F553B6FD7C5E70BD4 /* linnstrument-firmware-2.3.1.bin */ = {isa = PBXBuildFile; fileRef = 4273743CB1CE4B6480D8B526; };
 		12FDAE07021867A5A3AB37B2 /* unix.cc */ = {isa = PBXBuildFile; fileRef = 0AAED0AA615521FDBDBE3C5B; };
 		130590A62699346E5A3A5B34 /* include_juce_events.mm */ = {isa = PBXBuildFile; fileRef = FA0265DED228596994D1DA86; };
 		159BC7EEC80463CFDE443A8E /* Main.cpp */ = {isa = PBXBuildFile; fileRef = 9FFEDCB2F5367D47801E4BC8; };
@@ -17,11 +18,10 @@
 		2FF2264371F9F1A218223750 /* WebKit.framework */ = {isa = PBXBuildFile; fileRef = 9F3372F8BFC9389E939B3843; };
 		380202CC3D0F06037C86450C /* Cocoa.framework */ = {isa = PBXBuildFile; fileRef = B8C47B97A3007B5B2FCC49F7; };
 		47683F61FE27DE9AEED5366A /* include_juce_data_structures.mm */ = {isa = PBXBuildFile; fileRef = 832F5E5A83A9CED2228B445E; };
-		4EA535DB67C139C7C7405DEF /* linnstrument-firmware-2.3.0.bin */ = {isa = PBXBuildFile; fileRef = 9C9A8820FA039D1C364CA95B; };
-		4F4ED8A6176438DC691FE052 /* Carbon.framework */ = {isa = PBXBuildFile; fileRef = 843794BE77F94314420C9900; };
 		5F353A6A2D7F99950ECBF656 /* LinnStrumentSerial.cpp */ = {isa = PBXBuildFile; fileRef = A3831767E4F37F45E1351FB5; };
 		615229CC0DAB6046DD41E865 /* UpdaterApplication.cpp */ = {isa = PBXBuildFile; fileRef = 86D068B2B3BF26781A4B3B8A; };
 		6C624154CF0B0454C358C9FE /* App */ = {isa = PBXBuildFile; fileRef = 04257A2AE8A28E9DFA6E2374; };
+		6DA45A2C96F184C79E93A56D /* Security.framework */ = {isa = PBXBuildFile; fileRef = B6AFA4BA828DEF203314A5B6; };
 		741CA433C5A7921CF0CC5B0C /* LinnStrumentSerialWindows.cpp */ = {isa = PBXBuildFile; fileRef = 277233689DDC09BC9BC0E738; };
 		7879CFCBF1AC920E7F1981DB /* Foundation.framework */ = {isa = PBXBuildFile; fileRef = 69A8AF4EDC1BCDA4BF30FCEA; };
 		7FEF2B0C23CA44468D4CAAFD /* Icon.icns */ = {isa = PBXBuildFile; fileRef = A8C95E3FFB4E7AB18E46C53F; };
@@ -64,6 +64,7 @@
 		36758C2C69A69DBADD158FED /* MainWindow.cpp */ /* MainWindow.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = MainWindow.cpp; path = ../../Source/MainWindow.cpp; sourceTree = SOURCE_ROOT; };
 		3DF3884E5E77739A0E2782E8 /* include_juce_core.mm */ /* include_juce_core.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; name = include_juce_core.mm; path = ../../JuceLibraryCode/include_juce_core.mm; sourceTree = SOURCE_ROOT; };
 		4034AF045C14B102890D71E9 /* JuceHeader.h */ /* JuceHeader.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = JuceHeader.h; path = ../../JuceLibraryCode/JuceHeader.h; sourceTree = SOURCE_ROOT; };
+		4273743CB1CE4B6480D8B526 /* linnstrument-firmware-2.3.1.bin */ /* linnstrument-firmware-2.3.1.bin */ = {isa = PBXFileReference; lastKnownFileType = folder; name = "linnstrument-firmware-2.3.1.bin"; path = "../../Firmware/linnstrument-firmware-2.3.1.bin"; sourceTree = "<group>"; };
 		4C4EBD75D35E0D8C6C9B1FDE /* v8stdint.h */ /* v8stdint.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = v8stdint.h; path = ../../Source/Serial/serial/v8stdint.h; sourceTree = SOURCE_ROOT; };
 		5906F960DBF9FEFF45DC8ACF /* RecentFilesMenuTemplate.nib */ /* RecentFilesMenuTemplate.nib */ = {isa = PBXFileReference; lastKnownFileType = file.nib; name = RecentFilesMenuTemplate.nib; path = RecentFilesMenuTemplate.nib; sourceTree = SOURCE_ROOT; };
 		59A070C4070C580EC80939B1 /* BinaryData.h */ /* BinaryData.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = BinaryData.h; path = ../../JuceLibraryCode/BinaryData.h; sourceTree = SOURCE_ROOT; };
@@ -74,11 +75,9 @@
 		79065F353E2D8EC23A8322CF /* list_ports_win.cc */ /* list_ports_win.cc */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = list_ports_win.cc; path = ../../Source/Serial/impl/list_ports/list_ports_win.cc; sourceTree = SOURCE_ROOT; };
 		8234EC83C80A36C9870A1003 /* disphelper.h */ /* disphelper.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = disphelper.h; path = ../../Source/disphelper.h; sourceTree = SOURCE_ROOT; };
 		832F5E5A83A9CED2228B445E /* include_juce_data_structures.mm */ /* include_juce_data_structures.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; name = include_juce_data_structures.mm; path = ../../JuceLibraryCode/include_juce_data_structures.mm; sourceTree = SOURCE_ROOT; };
-		843794BE77F94314420C9900 /* Carbon.framework */ /* Carbon.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Carbon.framework; path = System/Library/Frameworks/Carbon.framework; sourceTree = SDKROOT; };
 		86D068B2B3BF26781A4B3B8A /* UpdaterApplication.cpp */ /* UpdaterApplication.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = UpdaterApplication.cpp; path = ../../Source/UpdaterApplication.cpp; sourceTree = SOURCE_ROOT; };
 		957908654C3A12FEC307EFDD /* LinnStrumentSerialWindows.h */ /* LinnStrumentSerialWindows.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = LinnStrumentSerialWindows.h; path = ../../Source/LinnStrumentSerialWindows.h; sourceTree = SOURCE_ROOT; };
 		9A753E57DB9EA3EE0F9ABBBE /* juce_core */ /* juce_core */ = {isa = PBXFileReference; lastKnownFileType = folder; name = juce_core; path = ../../JuceLibraryCode/modules/juce_core; sourceTree = SOURCE_ROOT; };
-		9C9A8820FA039D1C364CA95B /* linnstrument-firmware-2.3.0.bin */ /* linnstrument-firmware-2.3.0.bin */ = {isa = PBXFileReference; lastKnownFileType = folder; name = "linnstrument-firmware-2.3.0.bin"; path = "../../Firmware/linnstrument-firmware-2.3.0.bin"; sourceTree = "<group>"; };
 		9CAFDD42B16D6DD1A908D073 /* list_ports_linux.cc */ /* list_ports_linux.cc */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = list_ports_linux.cc; path = ../../Source/Serial/impl/list_ports/list_ports_linux.cc; sourceTree = SOURCE_ROOT; };
 		9F3372F8BFC9389E939B3843 /* WebKit.framework */ /* WebKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WebKit.framework; path = System/Library/Frameworks/WebKit.framework; sourceTree = SDKROOT; };
 		9FFEDCB2F5367D47801E4BC8 /* Main.cpp */ /* Main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = Main.cpp; path = ../../Source/Main.cpp; sourceTree = SOURCE_ROOT; };
@@ -87,6 +86,7 @@
 		A8C95E3FFB4E7AB18E46C53F /* Icon.icns */ /* Icon.icns */ = {isa = PBXFileReference; lastKnownFileType = file.icns; name = Icon.icns; path = Icon.icns; sourceTree = SOURCE_ROOT; };
 		ABB8DCB4128352C9DEB749E0 /* UpdaterApplication.h */ /* UpdaterApplication.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = UpdaterApplication.h; path = ../../Source/UpdaterApplication.h; sourceTree = SOURCE_ROOT; };
 		AFD8A7C44DA92AC68326C5E8 /* include_juce_gui_basics.mm */ /* include_juce_gui_basics.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; name = include_juce_gui_basics.mm; path = ../../JuceLibraryCode/include_juce_gui_basics.mm; sourceTree = SOURCE_ROOT; };
+		B6AFA4BA828DEF203314A5B6 /* Security.framework */ /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
 		B8A93D9D23E90D473159732E /* ProjectsComponent.cpp */ /* ProjectsComponent.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = ProjectsComponent.cpp; path = ../../Source/ProjectsComponent.cpp; sourceTree = SOURCE_ROOT; };
 		B8C47B97A3007B5B2FCC49F7 /* Cocoa.framework */ /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
 		C2A77E101BF337D7B4BA6F43 /* disphelper.c */ /* disphelper.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; name = disphelper.c; path = ../../Source/disphelper.c; sourceTree = SOURCE_ROOT; };
@@ -110,11 +110,11 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				4F4ED8A6176438DC691FE052,
 				380202CC3D0F06037C86450C,
 				7879CFCBF1AC920E7F1981DB,
 				2DF771D942DA9214AC58F46E,
 				AE30067252114DA77BDF86A7,
+				6DA45A2C96F184C79E93A56D,
 				2FF2264371F9F1A218223750,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -135,11 +135,11 @@
 		362EAD9D3EFFF2EEF9BCEF2C /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				843794BE77F94314420C9900,
 				B8C47B97A3007B5B2FCC49F7,
 				69A8AF4EDC1BCDA4BF30FCEA,
 				F5A9A539B66F547DB60A93A6,
 				1C8AF0962146DC5331E4FE0D,
+				B6AFA4BA828DEF203314A5B6,
 				9F3372F8BFC9389E939B3843,
 			);
 			name = Frameworks;
@@ -149,7 +149,7 @@
 			isa = PBXGroup;
 			children = (
 				747AA5F25432EB95D9CCFA36,
-				9C9A8820FA039D1C364CA95B,
+				4273743CB1CE4B6480D8B526,
 				7069155E4409EEF388C8F1CB,
 				5906F960DBF9FEFF45DC8ACF,
 				A8C95E3FFB4E7AB18E46C53F,
@@ -317,7 +317,7 @@
 		0A4C278C97A750535B90F14D = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 1320;
+				LastUpgradeCheck = 1340;
 				ORGANIZATIONNAME = "Roger Linn Design";
 				TargetAttributes = {
 					C74383895BA02947723BEB8F = {
@@ -368,7 +368,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				9C65BFFCD6389FDA4B55DA9D,
-				4EA535DB67C139C7C7405DEF,
+				097BAD7F553B6FD7C5E70BD4,
 				E7659FC31793C54F98B60EFD,
 				7FEF2B0C23CA44468D4CAAFD,
 			);
@@ -510,7 +510,7 @@
 		6B1119AF0BB7C7E946A85DFC /* Release Loader */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CLANG_CXX_LANGUAGE_STANDARD = "c++14";
+				CLANG_CXX_LANGUAGE_STANDARD = "c++17";
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_LINK_OBJC_RUNTIME = NO;
 				CODE_SIGN_ENTITLEMENTS = "App.entitlements";
@@ -527,17 +527,18 @@
 					"_NDEBUG=1",
 					"NDEBUG=1",
 					"LINNSTRUMENT_LOADER=1",
+					"JUCE_MODAL_LOOPS_PERMITTED=1",
 					"JUCER_XCODE_MAC_F6D2F4CF=1",
-					"JUCE_APP_VERSION=2.0.9",
-					"JUCE_APP_VERSION_HEX=0x20009",
+					"JUCE_APP_VERSION=2.0.10",
+					"JUCE_APP_VERSION_HEX=0x2000a",
 					"JucePlugin_Build_VST=0",
 					"JucePlugin_Build_VST3=0",
 					"JucePlugin_Build_AU=0",
 					"JucePlugin_Build_AUv3=0",
-					"JucePlugin_Build_RTAS=0",
 					"JucePlugin_Build_AAX=0",
 					"JucePlugin_Build_Standalone=0",
 					"JucePlugin_Build_Unity=0",
+					"JucePlugin_Build_LV2=0",
 				);
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				HEADER_SEARCH_PATHS = (
@@ -549,8 +550,9 @@
 				INFOPLIST_PREPROCESS = NO;
 				INSTALL_PATH = "$(HOME)/Applications";
 				LLVM_LTO = YES;
-				MACOSX_DEPLOYMENT_TARGET = 10.11;
+				MACOSX_DEPLOYMENT_TARGET = 10.13;
 				MTL_HEADER_SEARCH_PATHS = "$(SRCROOT)/../../JuceLibraryCode $(SRCROOT)/../../JuceLibraryCode/modules";
+				OTHER_LDFLAGS = "-weak_framework Metal -weak_framework MetalKit";
 				PRODUCT_BUNDLE_IDENTIFIER = com.rogerlinndesign.linnstrument.Updater;
 				PRODUCT_NAME = "LinnStrument Loader";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -610,7 +612,7 @@
 		A208946594571B3C02922CD4 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CLANG_CXX_LANGUAGE_STANDARD = "c++14";
+				CLANG_CXX_LANGUAGE_STANDARD = "c++17";
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_LINK_OBJC_RUNTIME = NO;
 				CODE_SIGN_ENTITLEMENTS = "App.entitlements";
@@ -626,17 +628,18 @@
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"_DEBUG=1",
 					"DEBUG=1",
+					"JUCE_MODAL_LOOPS_PERMITTED=1",
 					"JUCER_XCODE_MAC_F6D2F4CF=1",
-					"JUCE_APP_VERSION=2.0.9",
-					"JUCE_APP_VERSION_HEX=0x20009",
+					"JUCE_APP_VERSION=2.0.10",
+					"JUCE_APP_VERSION_HEX=0x2000a",
 					"JucePlugin_Build_VST=0",
 					"JucePlugin_Build_VST3=0",
 					"JucePlugin_Build_AU=0",
 					"JucePlugin_Build_AUv3=0",
-					"JucePlugin_Build_RTAS=0",
 					"JucePlugin_Build_AAX=0",
 					"JucePlugin_Build_Standalone=0",
 					"JucePlugin_Build_Unity=0",
+					"JucePlugin_Build_LV2=0",
 				);
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				HEADER_SEARCH_PATHS = (
@@ -647,8 +650,9 @@
 				INFOPLIST_FILE = Info-App.plist;
 				INFOPLIST_PREPROCESS = NO;
 				INSTALL_PATH = "$(HOME)/Applications";
-				MACOSX_DEPLOYMENT_TARGET = 10.11;
+				MACOSX_DEPLOYMENT_TARGET = 10.13;
 				MTL_HEADER_SEARCH_PATHS = "$(SRCROOT)/../../JuceLibraryCode $(SRCROOT)/../../JuceLibraryCode/modules";
+				OTHER_LDFLAGS = "-weak_framework Metal -weak_framework MetalKit";
 				PRODUCT_BUNDLE_IDENTIFIER = com.rogerlinndesign.linnstrument.Updater;
 				PRODUCT_NAME = "LinnStrument Updater";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -660,7 +664,7 @@
 		BACC560A8E8822177A8D9177 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CLANG_CXX_LANGUAGE_STANDARD = "c++14";
+				CLANG_CXX_LANGUAGE_STANDARD = "c++17";
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_LINK_OBJC_RUNTIME = NO;
 				CODE_SIGN_ENTITLEMENTS = "App.entitlements";
@@ -676,17 +680,18 @@
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"_NDEBUG=1",
 					"NDEBUG=1",
+					"JUCE_MODAL_LOOPS_PERMITTED=1",
 					"JUCER_XCODE_MAC_F6D2F4CF=1",
-					"JUCE_APP_VERSION=2.0.9",
-					"JUCE_APP_VERSION_HEX=0x20009",
+					"JUCE_APP_VERSION=2.0.10",
+					"JUCE_APP_VERSION_HEX=0x2000a",
 					"JucePlugin_Build_VST=0",
 					"JucePlugin_Build_VST3=0",
 					"JucePlugin_Build_AU=0",
 					"JucePlugin_Build_AUv3=0",
-					"JucePlugin_Build_RTAS=0",
 					"JucePlugin_Build_AAX=0",
 					"JucePlugin_Build_Standalone=0",
 					"JucePlugin_Build_Unity=0",
+					"JucePlugin_Build_LV2=0",
 				);
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				HEADER_SEARCH_PATHS = (
@@ -698,8 +703,9 @@
 				INFOPLIST_PREPROCESS = NO;
 				INSTALL_PATH = "$(HOME)/Applications";
 				LLVM_LTO = YES;
-				MACOSX_DEPLOYMENT_TARGET = 10.11;
+				MACOSX_DEPLOYMENT_TARGET = 10.13;
 				MTL_HEADER_SEARCH_PATHS = "$(SRCROOT)/../../JuceLibraryCode $(SRCROOT)/../../JuceLibraryCode/modules";
+				OTHER_LDFLAGS = "-weak_framework Metal -weak_framework MetalKit";
 				PRODUCT_BUNDLE_IDENTIFIER = com.rogerlinndesign.linnstrument.Updater;
 				PRODUCT_NAME = "LinnStrument Updater";
 				PROVISIONING_PROFILE_SPECIFIER = "";

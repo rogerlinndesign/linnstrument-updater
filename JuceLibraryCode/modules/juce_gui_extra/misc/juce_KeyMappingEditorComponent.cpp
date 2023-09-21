@@ -2,15 +2,15 @@
   ==============================================================================
 
    This file is part of the JUCE library.
-   Copyright (c) 2020 - Raw Material Software Limited
+   Copyright (c) 2022 - Raw Material Software Limited
 
    JUCE is an open source library subject to commercial or open-source
    licensing.
 
-   By using JUCE, you agree to the terms of both the JUCE 6 End-User License
-   Agreement and JUCE Privacy Policy (both effective as of the 16th June 2020).
+   By using JUCE, you agree to the terms of both the JUCE 7 End-User License
+   Agreement and JUCE Privacy Policy.
 
-   End User License Agreement: www.juce.com/juce-6-licence
+   End User License Agreement: www.juce.com/juce-7-licence
    Privacy Policy: www.juce.com/juce-privacy-policy
 
    Or: You may also use this code under the terms of the GPL v3 (see
@@ -142,12 +142,6 @@ public:
         JUCE_DECLARE_NON_COPYABLE (KeyEntryWindow)
     };
 
-    static void assignNewKeyCallback (int result, ChangeKeyButton* button, KeyPress newKey)
-    {
-        if (result != 0 && button != nullptr)
-            button->setNewKey (newKey, true);
-    }
-
     void setNewKey (const KeyPress& newKey, bool dontAskUser)
     {
         if (newKey.isValid())
@@ -165,17 +159,20 @@ public:
             }
             else
             {
-                AlertWindow::showOkCancelBox (MessageBoxIconType::WarningIcon,
-                                              TRANS("Change key-mapping"),
-                                              TRANS("This key is already assigned to the command \"CMDN\"")
-                                                  .replace ("CMDN", owner.getCommandManager().getNameOfCommand (previousCommand))
-                                                + "\n\n"
-                                                + TRANS("Do you want to re-assign it to this new command instead?"),
-                                              TRANS("Re-assign"),
-                                              TRANS("Cancel"),
-                                              this,
-                                              ModalCallbackFunction::forComponent (assignNewKeyCallback,
-                                                                                   this, KeyPress (newKey)));
+                auto options = MessageBoxOptions::makeOptionsOkCancel (MessageBoxIconType::WarningIcon,
+                                                                       TRANS("Change key-mapping"),
+                                                                       TRANS("This key is already assigned to the command \"CMDN\"")
+                                                                           .replace ("CMDN", owner.getCommandManager().getNameOfCommand (previousCommand))
+                                                                         + "\n\n"
+                                                                         + TRANS("Do you want to re-assign it to this new command instead?"),
+                                                                       TRANS("Re-assign"),
+                                                                       TRANS("Cancel"),
+                                                                       this);
+                messageBox = AlertWindow::showScopedAsync (options, [this, newKey] (int result)
+                {
+                    if (result != 0)
+                        setNewKey (newKey, true);
+                });
             }
         }
     }
@@ -205,6 +202,7 @@ private:
     const CommandID commandID;
     const int keyNum;
     std::unique_ptr<KeyEntryWindow> currentKeyEntryWindow;
+    ScopedMessageBox messageBox;
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (ChangeKeyButton)
 };
@@ -383,12 +381,6 @@ private:
     KeyMappingEditorComponent& owner;
 };
 
-static void resetKeyMappingsToDefaultsCallback (int result, KeyMappingEditorComponent* owner)
-{
-    if (result != 0 && owner != nullptr)
-        owner->getMappings().resetToDefaultMappings();
-}
-
 //==============================================================================
 KeyMappingEditorComponent::KeyMappingEditorComponent (KeyPressMappingSet& mappingManager,
                                                       const bool showResetToDefaultButton)
@@ -403,12 +395,17 @@ KeyMappingEditorComponent::KeyMappingEditorComponent (KeyPressMappingSet& mappin
 
         resetButton.onClick = [this]
         {
-            AlertWindow::showOkCancelBox (MessageBoxIconType::QuestionIcon,
-                                          TRANS("Reset to defaults"),
-                                          TRANS("Are you sure you want to reset all the key-mappings to their default state?"),
-                                          TRANS("Reset"),
-                                          {}, this,
-                                          ModalCallbackFunction::forComponent (resetKeyMappingsToDefaultsCallback, this));
+            auto options = MessageBoxOptions::makeOptionsOkCancel (MessageBoxIconType::QuestionIcon,
+                                                                   TRANS("Reset to defaults"),
+                                                                   TRANS("Are you sure you want to reset all the key-mappings to their default state?"),
+                                                                   TRANS("Reset"),
+                                                                   {},
+                                                                   this);
+            messageBox = AlertWindow::showScopedAsync (options, [this] (int result)
+            {
+                if (result != 0)
+                    getMappings().resetToDefaultMappings();
+            });
         };
     }
 
