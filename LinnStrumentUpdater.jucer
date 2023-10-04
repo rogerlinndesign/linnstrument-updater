@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <JUCERPROJECT id="ibSWwr" name="LinnStrument Updater" projectType="guiapp"
-              version="2.0.10" bundleIdentifier="com.rogerlinndesign.linnstrument.Updater"
+              version="2.0.11" bundleIdentifier="com.rogerlinndesign.linnstrument.Updater"
               includeBinaryInAppConfig="1" companyName="Roger Linn Design"
               companyWebsite="http://www.rogerlinndesign.com" companyEmail="support@rogerlinndesign.com"
               displaySplashScreen="0" reportAppUsage="0" splashScreenColour="Dark"
@@ -70,9 +70,9 @@
     </GROUP>
   </MAINGROUP>
   <EXPORTFORMATS>
-    <XCODE_MAC targetFolder="Builds/MacOSX" customXcodeResourceFolders="Binaries/macosx/bossac&#10;Firmware/linnstrument-firmware-2.3.1.bin"
+    <XCODE_MAC targetFolder="Builds/MacOSX" customXcodeResourceFolders="Binaries/macosx/bossac&#10;Firmware/linnstrument-firmware-2.3.2.bin"
                hardenedRuntime="1" iosDevelopmentTeamID="AGZT8GVS7G" bigIcon="K75dk6"
-               buildNumber="11" extraDefs="JUCE_MODAL_LOOPS_PERMITTED=1">
+               buildNumber="12" extraDefs="JUCE_MODAL_LOOPS_PERMITTED=1">
       <CONFIGURATIONS>
         <CONFIGURATION name="Debug" isDebug="1" optimisation="1" targetName="LinnStrument Updater"/>
         <CONFIGURATION name="Release" isDebug="0" optimisation="2" targetName="LinnStrument Updater"/>
