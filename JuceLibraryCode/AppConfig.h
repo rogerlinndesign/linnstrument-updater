@@ -43,7 +43,7 @@
 
 #define JUCE_USE_DARK_SPLASH_SCREEN 1
 
-#define JUCE_PROJUCER_VERSION 0x70007
+#define JUCE_PROJUCER_VERSION 0x7000c
 
 //==============================================================================
 #define JUCE_MODULE_AVAILABLE_juce_core                 1
