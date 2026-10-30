@@ -16,6 +16,8 @@
     #include "LinnStrumentSerialMac.h"
 #elif JUCE_WINDOWS
 	#include "LinnStrumentSerialWindows.h"
+#elif JUCE_LINUX
+	#include "LinnStrumentSerialLinux.h"
 #endif
 
 namespace
@@ -46,6 +48,8 @@ UpdaterApplication::UpdaterApplication() :
     linnStrumentSerial(new LinnStrumentSerialMac())
 #elif JUCE_WINDOWS
 	linnStrumentSerial(new LinnStrumentSerialWindows())
+#elif JUCE_LINUX
+	linnStrumentSerial(new LinnStrumentSerialLinux())
 #endif
 {
 };
